@@ -75,6 +75,11 @@ export default function ReviewsManagement() {
     setEditingId(null);
   };
 
+  const handleEdit = (review: GoogleReview) => {
+    setEditingId(review.id);
+    setFormData(review);
+  };
+
   return (
     <div className={styles.dashboardContainer}>
       <header className={styles.pageHeader}>

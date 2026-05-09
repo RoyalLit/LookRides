@@ -52,7 +52,7 @@ export const sendBookingNotification = async (bookingDetails: any) => {
     });
 
     // 3. Send Telegram Alert (if configured)
-    let telegramPromise = Promise.resolve();
+    let telegramPromise: Promise<any> = Promise.resolve();
     if (tgToken && tgChatId) {
       const tgUrl = `https://api.telegram.org/bot${tgToken}/sendMessage`;
       telegramPromise = fetch(tgUrl, {

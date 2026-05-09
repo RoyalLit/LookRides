@@ -1,0 +1,57 @@
+.btn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: #25D366;
+  color: #fff;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-full);
+  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.5);
+  font-weight: 700;
+  font-size: 0.9rem;
+  font-family: var(--font-inter);
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: #20c05c;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(37, 211, 102, 0.55);
+  color: #fff;
+}
+
+.label {
+  letter-spacing: 0.02em;
+}
+
+/* Animated ping ring */
+.pulse {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ff4444;
+  border: 2px solid #fff;
+  animation: ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes ping {
+  0%   { transform: scale(1);   opacity: 1; }
+  75%, 100% { transform: scale(1.6); opacity: 0; }
+}
+
+@media (max-width: 600px) {
+  .btn {
+    bottom: 1.25rem;
+    right: 1.25rem;
+    padding: 0.75rem 1rem;
+  }
+  .label { display: none; }
+}

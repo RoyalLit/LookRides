@@ -1,0 +1,195 @@
+.page { background-color: var(--background); min-height: 100vh; }
+
+.pageHeader {
+  background: var(--primary-navy);
+  padding: 7rem 0 5rem;
+  text-align: center;
+  color: #fff;
+}
+
+.headerLabel {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 1rem;
+}
+
+.pageTitle {
+  font-size: 3.5rem;
+  color: #fff;
+  margin-bottom: 1.25rem;
+}
+
+.headerSubtitle {
+  font-size: 1.15rem;
+  color: rgba(255,255,255,0.65);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+.fleetSection { padding: 7rem 0; }
+
+.fleetGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.fleetCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all var(--transition-normal);
+  animation: fadeUp 0.7s ease-out both;
+  opacity: 0;
+}
+
+.fleetCard:hover {
+  border-color: var(--accent-gold);
+  box-shadow: 0 16px 40px rgba(252,163,17,0.12);
+  transform: translateY(-6px);
+}
+
+.cardImageArea {
+  height: 220px;
+  background: #f1f5f9;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  padding: 1.25rem;
+  overflow: hidden;
+}
+
+.cardBadge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--primary-navy);
+  color: #fff;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-full);
+}
+
+.cardBody {
+  padding: 1.75rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.carName {
+  font-size: 1.35rem;
+  color: var(--primary-navy);
+  margin-bottom: 0;
+}
+
+.description {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+.specRow {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.spec {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--primary-navy);
+}
+
+.features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.825rem;
+  color: var(--text-muted);
+}
+
+.checkIcon { color: var(--accent-gold-hover); flex-shrink: 0; }
+
+.bestFor {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.825rem;
+}
+
+.bestForLabel {
+  font-weight: 600;
+  color: var(--primary-navy);
+}
+
+.bestForValue {
+  color: var(--text-muted);
+}
+
+.cardFooter {
+  padding: 1.25rem 1.75rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface-hover);
+}
+
+.priceBlock {
+  display: flex;
+  flex-direction: column;
+}
+
+.priceFrom {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.price {
+  font-size: 1.2rem;
+  font-weight: 700;
+  font-family: var(--font-outfit);
+  color: var(--primary-navy);
+}
+
+.cardFooter .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 1100px) {
+  .fleetGrid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 768px) {
+  .fleetGrid { grid-template-columns: 1fr; }
+  .pageTitle { font-size: 2.5rem; }
+}

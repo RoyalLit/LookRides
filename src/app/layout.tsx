@@ -42,8 +42,18 @@ export const metadata: Metadata = {
     description: "Book outstation cabs, airport transfers & local rides in Chandigarh.",
     images: ["/og-image.png"],
   },
-  robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", type: "image/x-icon", sizes: "any" },
+    ],
+    apple: "/logo.png",
+  },
   alternates: { canonical: siteUrl },
+};
+
+export const viewport = {
+  themeColor: "#0B132B",
 };
 
 // LocalBusiness + TaxiService + FAQPage JSON-LD structured data

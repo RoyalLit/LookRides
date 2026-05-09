@@ -120,6 +120,7 @@
 
 .suggestItem:last-child { border-bottom: none; }
 .suggestItem:hover { background: rgba(252, 163, 17, 0.06); }
+.suggestItemActive { background: rgba(252, 163, 17, 0.15); font-weight: 500; }
 
 .suggestIcon {
   color: var(--accent-gold);

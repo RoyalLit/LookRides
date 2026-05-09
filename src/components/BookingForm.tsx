@@ -55,27 +55,47 @@ function LocationField({
   id: string; name: string; label: string; placeholder: string;
   icon: typeof MapPin; initialValue?: string;
 }) {
-  const [value, setValue] = useState(initialValue);
+  const [value, setValue] = useState<string>(initialValue || '');
   const [open, setOpen] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(-1);
   const { suggestions, loading, search, clear } = useLocationSuggestions();
   const wrapRef = useRef<HTMLDivElement>(null);
-
-  // Sync initialValue if it changes (e.g. user clicks another route in footer)
-  useEffect(() => {
-    if (initialValue) setValue(initialValue);
-  }, [initialValue]);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   // Close dropdown on outside click
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) {
         setOpen(false);
+        setActiveIndex(-1);
         clear();
       }
     };
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
   }, [clear]);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!open || suggestions.length === 0) return;
+    
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setActiveIndex(prev => (prev < suggestions.length - 1 ? prev + 1 : 0));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setActiveIndex(prev => (prev > 0 ? prev - 1 : suggestions.length - 1));
+    } else if (e.key === 'Enter' && activeIndex >= 0) {
+      e.preventDefault();
+      const selected = suggestions[activeIndex];
+      setValue(selected.display_name);
+      setOpen(false);
+      setActiveIndex(-1);
+      clear();
+    } else if (e.key === 'Escape') {
+      setOpen(false);
+      setActiveIndex(-1);
+    }
+  };
 
   return (
     <div className={styles.field} ref={wrapRef}>
@@ -91,18 +111,23 @@ function LocationField({
           value={value}
           placeholder={placeholder}
           required
+          ref={inputRef}
           onChange={(e) => {
             setValue(e.target.value);
             search(e.target.value);
             setOpen(true);
+            setActiveIndex(-1);
           }}
           onFocus={() => { if (suggestions.length) setOpen(true); }}
+          onKeyDown={handleKeyDown}
+          aria-autocomplete="list"
+          aria-haspopup="listbox"
         />
         {value && (
           <button
             type="button"
             className={styles.clearBtn}
-            onClick={() => { setValue(''); clear(); setOpen(false); }}
+            onClick={() => { setValue(''); clear(); setOpen(false); setActiveIndex(-1); }}
             aria-label="Clear"
           >
             <X size={14} />
@@ -113,16 +138,19 @@ function LocationField({
       {open && (loading || suggestions.length > 0) && (
         <ul className={styles.suggestions} role="listbox">
           {loading && <li className={styles.suggestLoading}>Searching…</li>}
-          {suggestions.map((s) => (
+          {suggestions.map((s, idx) => (
             <li
               key={s.place_id}
               role="option"
-              className={styles.suggestItem}
+              aria-selected={idx === activeIndex}
+              className={`${styles.suggestItem} ${idx === activeIndex ? styles.suggestItemActive : ''}`}
               onMouseDown={() => {
                 setValue(s.display_name);
                 setOpen(false);
+                setActiveIndex(-1);
                 clear();
               }}
+              onMouseEnter={() => setActiveIndex(idx)}
             >
               <MapPin size={13} className={styles.suggestIcon} />
               {s.display_name}

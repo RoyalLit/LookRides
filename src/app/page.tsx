@@ -4,9 +4,9 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
-  Plane, Route, MapPin, Users, Shield, Clock,
+  Plane, Route, MapPin, Users,
   Star, ArrowRight, CheckCircle, Quote, Phone,
-  ChevronDown, Luggage
+  Luggage
 } from "lucide-react";
 import { supabase, FleetVehicle, PricingRoute, GoogleReview } from "@/lib/supabase";
 import BookingForm from "@/components/BookingForm";
@@ -17,12 +17,6 @@ const steps = [
   { n: "01", title: "Fill the Booking Form", desc: "Enter your pickup, drop, date and time. Takes 30 seconds." },
   { n: "02", title: "Get Instant Confirmation", desc: "We confirm via WhatsApp or call within minutes with driver details and exact fare." },
   { n: "03", title: "Enjoy Your Ride", desc: "Your verified driver arrives on time. Relax in a clean, sanitized cab all the way." },
-];
-
-const staticFaqs = [
-  { q: "How do I book a cab with LookRides?", a: "Simply fill in the booking form on this page with your pickup location, drop destination, date and time. We will confirm your booking via WhatsApp or phone call within minutes." },
-  { q: "What is the fare from Chandigarh to Delhi?", a: "The one-way fare from Chandigarh to Delhi is approximately ₹3,500–₹4,000 for a sedan (Etios/Dzire) and ₹5,500–₹6,500 for an Innova Crysta." },
-  { q: "Do you provide airport pick-up and drop?", a: "Yes! We provide 24/7 airport transfer service to and from Chandigarh (IXC) and Delhi (IGI) airports." },
 ];
 
 const PARTICLES = [
@@ -324,7 +318,7 @@ export default function Home() {
             <h2>How It Works</h2>
           </div>
           <div className={styles.processGrid}>
-            {steps.map((s, idx) => (
+            {steps.map((s) => (
               <div key={s.title} className={styles.processStep}>
                 <div className={styles.stepNumber}>{s.n}</div>
                 <h3>{s.title}</h3>

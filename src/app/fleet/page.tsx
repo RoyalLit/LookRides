@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Users, Luggage, CheckCircle, ArrowRight } from 'lucide-react';
+import { Users, Luggage, ArrowRight } from 'lucide-react';
 import { supabase, FleetVehicle } from '@/lib/supabase';
 import styles from './fleet.module.css';
 

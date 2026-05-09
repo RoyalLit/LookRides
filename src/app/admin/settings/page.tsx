@@ -2,17 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
-import { Save, ShieldCheck, Globe, Star } from 'lucide-react';
+import { Save, Globe, Star } from 'lucide-react';
 import styles from '../admin.module.css';
 
 export default function SettingsManagement() {
   const [settings, setSettings] = useState<{key: string, value: string}[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-
-  useEffect(() => {
-    fetchSettings();
-  }, []);
 
   const fetchSettings = async () => {
     setLoading(true);
@@ -24,6 +20,10 @@ export default function SettingsManagement() {
   const handleUpdate = (key: string, value: string) => {
     setSettings(prev => prev.map(s => s.key === key ? { ...s, value } : s));
   };
+
+  useEffect(() => {
+    fetchSettings();
+  }, [fetchSettings]);
 
   const handleSave = async () => {
     setSaving(true);

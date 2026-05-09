@@ -32,8 +32,8 @@ export default function ContactForm() {
       if (!res.ok) throw new Error(data.error || 'Failed to send.');
       setSuccess(true);
       (e.target as HTMLFormElement).reset();
-    } catch (err: any) {
-      setError(err.message || 'Something went wrong. Please call us directly.');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Something went wrong. Please call us directly.');
     } finally {
       setLoading(false);
     }

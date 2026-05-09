@@ -30,7 +30,7 @@ function useLocationSuggestions() {
         const data = await res.json();
         
         // Photon returns 'features' array
-        const results = data.features.map((f: any) => {
+        const results = data.features.map((f: { geometry: { coordinates: unknown[] }; properties: { name?: string; city?: string; state?: string } }) => {
           const props = f.properties;
           const parts = [props.name, props.city, props.state].filter(Boolean);
           return {
@@ -181,8 +181,8 @@ function FormInner() {
       setSuccess(true);
       (e.target as HTMLFormElement).reset();
       setTimeout(() => setSuccess(false), 8000);
-    } catch (err: any) {
-      setError(err.message || 'Something went wrong. Please call us directly.');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Something went wrong. Please call us directly.');
     } finally {
       setLoading(false);
     }
@@ -192,7 +192,7 @@ function FormInner() {
     <div className={styles.formBody}>
       {success && (
         <div className={styles.successBox}>
-          ✓ &nbsp;Booking request received! We'll call you shortly to confirm.
+          &#x2713; &nbsp;Booking request received! We&apos;ll call you shortly to confirm.
         </div>
       )}
       {error && (

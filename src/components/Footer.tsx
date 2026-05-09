@@ -49,11 +49,11 @@ export default function Footer() {
         <div className={styles.linksGroup}>
           <h4>Popular Routes</h4>
           <ul>
-            <li><Link href="/?pickup=Derabassi&drop=Chandigarh#booking">Derabassi to Chandigarh</Link></li>
-            <li><Link href="/?pickup=Chandigarh&drop=Delhi#booking">Chandigarh to Delhi</Link></li>
-            <li><Link href="/?pickup=Zirakpur&drop=Manali#booking">Zirakpur to Manali</Link></li>
-            <li><Link href="/?pickup=Chandigarh&drop=Shimla#booking">Chandigarh to Shimla</Link></li>
-            <li><Link href="/?pickup=Mohali&drop=Chandigarh+Airport#booking">Mohali Airport Cab</Link></li>
+            <li><Link href="/?pickup=Derabassi&drop=Chandigarh">Derabassi to Chandigarh</Link></li>
+            <li><Link href="/?pickup=Chandigarh&drop=Delhi">Chandigarh to Delhi</Link></li>
+            <li><Link href="/?pickup=Zirakpur&drop=Manali">Zirakpur to Manali</Link></li>
+            <li><Link href="/?pickup=Chandigarh&drop=Shimla">Chandigarh to Shimla</Link></li>
+            <li><Link href="/?pickup=Mohali&drop=Chandigarh+Airport">Mohali Airport Cab</Link></li>
           </ul>
         </div>
 

@@ -11,10 +11,6 @@ export default function FleetManagement() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState<Partial<FleetVehicle>>({});
 
-  useEffect(() => {
-    fetchFleet();
-  }, []);
-
   const fetchFleet = async () => {
     setLoading(true);
     const { data, error } = await supabase
@@ -30,6 +26,10 @@ export default function FleetManagement() {
     setEditingId(vehicle.id);
     setFormData(vehicle);
   };
+
+  useEffect(() => {
+    fetchFleet();
+  }, [fetchFleet]);
 
   const handleAddNew = () => {
     setEditingId('new');

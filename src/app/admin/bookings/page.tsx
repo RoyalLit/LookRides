@@ -9,10 +9,6 @@ export default function BookingsManagement() {
   const [bookings, setBookings] = useState<BookingRequest[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchBookings();
-  }, []);
-
   const fetchBookings = async () => {
     setLoading(true);
     const { data, error } = await supabase
@@ -31,6 +27,10 @@ export default function BookingsManagement() {
       .eq('id', id);
     if (!error) fetchBookings();
   };
+
+  useEffect(() => {
+    fetchBookings();
+  }, [fetchBookings]);
 
   return (
     <div className={styles.dashboardContainer}>

@@ -6,7 +6,7 @@ import Link from "next/link";
 import {
   Plane, Route, MapPin, Users, Shield, Clock,
   Star, ArrowRight, CheckCircle, Quote, Phone,
-  ChevronDown, Car, Luggage
+  ChevronDown, Luggage
 } from "lucide-react";
 import { supabase, FleetVehicle, PricingRoute, GoogleReview } from "@/lib/supabase";
 import BookingForm from "@/components/BookingForm";
@@ -218,7 +218,12 @@ export default function Home() {
                 <Phone size={18} />
                 Call Now — 24/7
               </a>
-              <a href="#how-it-works" className="btn btn-outline-white">How it works</a>
+              <button 
+                onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })} 
+                className="btn btn-outline-white"
+              >
+                How it works
+              </button>
             </div>
 
             <div className={styles.heroStats}>
@@ -302,7 +307,7 @@ export default function Home() {
                   </div>
                   <div className={styles.fleetFooter}>
                     <strong className={styles.fleetPrice}>{v.price_desc}</strong>
-                    <Link href="/#booking" className="btn btn-primary btn-sm">Book</Link>
+                    <Link href="/" className="btn btn-primary btn-sm">Book</Link>
                   </div>
                 </div>
               </div>
@@ -357,7 +362,7 @@ export default function Home() {
                     <td>{r.distance}</td>
                     <td className={styles.routePrice}>{r.sedan_price}</td>
                     <td className={styles.routePrice}>{r.suv_price}</td>
-                    <td><Link href="/#booking" className="btn btn-primary btn-sm">Book</Link></td>
+                    <td><Link href="/" className="btn btn-primary btn-sm">Book</Link></td>
                   </tr>
                 ))}
               </tbody>

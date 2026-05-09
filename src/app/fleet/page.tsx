@@ -71,7 +71,7 @@ export default function FleetPage() {
                     </div>
                   </div>
                   <div className={styles.cardFooter}>
-                    <Link href="/#booking" className={`btn btn-primary ${styles.bookBtn}`}>
+                    <Link href="/" className={`btn btn-primary ${styles.bookBtn}`}>
                       Book Now <ArrowRight size={15} />
                     </Link>
                   </div>

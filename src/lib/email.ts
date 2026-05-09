@@ -7,7 +7,14 @@ export const resend = new Resend(resendApiKey);
 /**
  * Fetches notification settings from Supabase and sends alerts via Email and Telegram
  */
-export const sendBookingNotification = async (bookingDetails: any) => {
+export const sendBookingNotification = async (bookingDetails: {
+  pickup_location?: string;
+  drop_location?: string;
+  passenger_name?: string;
+  phone?: string;
+  date?: string;
+  time?: string;
+}) => {
   try {
     // 1. Fetch settings from DB
     const { data: settings } = await supabase.from('site_settings').select('*');
@@ -38,7 +45,7 @@ export const sendBookingNotification = async (bookingDetails: any) => {
       text: messageBody,
       html: `
         <div style="font-family: sans-serif; padding: 20px; color: #0B132B;">
-          <h2 style="color: #FCA311;">🚕 New Booking Request</h2>
+          <h2 style="color: #FCA311;">&#x1F69C; New Booking Request</h2>
           <p><strong>Customer:</strong> ${bookingDetails.passenger_name}</p>
           <p><strong>Phone:</strong> ${bookingDetails.phone}</p>
           <p><strong>Pickup:</strong> ${bookingDetails.pickup_location}</p>
@@ -52,7 +59,7 @@ export const sendBookingNotification = async (bookingDetails: any) => {
     });
 
     // 3. Send Telegram Alert (if configured)
-    let telegramPromise: Promise<any> = Promise.resolve();
+    let telegramPromise: Promise<unknown> = Promise.resolve();
     if (tgToken && tgChatId) {
       const tgUrl = `https://api.telegram.org/bot${tgToken}/sendMessage`;
       telegramPromise = fetch(tgUrl, {

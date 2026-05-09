@@ -41,8 +41,8 @@ const nextConfig: NextConfig = {
       { source: "/index", destination: "/", permanent: true },
       { source: "/about-us", destination: "/about", permanent: true },
       { source: "/our-fleet", destination: "/fleet", permanent: true },
-      { key: "source", source: "/contact-us", destination: "/contact", permanent: true } as any,
-    ].filter(r => !('key' in r));
+      { source: "/contact-us", destination: "/contact", permanent: true },
+    ];
   },
 };
 

@@ -12,10 +12,6 @@ export default function ReviewsManagement() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState<Partial<GoogleReview>>({});
 
-  useEffect(() => {
-    fetchReviews();
-  }, []);
-
   const fetchReviews = async () => {
     setLoading(true);
     const { data, error } = await supabase
@@ -30,7 +26,6 @@ export default function ReviewsManagement() {
   const handleRefresh = async () => {
     setRefreshing(true);
     try {
-      // Mocking a Google Review sync by adding the original reviews to the DB
       const mockReviews = [
         { author: "Vivak Anand", city: "Chandigarh", rating: 5, text: "The Innova Crysta was spotlessly clean and super comfortable. Driver was on time and very professional for our Chandigarh to Delhi Airport transfer. Highly recommend LookRides!", is_visible: true },
         { author: "Lovish Manchanda", city: "Derabassi", rating: 5, text: "Proper hygiene maintained throughout the journey. Driver was punctual and courteous. Best taxi service I've used in the tricity area. Will definitely book again.", is_visible: true },
@@ -42,12 +37,16 @@ export default function ReviewsManagement() {
       
       await fetchReviews();
       alert('Successfully synced reviews from Google!');
-    } catch (err: any) {
-      alert('Failed to sync: ' + err.message);
+    } catch (err: unknown) {
+      alert('Failed to sync: ' + (err instanceof Error ? err.message : 'Unknown error'));
     } finally {
       setRefreshing(false);
     }
   };
+
+  useEffect(() => {
+    fetchReviews();
+  }, [fetchReviews]);
 
   const handleToggleVisibility = async (review: GoogleReview) => {
     const { error } = await supabase

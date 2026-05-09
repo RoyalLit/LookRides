@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Phone, Mail, MapPin, MessageSquare, Send } from 'lucide-react';
+import { Phone, Mail, MapPin, MessageSquare } from 'lucide-react';
 import ContactForm from './ContactForm';
 import styles from './contact.module.css';
 

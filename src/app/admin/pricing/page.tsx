@@ -11,10 +11,6 @@ export default function PricingManagement() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState<Partial<PricingRoute>>({});
 
-  useEffect(() => {
-    fetchRoutes();
-  }, []);
-
   const fetchRoutes = async () => {
     setLoading(true);
     const { data, error } = await supabase
@@ -30,6 +26,10 @@ export default function PricingManagement() {
     setEditingId(route.id);
     setFormData(route);
   };
+
+  useEffect(() => {
+    fetchRoutes();
+  }, [fetchRoutes]);
 
   const handleAddNew = () => {
     setEditingId('new');

@@ -1,6 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Suppress Turbopack root warning for monorepo-like setups
+  turbopack: {
+    root: process.cwd(),
+  },
+
   // Performance: compress responses
   compress: true,
 

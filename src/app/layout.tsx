@@ -46,7 +46,58 @@ export const metadata: Metadata = {
   alternates: { canonical: siteUrl },
 };
 
-// LocalBusiness + TaxiService JSON-LD structured data
+// LocalBusiness + TaxiService + FAQPage JSON-LD structured data
+const faqData = [
+  {
+    "@type": "Question",
+    "name": "How do I book a cab with LookRides?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Simply fill in the booking form on the homepage with your pickup location, drop destination, date and time. We will confirm your booking via WhatsApp or phone call within minutes."
+    }
+  },
+  {
+    "@type": "Question",
+    "name": "What is the fare from Chandigarh to Delhi?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "The one-way fare from Chandigarh to Delhi is approximately ₹3,500–₹4,000 for a sedan (Etios/Dzire) and ₹5,500–₹6,500 for an Innova Crysta SUV."
+    }
+  },
+  {
+    "@type": "Question",
+    "name": "Do you provide airport pick-up and drop?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Yes! We provide 24/7 airport transfer service to and from Chandigarh (IXC) and Delhi (IGI) airports. Professional drivers track flights for timely pickups."
+    }
+  },
+  {
+    "@type": "Question",
+    "name": "What vehicles do you have in your fleet?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Our fleet includes Toyota Etios (Sedan, 4 seats), Toyota Innova Crysta (SUV, 6 seats), and Tempo Traveler (MUV, 12 seats). All vehicles are well-maintained and sanitized."
+    }
+  },
+  {
+    "@type": "Question",
+    "name": "Are your drivers verified and professional?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "All our drivers are background-verified, professionally trained, and follow strict hygiene protocols. They are knowledgeable about routes across North India."
+    }
+  },
+  {
+    "@type": "Question",
+    "name": "Is LookRides available for outstation trips beyond Chandigarh?",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Absolutely! We operate outstation cabs to Manali, Shimla, Dharamshala, Delhi, Amritsar, and all major destinations in North India. Both one-way and round-trip options available."
+    }
+  },
+];
+
 const structuredData = {
   "@context": "https://schema.org",
   "@graph": [
@@ -102,6 +153,10 @@ const structuredData = {
           reviewBody: "Toyota Innova Crysta is a statement of comfort and reliability. Great experience on the Chandigarh to Shimla route.",
         },
       ],
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": faqData,
     },
   ],
 };

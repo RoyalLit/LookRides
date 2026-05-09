@@ -331,9 +331,9 @@ img, svg { display: block; max-width: 100%; }
 /* ─── Scroll Reveal ──────────────────────────────────────── */
 .reveal-on-scroll {
   opacity: 0;
-  transform: translateY(36px);
-  transition: opacity 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-              transform 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: translateY(48px);
+  transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .reveal-on-scroll.is-visible {
@@ -342,10 +342,10 @@ img, svg { display: block; max-width: 100%; }
 }
 
 /* Stagger children inside revealed sections */
-.reveal-on-scroll.is-visible > *:nth-child(1) { transition-delay: 0.05s; }
-.reveal-on-scroll.is-visible > *:nth-child(2) { transition-delay: 0.15s; }
-.reveal-on-scroll.is-visible > *:nth-child(3) { transition-delay: 0.25s; }
-.reveal-on-scroll.is-visible > *:nth-child(4) { transition-delay: 0.35s; }
+.reveal-on-scroll.is-visible > *:nth-child(1) { transition-delay: 0.1s; }
+.reveal-on-scroll.is-visible > *:nth-child(2) { transition-delay: 0.25s; }
+.reveal-on-scroll.is-visible > *:nth-child(3) { transition-delay: 0.4s; }
+.reveal-on-scroll.is-visible > *:nth-child(4) { transition-delay: 0.55s; }
 
 @media (prefers-reduced-motion: reduce) {
   .reveal-on-scroll { opacity: 1; transform: none; transition: none; }

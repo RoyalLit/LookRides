@@ -63,7 +63,7 @@ export default function FleetPage() {
                       </div>
                       <div className={styles.spec}>
                         <Luggage size={16} />
-                        <span>{v.luggage} Bags</span>
+                        <span>{v.bags} Bags</span>
                       </div>
                     </div>
                     <div className={styles.bestFor}>

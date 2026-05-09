@@ -164,7 +164,7 @@ export default function ReviewsManagement() {
                     <div style={{ fontSize: '0.75rem', color: 'var(--admin-text-secondary)' }}>{r.city}</div>
                   </td>
                   <td style={{ maxWidth: '400px' }}>
-                    <p style={{ fontSize: '0.85rem', lineHigh: 1.4 }}>{r.text}</p>
+                    <p style={{ fontSize: '0.85rem', lineHeight: 1.4 }}>{r.text}</p>
                   </td>
                   <td style={{ color: 'var(--admin-accent)' }}>{"★".repeat(r.rating)}</td>
                   <td>

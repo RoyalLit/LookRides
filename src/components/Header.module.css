@@ -151,12 +151,9 @@
 }
 
 .mobileSectionLabel {
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--text-muted);
-  padding: 1rem 1rem 0.5rem;
+  color: var(--primary-navy);
+  opacity: 0.6;
+  padding: 1.5rem 1rem 0.5rem;
 }
 
 .mobileRouteLink {

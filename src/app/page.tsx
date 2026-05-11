@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
-  Plane, Route, MapPin, Users,
+  Plane, Route, Users,
   Star, ArrowRight, CheckCircle, Quote, Phone,
   Luggage, Shield, Clock, ThumbsUp, Award, ChevronDown,
   BadgeCheck, HeadphonesIcon, Car, Navigation,
@@ -260,7 +260,6 @@ export default function Home() {
             {[
               { Icon: Plane, title: "Airport Transfers", desc: "Punctual pickups and drops to Chandigarh & Delhi airports with flight tracking.", highlights: ['Flight tracking', 'Luggage assist', 'Terminal drop'] },
               { Icon: Route, title: "Outstation Cabs", desc: "One-way & round-trips to Delhi, Manali, Shimla, Amritsar, Dharamshala & beyond.", highlights: ['One-way available', 'Hill drivers', 'Hotel breaks'] },
-              { Icon: MapPin, title: "Local City Rentals", desc: "Hourly rentals across Chandigarh, Mohali, Panchkula, Derabassi & Zirakpur.", highlights: ['Multi-stop', 'Hourly/Daily', 'Tricity coverage'] },
             ].map(({ Icon, title, desc, highlights }) => (
               <div key={title} className={styles.serviceCard}>
                 <div className={styles.serviceIconWrap}><Icon size={24} strokeWidth={1.5} /></div>
@@ -434,7 +433,7 @@ export default function Home() {
           <div className={styles.faqList}>
             {[
               { q: 'How do I book a cab?', a: 'Fill the booking form with your pickup, drop, date and time. We confirm via WhatsApp or phone within minutes. Or just call us at +91 97804 26567.' },
-              { q: 'What are your service areas?', a: 'We cover the entire Tricity (Chandigarh, Mohali, Panchkula, Derabassi, Zirakpur) plus outstation routes to Delhi, Manali, Shimla, Amritsar, Dehradun, Dharamshala, Jammu, and all of North India.' },
+              { q: 'What are your service areas?', a: 'We cover the entire Tricity area plus outstation routes to Delhi, Manali, Shimla, Amritsar, Dehradun, Dharamshala, Jammu, and all of North India.' },
               { q: 'Do you offer one-way cabs?', a: 'Yes! Our one-way service means you only pay for the onward journey. Perfect for airport drops and single-direction travel. No return fare charges.' },
               { q: 'How are your drivers verified?', a: 'All drivers undergo background verification, document checks, and professional training. They are experienced on highways and hill roads.' },
               { q: 'What vehicles do you offer?', a: 'We have Toyota Etios/Maruti Dzire (sedan, 4 seats), Toyota Innova Crysta (SUV, 6 seats), and Tempo Traveler (12 seats). All AC and sanitized.' },

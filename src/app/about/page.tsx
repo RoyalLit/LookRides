@@ -4,7 +4,7 @@ import styles from './about.module.css';
 
 export const metadata: Metadata = {
   title: 'About LookRides | Trusted Taxi Service in Chandigarh & Zirakpur',
-  description: 'Learn about LookRides — the leading provider of premium outstation cabs, airport transfers, and local rentals in Chandigarh, Mohali, and Zirakpur since 2014.',
+  description: 'Learn about LookRides — the leading provider of premium outstation cabs and airport transfers in Chandigarh, Mohali, and Zirakpur since 2014.',
 };
 
 const values = [
@@ -39,7 +39,7 @@ export default function AboutPage() {
                 We realized travelers were tired of unpredictable pricing, unprofessional drivers, and poorly maintained vehicles. LookRides was built to solve exactly that. We meticulously maintain our fleet, thoroughly train our chauffeurs, and ensure complete transparency in billing.
               </p>
               <p>
-                Today, with thousands of successful rides and consistently high ratings, we are proud to be the most trusted name in outstation and local travel across the tricity.
+                Today, with thousands of successful rides and consistently high ratings, we are proud to be the most trusted name in outstation travel across the tricity.
               </p>
 
               <div className={styles.statsRow}>

@@ -24,8 +24,7 @@
 }
 
 .tagline {
-  font-size: 0.9rem;
-  color: rgba(255,255,255,0.45);
+  color: rgba(255,255,255,0.7);
   line-height: 1.7;
   max-width: 320px;
 }
@@ -55,7 +54,7 @@
   align-items: center;
   gap: 0.5rem;
   font-size: 0.875rem;
-  color: rgba(255,255,255,0.55);
+  color: rgba(255,255,255,0.8);
   transition: color var(--transition-fast);
 }
 
@@ -67,7 +66,7 @@ a.contactItem:hover {
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: rgba(255,255,255,0.35);
+  color: rgba(255,255,255,0.5);
   margin-bottom: 1.5rem;
   font-weight: 700;
 }
@@ -81,7 +80,7 @@ a.contactItem:hover {
 
 .linksGroup a {
   font-size: 0.9rem;
-  color: rgba(255,255,255,0.55);
+  color: rgba(255,255,255,0.8);
   transition: color var(--transition-fast);
 }
 
@@ -102,7 +101,7 @@ a.contactItem:hover {
 
 .footerBottom p {
   font-size: 0.8rem;
-  color: rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.5);
 }
 
 @media (max-width: 1100px) {

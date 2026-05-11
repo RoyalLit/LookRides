@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     template: "%s | LookRides",
   },
   description:
-    "North India's premium intercity cab service. Book outstation taxis, airport transfers & local rides across Chandigarh, Derabassi, Zirakpur, Mohali & Punjab. Fixed pricing, verified drivers, 24/7 support.",
+    "North India's premium intercity cab service. Book outstation taxis & airport transfers across Chandigarh, Derabassi, Zirakpur, Mohali & Punjab. Fixed pricing, verified drivers, 24/7 support.",
   keywords: [
     "intercity cab service chandigarh", "premium taxi service chandigarh",
     "taxi service chandigarh", "cab service chandigarh", "taxi derabassi",
@@ -46,13 +46,13 @@ export const metadata: Metadata = {
     url: siteUrl,
     siteName: "LookRides",
     title: "LookRides — Premium Intercity Cab Service in Chandigarh, Derabassi & Zirakpur",
-    description: "North India's premium intercity cab service. Book outstation taxis, airport transfers & local rides. Fixed pricing, verified drivers, 24/7 support.",
+    description: "North India's premium intercity cab service. Book outstation taxis & airport transfers. Fixed pricing, verified drivers, 24/7 support.",
     images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "LookRides — Premium Intercity Cab Service" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "LookRides | Premium Intercity Cab Service",
-    description: "Book outstation cabs, airport transfers & local rides in Chandigarh.",
+    description: "Book outstation cabs & airport transfers in Chandigarh.",
     images: ["/og-image.png"],
   },
   icons: {
@@ -133,7 +133,7 @@ const faqData = [
     "name": "Does LookRides serve my area?",
     "acceptedAnswer": {
       "@type": "Answer",
-      "text": "We serve the entire Tricity area — Chandigarh, Mohali, Panchkula, Derabassi, Zirakpur — plus outstation routes to Delhi, Manali, Shimla, Amritsar, Dehradun, Dharamshala, Jammu, and all of North India."
+      "text": "We serve the entire Tricity area plus outstation routes to Delhi, Manali, Shimla, Amritsar, Dehradun, Dharamshala, Jammu, and all of North India."
     }
   },
 ];
@@ -205,7 +205,6 @@ const structuredData = {
           { "@type": "Offer", name: "Airport Transfer", description: "24/7 airport pickup and drop to Chandigarh & Delhi airports" },
           { "@type": "Offer", name: "Outstation One-way", description: "One-way cab service to Delhi, Manali, Shimla, Amritsar & more" },
           { "@type": "Offer", name: "Outstation Round-trip", description: "Round-trip packages to hill stations and cities" },
-          { "@type": "Offer", name: "Local City Rental", description: "Hourly/daily rental within Tricity — Chandigarh, Mohali, Panchkula" },
         ],
       },
       aggregateRating: {

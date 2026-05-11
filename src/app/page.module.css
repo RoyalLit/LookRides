@@ -117,7 +117,7 @@
 
 .heroSubtitle {
   font-size: 1.1rem;
-  color: rgba(255,255,255,0.6);
+  color: rgba(255,255,255,0.85);
   line-height: 1.75;
   max-width: 520px;
   animation: fadeUp 0.7s 0.15s both;
@@ -161,7 +161,7 @@
 
 .quickRoutesLabel {
   font-size: 0.8rem;
-  color: rgba(255,255,255,0.4);
+  color: rgba(255,255,255,0.7);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   font-weight: 600;
@@ -218,7 +218,7 @@
 
 .statLabel {
   font-size: 0.75rem;
-  color: rgba(255,255,255,0.45);
+  color: rgba(255,255,255,0.7);
   margin-top: 0.25rem;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -273,7 +273,7 @@
 
 .widgetHead p {
   font-size: 0.78rem;
-  color: rgba(255,255,255,0.5);
+  color: rgba(255,255,255,0.8);
 }
 
 .trustBar {
@@ -289,7 +289,7 @@
   align-items: center;
   gap: 0.35rem;
   font-size: 0.75rem;
-  color: rgba(255,255,255,0.5);
+  color: rgba(255,255,255,0.8);
 }
 
 .trustBar svg {

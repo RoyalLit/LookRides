@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Plane, Route, MapPin, CheckCircle, ArrowRight } from 'lucide-react';
+import { Plane, Route, CheckCircle, ArrowRight } from 'lucide-react';
 import styles from './services.module.css';
 
 export const metadata: Metadata = {
   title: 'Our Taxi Services | Airport Transfers & Outstation Cabs - LookRides',
-  description: 'LookRides provides 24/7 airport transfers, local city rentals, and outstation trips from Chandigarh and Zirakpur to Delhi, Himachal Pradesh, and across Punjab.',
+  description: 'LookRides provides 24/7 airport transfers and outstation trips from Chandigarh and Zirakpur to Delhi, Himachal Pradesh, and across Punjab.',
 };
 
 const servicesList = [
@@ -23,13 +23,7 @@ const servicesList = [
     description: 'Planning a trip to the hills or another city? We offer one-way drops and round-trip packages across North India. Travel comfortably to Manali, Shimla, Dharamshala, Delhi, or Amritsar with experienced mountain drivers.',
     features: ['Experienced Hill Drivers', 'Flexible Packages', 'Transparent Toll Billing', 'Comfortable Long Drives'],
   },
-  {
-    id: 'local',
-    Icon: MapPin,
-    title: 'Local City Rentals',
-    description: 'Hire a cab for the day to navigate the Tricity with ease. Perfect for business meetings, shopping trips, or sightseeing — with multi-stop flexibility and no parking hassle.',
-    features: ['8hr / 80km Packages', 'Professional Chauffeurs', 'Sanitized Vehicles', 'Multi-stop Allowed'],
-  },
+
 ];
 
 export default function ServicesPage() {

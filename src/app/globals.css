@@ -1,10 +1,4 @@
-/* ═══════════════════════════════════════════════════════════
-   LookRides Global Design System
-   ═══════════════════════════════════════════════════════════ */
-
-/* ─── Design Tokens ──────────────────────────────────────── */
 :root {
-  /* Brand Colors */
   --primary-navy:      #0B132B;
   --primary-dark:      #060D1E;
   --primary-navy-800:  #142040;
@@ -12,8 +6,9 @@
   --accent-gold-hover: #E5940F;
   --accent-gold-light: rgba(252, 163, 17, 0.12);
   --accent-cyan:       #00B4D8;
+  --accent-teal:       #06D6A0;
+  --accent-teal-light: rgba(6, 214, 160, 0.1);
 
-  /* Surface */
   --background:        #F8F9FA;
   --foreground:        #0D1117;
   --surface:           #FFFFFF;
@@ -21,11 +16,9 @@
   --border:            #E2E8F0;
   --border-strong:     #CBD5E1;
 
-  /* Text */
   --text-muted:        #64748B;
   --text-inverted:     #FFFFFF;
 
-  /* Shadows */
   --shadow-xs:  0 1px 2px rgba(0,0,0,0.05);
   --shadow-sm:  0 2px 8px rgba(0,0,0,0.06);
   --shadow-md:  0 4px 16px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04);
@@ -33,7 +26,6 @@
   --shadow-xl:  0 24px 48px rgba(0,0,0,0.14);
   --shadow-glow: 0 0 24px rgba(252, 163, 17, 0.35);
 
-  /* Border Radius */
   --radius-xs:   0.25rem;
   --radius-sm:   0.375rem;
   --radius-md:   0.625rem;
@@ -41,7 +33,6 @@
   --radius-xl:   1.5rem;
   --radius-full: 9999px;
 
-  /* Spacing Scale */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -52,9 +43,7 @@
   --space-16: 4rem;
   --space-20: 5rem;
   --space-24: 6rem;
-  --space-28: 7rem;
 
-  /* Typography */
   --font-inter: 'Inter', system-ui, -apple-system, sans-serif;
   --font-outfit: 'Outfit', system-ui, -apple-system, sans-serif;
   --text-xs:   0.75rem;
@@ -66,21 +55,16 @@
   --text-3xl:  1.875rem;
   --text-4xl:  2.25rem;
   --text-5xl:  3rem;
-  --text-6xl:  3.75rem;
 
-  /* Transitions */
   --ease-fast:   150ms cubic-bezier(0.4, 0, 0.2, 1);
   --ease-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
   --ease-slow:   500ms cubic-bezier(0.4, 0, 0.2, 1);
   --ease-spring: 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
-
-  /* Aliases for backward compat */
   --transition-fast: var(--ease-fast);
   --transition-normal: var(--ease-normal);
   --transition-slow: var(--ease-slow);
 }
 
-/* ─── Reset & Base ───────────────────────────────────────── */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -110,7 +94,6 @@ body {
   font-feature-settings: "kern" 1, "liga" 1;
 }
 
-/* ─── Typography ─────────────────────────────────────────── */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-outfit);
   font-weight: 700;
@@ -119,8 +102,8 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--foreground);
 }
 
-h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
-h2 { font-size: clamp(1.5rem, 3.5vw, 2.5rem); }
+h1 { font-size: clamp(2rem, 5vw, 3.75rem); }
+h2 { font-size: clamp(1.5rem, 3.5vw, 2.75rem); }
 h3 { font-size: clamp(1.15rem, 2.5vw, 1.5rem); }
 
 p { line-height: 1.75; }
@@ -133,7 +116,6 @@ a {
 
 img, svg { display: block; max-width: 100%; }
 
-/* ─── Layout ─────────────────────────────────────────────── */
 .container {
   width: 100%;
   max-width: 1200px;
@@ -142,12 +124,24 @@ img, svg { display: block; max-width: 100%; }
 }
 
 @media (max-width: 768px) {
+  body {
+    padding-bottom: 4rem;
+  }
+}
+
+@media (max-width: 768px) {
   .container { padding: 0 var(--space-4); }
 }
 
-/* ─── Utility Classes ────────────────────────────────────── */
 .text-gradient {
   background: linear-gradient(135deg, var(--accent-gold) 0%, #f77f00 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-teal {
+  background: linear-gradient(135deg, var(--accent-teal) 0%, #0284c7 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -163,6 +157,10 @@ img, svg { display: block; max-width: 100%; }
   margin-bottom: var(--space-3);
 }
 
+.section-label-white {
+  color: rgba(255,255,255,0.5);
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -175,7 +173,6 @@ img, svg { display: block; max-width: 100%; }
   border-width: 0;
 }
 
-/* ─── Buttons ────────────────────────────────────────────── */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -267,7 +264,30 @@ img, svg { display: block; max-width: 100%; }
   font-size: var(--text-base);
 }
 
-/* ─── Glass Panel ────────────────────────────────────────── */
+.btn-navy {
+  background: var(--primary-navy);
+  color: #fff;
+  border-color: var(--primary-navy);
+}
+
+.btn-navy:hover {
+  background: var(--primary-navy-800);
+  box-shadow: 0 6px 20px rgba(11, 19, 43, 0.3);
+  transform: translateY(-2px);
+}
+
+.btn-gold-outline {
+  background: transparent;
+  color: var(--accent-gold);
+  border-color: var(--accent-gold);
+}
+
+.btn-gold-outline:hover {
+  background: var(--accent-gold);
+  color: var(--primary-navy);
+  transform: translateY(-2px);
+}
+
 .glass-panel {
   background: rgba(255,255,255,0.7);
   backdrop-filter: blur(12px);
@@ -277,7 +297,6 @@ img, svg { display: block; max-width: 100%; }
   box-shadow: var(--shadow-md);
 }
 
-/* ─── Card Base ──────────────────────────────────────────── */
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -292,7 +311,6 @@ img, svg { display: block; max-width: 100%; }
   transform: translateY(-4px);
 }
 
-/* ─── Scroll Animations ──────────────────────────────────── */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(24px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -313,22 +331,21 @@ img, svg { display: block; max-width: 100%; }
   to   { opacity: 1; transform: scale(1); }
 }
 
-@keyframes slideLeft {
-  from { opacity: 0; transform: translateX(24px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes slideRight {
-  from { opacity: 0; transform: translateX(-24px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-
 @keyframes shimmer {
   0%   { background-position: -200% center; }
   100% { background-position:  200% center; }
 }
 
-/* ─── Scroll Reveal ──────────────────────────────────────── */
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
 .reveal-on-scroll {
   opacity: 0;
   transform: translateY(48px);
@@ -341,7 +358,6 @@ img, svg { display: block; max-width: 100%; }
   transform: translateY(0);
 }
 
-/* Stagger children inside revealed sections */
 .reveal-on-scroll.is-visible > *:nth-child(1) { transition-delay: 0.1s; }
 .reveal-on-scroll.is-visible > *:nth-child(2) { transition-delay: 0.25s; }
 .reveal-on-scroll.is-visible > *:nth-child(3) { transition-delay: 0.4s; }
@@ -351,7 +367,6 @@ img, svg { display: block; max-width: 100%; }
   .reveal-on-scroll { opacity: 1; transform: none; transition: none; }
 }
 
-/* ─── Form Base ──────────────────────────────────────────── */
 .input-base {
   width: 100%;
   padding: 0.875rem 1rem;
@@ -372,7 +387,6 @@ img, svg { display: block; max-width: 100%; }
 
 .input-base::placeholder { color: var(--text-muted); }
 
-/* ─── Badge ──────────────────────────────────────────────── */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -401,28 +415,37 @@ img, svg { display: block; max-width: 100%; }
   border: 1px solid rgba(255,255,255,0.2);
 }
 
-/* ─── Section Helpers ────────────────────────────────────── */
+.badge-green {
+  background: rgba(6, 214, 160, 0.12);
+  color: #059669;
+  border: 1px solid rgba(6, 214, 160, 0.25);
+}
+
 .section-light { background-color: var(--background); }
 .section-white { background-color: var(--surface); }
 .section-navy  { background-color: var(--primary-navy); }
 .section-dark  { background-color: var(--primary-dark); }
 
-/* ─── Divider ────────────────────────────────────────────── */
 .divider {
   height: 1px;
   background: var(--border);
   margin: var(--space-8) 0;
 }
 
-/* ─── Focus Ring ─────────────────────────────────────────── */
 :focus-visible {
   outline: 2px solid var(--accent-gold);
   outline-offset: 2px;
   border-radius: var(--radius-sm);
 }
 
-/* ─── Selection ──────────────────────────────────────────── */
 ::selection {
   background: rgba(252, 163, 17, 0.25);
   color: var(--primary-navy);
+}
+
+@media (max-width: 768px) {
+  .btn-lg {
+    padding: 0.875rem 2rem;
+    font-size: 0.95rem;
+  }
 }

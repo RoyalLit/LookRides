@@ -1,45 +1,70 @@
 'use client';
 
 import Link from 'next/link';
-import { Phone, Menu, X } from 'lucide-react';
+import { Phone, Menu, X, Star } from 'lucide-react';
 import { useState } from 'react';
 import Logo from './Logo';
 import styles from './Header.module.css';
 
 const navLinks = [
+  { href: '/', label: 'Home' },
   { href: '/services', label: 'Services' },
   { href: '/fleet', label: 'Our Fleet' },
   { href: '/about', label: 'About Us' },
   { href: '/contact', label: 'Contact' },
 ];
 
+const routeLinks = [
+  { href: '/routes/chandigarh-to-delhi', label: 'Chandigarh→Delhi' },
+  { href: '/routes/chandigarh-to-manali', label: 'Chandigarh→Manali' },
+  { href: '/routes/chandigarh-to-shimla', label: 'Chandigarh→Shimla' },
+  { href: '/routes/chandigarh-to-amritsar', label: 'Chandigarh→Amritsar' },
+];
+
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [routesOpen, setRoutesOpen] = useState(false);
 
   return (
     <header className={styles.header}>
       <div className={`container ${styles.headerContainer}`}>
         <Link href="/" className={styles.logo} onClick={() => setMobileOpen(false)}>
-          <Logo variant="dark" height={50} />
+          <Logo variant="dark" height={46} />
         </Link>
 
-        {/* Desktop Nav */}
         <nav className={styles.nav}>
           {navLinks.map((l) => (
             <Link key={l.href} href={l.href} className={styles.navLink}>{l.label}</Link>
           ))}
+          <div
+            className={styles.dropdown}
+            onMouseEnter={() => setRoutesOpen(true)}
+            onMouseLeave={() => setRoutesOpen(false)}
+          >
+            <button className={styles.navLink} style={{ background: 'none', border: 'none', cursor: 'pointer', font: 'inherit' }}>
+              Routes ▾
+            </button>
+            {routesOpen && (
+              <div className={styles.dropdownMenu}>
+                {routeLinks.map((r) => (
+                  <Link key={r.href} href={r.href} className={styles.dropdownItem}>{r.label}</Link>
+                ))}
+                <Link href="/services" className={styles.dropdownItem} style={{ borderTop: '1px solid var(--border)', marginTop: '0.25rem', paddingTop: '0.75rem' }}>
+                  View All Routes →
+                </Link>
+              </div>
+            )}
+          </div>
         </nav>
 
-        {/* Desktop Actions */}
         <div className={styles.actions}>
           <a href="tel:+919780426567" className={styles.phone}>
             <Phone size={15} />
             +91 97804 26567
           </a>
-          <Link href="/" className="btn btn-primary">Book Now</Link>
+          <Link href="/" className="btn btn-primary btn-sm" scroll={false}>Book Now</Link>
         </div>
 
-        {/* Mobile toggle */}
         <button
           className={styles.hamburger}
           onClick={() => setMobileOpen(!mobileOpen)}
@@ -49,13 +74,18 @@ export default function Header() {
         </button>
       </div>
 
-      {/* Mobile Drawer */}
       {mobileOpen && (
         <div className={styles.mobileMenu}>
           <nav className={styles.mobileNav}>
             {navLinks.map((l) => (
               <Link key={l.href} href={l.href} className={styles.mobileNavLink} onClick={() => setMobileOpen(false)}>
                 {l.label}
+              </Link>
+            ))}
+            <div className={styles.mobileSectionLabel}>Popular Routes</div>
+            {routeLinks.map((r) => (
+              <Link key={r.href} href={r.href} className={styles.mobileRouteLink} onClick={() => setMobileOpen(false)}>
+                {r.label}
               </Link>
             ))}
           </nav>

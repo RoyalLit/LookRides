@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ScrollAnimations from "@/components/ScrollAnimations";
+import MobileStickyCta from "@/components/MobileStickyCta";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"], display: "swap" });
 const outfit = Outfit({ variable: "--font-outfit", subsets: ["latin"], display: "swap" });
@@ -14,43 +15,43 @@ const siteUrl = "https://lookrides.com";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "LookRides | Taxi Service in Derabassi, Chandigarh & Zirakpur",
+    default: "LookRides — Premium Intercity Cab Service in Chandigarh, Derabassi & Zirakpur",
     template: "%s | LookRides",
   },
   description:
-    "Book affordable outstation cabs, airport transfers, and local rides with LookRides. Reliable taxi service in Derabassi, Zirakpur, Chandigarh, Mohali, Panchkula and across North India.",
+    "North India's premium intercity cab service. Book outstation taxis, airport transfers & local rides across Chandigarh, Derabassi, Zirakpur, Mohali & Punjab. Fixed pricing, verified drivers, 24/7 support.",
   keywords: [
-    // Primary service keywords
-    "taxi service chandigarh", "cab service chandigarh", "taxi derabassi", "cab derabassi",
-    "taxi zirakpur", "cab zirakpur", "taxi mohali", "cab mohali", "taxi panchkula",
-    // Airport transfer keywords
+    "intercity cab service chandigarh", "premium taxi service chandigarh",
+    "taxi service chandigarh", "cab service chandigarh", "taxi derabassi",
+    "cab derabassi", "taxi zirakpur", "cab zirakpur", "taxi mohali",
+    "cab mohali", "taxi panchkula",
     "airport transfer chandigarh", "chandigarh airport taxi", "ixc airport cab",
-    "delhi airport taxi chandigarh", "igi airport pickup", "airport transfer derabassi",
-    // Outstation routes
-    "outstation taxi chandigarh", "chandigarh to delhi taxi", "chandigarh to manali taxi",
-    "chandigarh to shimla taxi", "manali cab from chandigarh", "shimla taxi from chandigarh",
-    "outstation cab service", "hill station taxi",
-    // Vehicle keywords
-    "innova crysta hire chandigarh", "etios taxi chandigarh", "tempo traveler booking",
-    "sedan cab chandigarh", "suv rental chandigarh",
-    // Brand and location
-    "lookrides", "lookride", "tour and travel derabassi", "taxi booking chandigarh",
-    "online cab booking", "24 hour taxi service",
+    "delhi airport taxi chandigarh", "igi airport pickup",
+    "outstation taxi chandigarh", "chandigarh to delhi taxi",
+    "chandigarh to manali taxi", "chandigarh to shimla taxi",
+    "one way cab chandigarh", "chandigarh to amritsar taxi",
+    "innova crysta hire chandigarh", "etios taxi chandigarh",
+    "tempo traveler booking", "sedan cab chandigarh", "suv rental chandigarh",
+    "lookrides", "taxi booking chandigarh", "online cab booking",
+    "24 hour taxi service", "best cab service in chandigarh",
+    "chandigarh taxi service", "derabassi cab service",
   ],
   authors: [{ name: "LookRides", url: siteUrl }],
   creator: "LookRides",
+  publisher: "LookRides",
+  robots: { index: true, follow: true },
   openGraph: {
     type: "website",
     locale: "en_IN",
     url: siteUrl,
     siteName: "LookRides",
-    title: "LookRides | Premium Taxi Service in Chandigarh & Zirakpur",
-    description: "Book affordable outstation cabs, airport transfers, and local rides. Reliable taxi service across Chandigarh, Zirakpur, and North India.",
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "LookRides — Premium Taxi Service in Chandigarh" }],
+    title: "LookRides — Premium Intercity Cab Service in Chandigarh, Derabassi & Zirakpur",
+    description: "North India's premium intercity cab service. Book outstation taxis, airport transfers & local rides. Fixed pricing, verified drivers, 24/7 support.",
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "LookRides — Premium Intercity Cab Service" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "LookRides | Premium Taxi Service in Chandigarh",
+    title: "LookRides | Premium Intercity Cab Service",
     description: "Book outstation cabs, airport transfers & local rides in Chandigarh.",
     images: ["/og-image.png"],
   },
@@ -62,20 +63,21 @@ export const metadata: Metadata = {
     apple: "/logo.png",
   },
   alternates: { canonical: siteUrl },
+  category: "travel",
+  classification: "Transportation",
 };
 
 export const viewport = {
   themeColor: "#0B132B",
 };
 
-// LocalBusiness + TaxiService + FAQPage + BreadcrumbList JSON-LD structured data
 const faqData = [
   {
     "@type": "Question",
     "name": "How do I book a cab with LookRides?",
     "acceptedAnswer": {
       "@type": "Answer",
-      "text": "Simply fill in the booking form on the homepage with your pickup location, drop destination, date and time. We will confirm your booking via WhatsApp or phone call within minutes."
+      "text": "Fill in the booking form on the homepage with your pickup, drop, date and time. We confirm via WhatsApp or phone within minutes. You can also call us directly at +91 97804 26567 for instant booking."
     }
   },
   {
@@ -83,7 +85,7 @@ const faqData = [
     "name": "What is the fare from Chandigarh to Delhi?",
     "acceptedAnswer": {
       "@type": "Answer",
-      "text": "The one-way fare from Chandigarh to Delhi is approximately ₹3,500–₹4,000 for a sedan (Etios/Dzire) and ₹5,500–₹6,500 for an Innova Crysta SUV."
+      "text": "The one-way fare from Chandigarh to Delhi is ₹3,500 for a sedan (Etios/Dzire) and ₹5,500 for an Innova Crysta SUV. All tolls, fuel, and GST are included — no hidden charges."
     }
   },
   {
@@ -91,47 +93,47 @@ const faqData = [
     "name": "Do you provide airport pick-up and drop?",
     "acceptedAnswer": {
       "@type": "Answer",
-      "text": "Yes! We provide 24/7 airport transfer service to and from Chandigarh (IXC) and Delhi (IGI) airports. Professional drivers track flights for timely pickups."
+      "text": "Yes! We provide 24/7 airport transfers to and from Chandigarh (IXC) and Delhi (IGI) airports. Our drivers track flights for timely pickups. Fare from Derabassi to Chandigarh Airport starts at ₹600."
     }
   },
   {
     "@type": "Question",
-    "name": "What vehicles do you have in your fleet?",
+    "name": "What vehicles do you have?",
     "acceptedAnswer": {
       "@type": "Answer",
-      "text": "Our fleet includes Toyota Etios (Sedan, 4 seats), Toyota Innova Crysta (SUV, 6 seats), and Tempo Traveler (MUV, 12 seats). All vehicles are well-maintained and sanitized."
+      "text": "Our fleet includes Toyota Etios/Maruti Dzire (Sedan, 4 seats), Toyota Innova Crysta (SUV, 6 seats), and Tempo Traveler (MUV, 12 seats). All vehicles are well-maintained, sanitized, and AC equipped."
     }
   },
   {
     "@type": "Question",
-    "name": "Are your drivers verified and professional?",
+    "name": "Are your drivers verified?",
     "acceptedAnswer": {
       "@type": "Answer",
-      "text": "All our drivers are background-verified, professionally trained, and follow strict hygiene protocols. They are knowledgeable about routes across North India."
+      "text": "All our drivers are background-verified, professionally trained, and follow strict hygiene protocols. They are experienced on routes across North India including hill roads and highways."
     }
   },
   {
     "@type": "Question",
-    "name": "Is LookRides available for outstation trips beyond Chandigarh?",
+    "name": "Do you offer one-way cabs?",
     "acceptedAnswer": {
       "@type": "Answer",
-      "text": "Absolutely! We operate outstation cabs to Manali, Shimla, Dharamshala, Delhi, Amritsar, and all major destinations in North India. Both one-way and round-trip options available."
+      "text": "Absolutely! Our one-way cab service means you only pay for the onward journey — no return fare. Perfect for airport drops, Delhi trips, and single-direction travel. Sedan: ₹6/km, Innova: ₹10/km."
     }
   },
   {
     "@type": "Question",
-    "name": "What payment methods do you accept?",
+    "name": "What payment methods are accepted?",
     "acceptedAnswer": {
       "@type": "Answer",
-      "text": "We accept Cash, UPI (Google Pay, PhonePe, Paytm), and bank transfers. Payment is collected at the end of your journey."
+      "text": "We accept Cash, UPI (Google Pay, PhonePe, Paytm), and bank transfers. Payment is collected at the end of your journey. Online payment options coming soon."
     }
   },
   {
     "@type": "Question",
-    "name": "Do you offer round-trip packages?",
+    "name": "Does LookRides serve my area?",
     "acceptedAnswer": {
       "@type": "Answer",
-      "text": "Yes! We offer both one-way and round-trip packages. Round-trip fares to major destinations like Manali and Shimla are available at discounted rates."
+      "text": "We serve the entire Tricity area — Chandigarh, Mohali, Panchkula, Derabassi, Zirakpur — plus outstation routes to Delhi, Manali, Shimla, Amritsar, Dehradun, Dharamshala, Jammu, and all of North India."
     }
   },
 ];
@@ -156,13 +158,13 @@ const structuredData = {
       "@id": `${siteUrl}/#business`,
       name: "LookRides",
       alternateName: ["LookRide", "Look Ride"],
-      description: "Premium taxi, outstation cab, and tour & travel service in Derabassi, Zirakpur, Chandigarh, and across North India.",
+      description: "Premium intercity cab service, outstation taxi, and airport transfer service in Chandigarh, Derabassi, Zirakpur, and across North India.",
       url: siteUrl,
       telephone: "+919780426567",
       email: "info@lookride.in",
       priceRange: "₹₹",
       currenciesAccepted: "INR",
-      paymentAccepted: "Cash, UPI",
+      paymentAccepted: "Cash, UPI, Bank Transfer",
       areaServed: [
         { "@type": "City", name: "Chandigarh" },
         { "@type": "City", name: "Derabassi" },
@@ -172,6 +174,7 @@ const structuredData = {
         { "@type": "State", name: "Punjab" },
         { "@type": "State", name: "Haryana" },
         { "@type": "State", name: "Himachal Pradesh" },
+        { "@type": "City", name: "Delhi" },
       ],
       address: {
         "@type": "PostalAddress",
@@ -192,14 +195,17 @@ const structuredData = {
         opens: "00:00",
         closes: "23:59",
       },
+      sameAs: [
+        "https://wa.me/919780426567",
+      ],
       hasOfferCatalog: {
         "@type": "OfferCatalog",
         name: "Taxi Services",
         itemListElement: [
-          { "@type": "Offer", name: "Airport Transfer", description: "24/7 airport pickup and drop service" },
-          { "@type": "Offer", name: "Outstation One-way", description: "One-way cab service to destinations" },
-          { "@type": "Offer", name: "Outstation Round-trip", description: "Round-trip cab packages" },
-          { "@type": "Offer", name: "Local City Rental", description: "Hourly/daily rental within city" },
+          { "@type": "Offer", name: "Airport Transfer", description: "24/7 airport pickup and drop to Chandigarh & Delhi airports" },
+          { "@type": "Offer", name: "Outstation One-way", description: "One-way cab service to Delhi, Manali, Shimla, Amritsar & more" },
+          { "@type": "Offer", name: "Outstation Round-trip", description: "Round-trip packages to hill stations and cities" },
+          { "@type": "Offer", name: "Local City Rental", description: "Hourly/daily rental within Tricity — Chandigarh, Mohali, Panchkula" },
         ],
       },
       aggregateRating: {
@@ -245,6 +251,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <Footer />
         <WhatsAppButton />
         <ScrollAnimations />
+        <MobileStickyCta />
       </body>
     </html>
   );

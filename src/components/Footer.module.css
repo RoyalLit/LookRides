@@ -27,7 +27,21 @@
   font-size: 0.9rem;
   color: rgba(255,255,255,0.45);
   line-height: 1.7;
-  max-width: 300px;
+  max-width: 320px;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: var(--accent-gold);
+  font-weight: 600;
+}
+
+.dot {
+  color: rgba(255,255,255,0.2);
+  margin: 0 0.25rem;
 }
 
 .contacts {

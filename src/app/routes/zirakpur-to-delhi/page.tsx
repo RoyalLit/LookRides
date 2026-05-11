@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import RoutePage from '@/components/RoutePage';
 import { getRouteBySlug } from '@/lib/routes-data';
 
-const route = getRouteBySlug('chandigarh-to-shimla')!;
+const route = getRouteBySlug('zirakpur-to-delhi')!;
 
 export const metadata: Metadata = {
   title: route.metaTitle,

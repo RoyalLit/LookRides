@@ -6,35 +6,33 @@ import Link from "next/link";
 import {
   Plane, Route, MapPin, Users,
   Star, ArrowRight, CheckCircle, Quote, Phone,
-  Luggage
+  Luggage, Shield, Clock, ThumbsUp, Award, ChevronDown,
+  BadgeCheck, HeadphonesIcon, Car, Navigation,
+  Sparkles, Search
 } from "lucide-react";
 import { supabase, FleetVehicle, PricingRoute, GoogleReview } from "@/lib/supabase";
 import BookingForm from "@/components/BookingForm";
 import styles from "./page.module.css";
+import { allRoutes, getPopularRoutes, RouteData } from "@/lib/routes-data";
 
-/* ── Static Data (Fallbacks or non-managed) ───────────── */
 const steps = [
   { n: "01", title: "Fill the Booking Form", desc: "Enter your pickup, drop, date and time. Takes 30 seconds." },
   { n: "02", title: "Get Instant Confirmation", desc: "We confirm via WhatsApp or call within minutes with driver details and exact fare." },
   { n: "03", title: "Enjoy Your Ride", desc: "Your verified driver arrives on time. Relax in a clean, sanitized cab all the way." },
 ];
 
-const PARTICLES = [
-  { left: '12%', top: '145%', w: '4.2px', h: '3.8px', delay: '1.2s', dur: '12.4s' },
-  { left: '34%', top: '110%', w: '3.1px', h: '4.0px', delay: '0.4s', dur: '18.1s' },
-  { left: '88%', top: '178%', w: '5.5px', h: '2.5px', delay: '3.1s', dur: '15.9s' },
-  { left: '55%', top: '133%', w: '2.2px', h: '3.1px', delay: '4.5s', dur: '11.2s' },
-  { left: '21%', top: '190%', w: '4.8px', h: '5.2px', delay: '2.3s', dur: '19.8s' },
-  { left: '76%', top: '125%', w: '3.9px', h: '3.9px', delay: '1.8s', dur: '14.5s' },
-  { left: '43%', top: '155%', w: '2.7px', h: '4.6px', delay: '0.9s', dur: '17.3s' },
-  { left: '91%', top: '118%', w: '5.1px', h: '5.0px', delay: '2.7s', dur: '13.6s' },
-  { left: '6%',  top: '166%', w: '3.4px', h: '2.8px', delay: '3.9s', dur: '10.5s' },
-  { left: '67%', top: '182%', w: '4.5px', h: '4.2px', delay: '1.5s', dur: '16.7s' },
-  { left: '29%', top: '105%', w: '2.9px', h: '5.5px', delay: '4.1s', dur: '19.1s' },
-  { left: '82%', top: '140%', w: '5.8px', h: '3.5px', delay: '2.6s', dur: '12.9s' },
-  { left: '15%', top: '195%', w: '3.6px', h: '4.8px', delay: '0.5s', dur: '15.4s' },
-  { left: '58%', top: '120%', w: '4.1px', h: '2.9px', delay: '3.4s', dur: '18.6s' },
-  { left: '96%', top: '160%', w: '2.5px', h: '5.1px', delay: '1.9s', dur: '11.8s' },
+const trustFeatures = [
+  { Icon: BadgeCheck, title: "Verified Drivers", desc: "Background-checked, trained professionals" },
+  { Icon: Shield, title: "Fixed Pricing", desc: "No hidden charges. Toll & fuel included." },
+  { Icon: Clock, title: "Always On Time", desc: "GPS tracking & flight monitoring" },
+  { Icon: HeadphonesIcon, title: "24/7 Support", desc: "Call or WhatsApp anytime" },
+];
+
+const safetyFeatures = [
+  { Icon: Shield, title: "Verified Drivers", desc: "All drivers undergo thorough background verification before joining." },
+  { Icon: Navigation, title: "Live GPS Tracking", desc: "Share your ride status with family. Real-time location tracking." },
+  { Icon: Car, title: "Sanitized Vehicles", desc: "Every cab is cleaned and sanitized before and after each trip." },
+  { Icon: Clock, title: "Night Ride Safety", desc: "24/7 support line, emergency contacts, and driver verification for late night trips." },
 ];
 
 export default function Home() {
@@ -43,60 +41,25 @@ export default function Home() {
   const [reviews, setReviews] = useState<GoogleReview[]>([]);
   const [settings, setSettings] = useState({ rating: '4.8', reviews: '54' });
   const [loading, setLoading] = useState(true);
+  const [activeReview, setActiveReview] = useState(0);
+  const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  const popRoutes = getPopularRoutes();
 
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  // Intersection Observer for scroll reveals
   const revealRefs = useRef<(HTMLElement | null)[]>([]);
   const addToRefs = useCallback((el: HTMLElement | null) => {
-    if (el && !revealRefs.current.includes(el)) {
-      revealRefs.current.push(el);
-    }
+    if (el && !revealRefs.current.includes(el)) revealRefs.current.push(el);
   }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-        }
+        if (entry.isIntersecting) entry.target.classList.add('is-visible');
       });
     }, { threshold: 0.1 });
-
-    revealRefs.current.forEach(ref => {
-      if (ref) observer.observe(ref);
-    });
-
+    revealRefs.current.forEach(ref => { if (ref) observer.observe(ref); });
     return () => observer.disconnect();
   }, []);
 
-  // 3D Tilt & Spotlight Mouse Handler
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const card = e.currentTarget;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    
-    card.style.setProperty('--sx', `${x}px`);
-    card.style.setProperty('--sy', `${y}px`);
-
-    // Calculate 3D rotation
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const rotateX = ((y - centerY) / centerY) * -6; // max 6deg
-    const rotateY = ((x - centerX) / centerX) * 6;
-    
-    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-  };
-
-  const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
-    const card = e.currentTarget;
-    card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-    card.style.setProperty('--sx', `50%`);
-    card.style.setProperty('--sy', `50%`);
-  };
-
-  // Animated Counters
   const [stats, setStats] = useState([
     { val: 0, target: 5000, suffix: "k+", label: "Happy Riders", display: "0" },
     { val: 0, target: 10, suffix: "+", label: "Premium Cabs", display: "0" },
@@ -108,28 +71,19 @@ export default function Home() {
     let frameId: number;
     let startTime: number;
     const duration = 2000;
-
     const animate = (timestamp: number) => {
       if (!startTime) startTime = timestamp;
       const progress = Math.min((timestamp - startTime) / duration, 1);
-      
-      // easeOutExpo
       const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
-
       setStats(prev => prev.map(s => {
-        if (s.target === 24) return s; // static
+        if (s.target === 24) return s;
         const current = Math.floor(ease * s.target);
-        // format 5000 as 5k+
         let display = current.toString();
-        if (s.target >= 1000) {
-          display = (current / 1000).toFixed(current >= 1000 && current < 5000 ? 1 : 0).replace('.0', '');
-        }
+        if (s.target >= 1000) display = (current / 1000).toFixed(current >= 1000 && current < 5000 ? 1 : 0).replace('.0', '');
         return { ...s, val: current, display: display + s.suffix };
       }));
-
       if (progress < 1) frameId = requestAnimationFrame(animate);
     };
-
     frameId = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(frameId);
   }, []);
@@ -142,7 +96,6 @@ export default function Home() {
         supabase.from('reviews').select('*').eq('is_visible', true).order('created_at', { ascending: false }).limit(6),
         supabase.from('site_settings').select('*')
       ]);
-
       if (fleetRes.data) setFleet(fleetRes.data);
       if (pricingRes.data) setPricing(pricingRes.data);
       if (reviewRes.data) setReviews(reviewRes.data);
@@ -156,55 +109,41 @@ export default function Home() {
     loadData();
   }, []);
 
-  // Auto-play for carousel
   useEffect(() => {
-    if (reviews.length <= 3) return;
-    const interval = setInterval(() => {
-      setActiveIndex(prev => (prev + 1) % (reviews.length - 2));
-    }, 5000);
+    if (reviews.length <= 1) return;
+    const interval = setInterval(() => setActiveReview(prev => (prev + 1) % reviews.length), 5000);
     return () => clearInterval(interval);
   }, [reviews]);
 
   return (
     <div className={styles.page}>
-      {/* ══ HERO ═══════════════════════════════════════════════ */}
       <section className={styles.hero}>
         <div className={styles.heroBg}>
-          <div className={styles.blobA} />
-          <div className={styles.blobB} />
-          <div className={styles.blobC} />
-          {PARTICLES.map((p, i) => (
-            <div 
-              key={i} 
-              className={styles.particle} 
-              style={{
-                left: p.left,
-                top: p.top,
-                width: p.w,
-                height: p.h,
-                animationDelay: p.delay,
-                animationDuration: p.dur
-              }}
-            />
-          ))}
-          <div className={styles.gridOverlay} />
+          <div className={styles.heroGlow1} />
+          <div className={styles.heroGlow2} />
+          <div className={styles.heroGlow3} />
+          <div className={styles.heroGrid} />
         </div>
 
         <div className={`container ${styles.heroInner}`}>
           <div className={styles.heroContent}>
-            <div className={`badge badge-white ${styles.heroBadge}`}>
+            <div className={styles.heroBadge}>
               <Star size={13} fill="currentColor" />
-              {settings.rating}★ on Google &nbsp;·&nbsp; {settings.reviews} Verified Reviews
+              <span>{settings.rating} ★ on Google</span>
+              <span className={styles.heroBadgeDot}>·</span>
+              <span>{settings.reviews} reviews</span>
+              <span className={styles.heroBadgeDot}>·</span>
+              <span className={styles.heroBadgeHighlight}>Trusted by 5,000+ Travelers</span>
             </div>
 
             <h1 className={styles.heroTitle}>
-              Premium Cab Service<br />
-              <span className="text-gradient">Across the Tricity</span>
+              North India&apos;s Premium<br />
+              <span className="text-gradient">Intercity Cab Service</span>
             </h1>
 
             <p className={styles.heroSubtitle}>
-              Outstation cabs, airport transfers & local rentals from the Tricity to anywhere in North India.
-              Professional drivers, fixed pricing, zero hidden charges.
+              Chandigarh · Derabassi · Zirakpur · Mohali · Panchkula — serving Delhi, Manali, 
+              Shimla, Amritsar & all of North India. <strong>Fixed fares, verified drivers, zero surprises.</strong>
             </p>
 
             <div className={styles.heroActions}>
@@ -212,12 +151,25 @@ export default function Home() {
                 <Phone size={18} />
                 Call Now — 24/7
               </a>
-              <button 
-                onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })} 
-                className="btn btn-outline-white"
-              >
-                How it works
-              </button>
+              <a href="https://wa.me/919780426567?text=Hi!%20I%20want%20to%20book%20a%20cab%20with%20LookRides." 
+                 target="_blank" rel="noopener noreferrer"
+                 className={`btn btn-gold-outline btn-lg ${styles.whatsappBtn}`}>
+                <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+                </svg>
+                WhatsApp
+              </a>
+            </div>
+
+            <div className={styles.heroQuickRoutes}>
+              <span className={styles.quickRoutesLabel}>Popular routes:</span>
+              <div className={styles.quickRoutesList}>
+                {popRoutes.slice(0, 4).map(r => (
+                  <Link key={r.slug} href={`/routes/${r.slug}`} className={styles.quickRoute}>
+                    {r.from} → {r.to}
+                  </Link>
+                ))}
+              </div>
             </div>
 
             <div className={styles.heroStats}>
@@ -230,19 +182,74 @@ export default function Home() {
             </div>
           </div>
 
-          <div className={styles.heroFormWrap} id="booking">
+          <div className={styles.heroFormWrap}>
             <div className={styles.bookingWidget}>
               <div className={styles.widgetHead}>
-                <h2>Book Your Ride</h2>
-                <p>Free quote in seconds</p>
+                <div className={styles.widgetHeadTop}>
+                  <h2>Book Your Ride</h2>
+                  <span className={styles.widgetBadge}>Free Quote</span>
+                </div>
+                <p>Get instant confirmation via WhatsApp</p>
               </div>
               <BookingForm />
+            </div>
+            <div className={styles.trustBar}>
+              <span><CheckCircle size={12} /> Fixed Pricing</span>
+              <span><CheckCircle size={12} /> No Hidden Charges</span>
+              <span><CheckCircle size={12} /> 24/7 Support</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ══ SERVICES ═══════════════════════════════════════════ */}
+      <section className={`${styles.trustedSection} reveal-on-scroll`} ref={addToRefs}>
+        <div className="container">
+          <div className={styles.trustedGrid}>
+            {trustFeatures.map(({ Icon, title, desc }) => (
+              <div key={title} className={styles.trustedCard}>
+                <div className={styles.trustedIcon}><Icon size={20} /></div>
+                <div>
+                  <h4>{title}</h4>
+                  <p>{desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className={`${styles.routesPreview} reveal-on-scroll`} ref={addToRefs}>
+        <div className="container">
+          <div className={styles.sectionHead}>
+            <span className="section-label">Popular Routes</span>
+            <h2>Wherever You&apos;re Going, We&apos;ll Get You There</h2>
+            <p>Fixed prices, no negotiation. From Chandigarh to Delhi, Manali, Shimla and beyond.</p>
+          </div>
+          <div className={styles.routesGrid}>
+            {popRoutes.map(r => (
+              <Link key={r.slug} href={`/routes/${r.slug}`} className={styles.routeCard}>
+                <div className={styles.routeCardHead}>
+                  <span className={styles.routeFrom}>{r.from}</span>
+                  <ArrowRight size={14} />
+                  <span className={styles.routeTo}>{r.to}</span>
+                </div>
+                <div className={styles.routeCardMeta}>
+                  <span>{r.distance}</span>
+                  <span className={styles.routeCardDot}>·</span>
+                  <span>{r.duration}</span>
+                </div>
+                <div className={styles.routeCardPrice}>
+                  from <strong>{r.sedanPrice}</strong>
+                </div>
+              </Link>
+            ))}
+          </div>
+          <div className={styles.routesMore}>
+            <Link href="/services" className="btn btn-outline">View All Routes <ArrowRight size={15} /></Link>
+          </div>
+        </div>
+      </section>
+
       <section className={`${styles.servicesSection} reveal-on-scroll`} ref={addToRefs}>
         <div className="container">
           <div className={styles.sectionHead}>
@@ -251,19 +258,17 @@ export default function Home() {
           </div>
           <div className={styles.servicesGrid}>
             {[
-              { Icon: Plane, title: "Airport Transfers", desc: "Punctual pickups and drops to Chandigarh & Delhi airports." },
-              { Icon: Route, title: "Outstation Cabs", desc: "One-way & round-trips to Manali, Shimla, Delhi, Dharamshala." },
-              { Icon: MapPin, title: "Local City Rentals", desc: "Hire by the hour across the Tricity. Multi-stop allowed." },
-            ].map(({ Icon, title, desc }) => (
-              <div 
-                key={title} 
-                className={styles.serviceCard}
-                onMouseMove={handleMouseMove}
-                onMouseLeave={handleMouseLeave}
-              >
-                <div className={styles.serviceIconWrap}><Icon size={26} strokeWidth={1.5} /></div>
+              { Icon: Plane, title: "Airport Transfers", desc: "Punctual pickups and drops to Chandigarh & Delhi airports with flight tracking.", highlights: ['Flight tracking', 'Luggage assist', 'Terminal drop'] },
+              { Icon: Route, title: "Outstation Cabs", desc: "One-way & round-trips to Delhi, Manali, Shimla, Amritsar, Dharamshala & beyond.", highlights: ['One-way available', 'Hill drivers', 'Hotel breaks'] },
+              { Icon: MapPin, title: "Local City Rentals", desc: "Hourly rentals across Chandigarh, Mohali, Panchkula, Derabassi & Zirakpur.", highlights: ['Multi-stop', 'Hourly/Daily', 'Tricity coverage'] },
+            ].map(({ Icon, title, desc, highlights }) => (
+              <div key={title} className={styles.serviceCard}>
+                <div className={styles.serviceIconWrap}><Icon size={24} strokeWidth={1.5} /></div>
                 <h3>{title}</h3>
                 <p>{desc}</p>
+                <ul className={styles.serviceHighlights}>
+                  {highlights.map(h => <li key={h}><CheckCircle size={14} /> {h}</li>)}
+                </ul>
                 <Link href="/services" className={styles.serviceLink}>Learn more <ArrowRight size={15} /></Link>
               </div>
             ))}
@@ -271,8 +276,29 @@ export default function Home() {
         </div>
       </section>
 
+      <section className={`${styles.processSection} reveal-on-scroll`} id="how-it-works" ref={addToRefs}>
+        <div className="container">
+          <div className={styles.sectionHead}>
+            <span className="section-label section-label-white">Our Process</span>
+            <h2 style={{ color: '#fff' }}>Booking Takes 30 Seconds</h2>
+            <p style={{ color: 'rgba(255,255,255,0.6)' }}>Fill form → Get confirmed → Enjoy your ride. That&apos;s it.</p>
+          </div>
+          <div className={styles.processGrid}>
+            {steps.map((s) => (
+              <div key={s.title} className={styles.processStep}>
+                <div className={styles.stepNumber}>{s.n}</div>
+                <h3>{s.title}</h3>
+                <p>{s.desc}</p>
+              </div>
+            ))}
+          </div>
+          <div className={styles.processCta}>
+            <Link href="/" className="btn btn-primary btn-lg" scroll={false}>Book Your Ride Now</Link>
+            <a href="tel:+919780426567" className="btn btn-outline-white btn-lg">Call +91 97804 26567</a>
+          </div>
+        </div>
+      </section>
 
-      {/* ══ FLEET (Dynamic) ════════════════════════════════════ */}
       <section className={`${styles.fleetSection} reveal-on-scroll`} ref={addToRefs}>
         <div className="container">
           <div className={styles.sectionHead}>
@@ -281,14 +307,9 @@ export default function Home() {
           </div>
           <div className={styles.fleetGrid}>
             {loading ? (
-              <div className={styles.statLabel}>Loading fleet...</div>
+              <div className={styles.loadingText}>Loading fleet...</div>
             ) : fleet.map((v) => (
-              <div 
-                key={v.id} 
-                className={styles.fleetCard}
-                onMouseMove={handleMouseMove}
-                onMouseLeave={handleMouseLeave}
-              >
+              <div key={v.id} className={styles.fleetCard}>
                 <div className={styles.fleetImg}>
                   <Image src={v.image_url} alt={v.name} fill style={{ objectFit: "contain", padding: "1rem" }} sizes="(max-width: 768px) 100vw, 33vw" />
                   <span className={`badge badge-navy ${styles.typeBadge}`}>{v.category}</span>
@@ -301,43 +322,45 @@ export default function Home() {
                   </div>
                   <div className={styles.fleetFooter}>
                     <strong className={styles.fleetPrice}>{v.price_desc}</strong>
-                    <Link href="/" className="btn btn-primary btn-sm">Book</Link>
+                    <Link href="/" className="btn btn-primary btn-sm" scroll={false}>Book</Link>
                   </div>
                 </div>
               </div>
             ))}
           </div>
+          <div className={styles.fleetMore}>
+            <Link href="/fleet" className="btn btn-outline">View Full Fleet <ArrowRight size={15} /></Link>
+          </div>
         </div>
       </section>
 
-      {/* ══ HOW IT WORKS ═══════════════════════════════════════ */}
-      <section className={`${styles.processSection} reveal-on-scroll`} id="how-it-works" ref={addToRefs}>
+      <section className={`${styles.safetySection} reveal-on-scroll`} ref={addToRefs}>
         <div className="container">
           <div className={styles.sectionHead}>
-            <span className="section-label">Our Process</span>
-            <h2>How It Works</h2>
+            <span className="section-label">Your Safety Matters</span>
+            <h2>Safe Travels, Every Time</h2>
           </div>
-          <div className={styles.processGrid}>
-            {steps.map((s) => (
-              <div key={s.title} className={styles.processStep}>
-                <div className={styles.stepNumber}>{s.n}</div>
-                <h3>{s.title}</h3>
-                <p>{s.desc}</p>
+          <div className={styles.safetyGrid}>
+            {safetyFeatures.map(({ Icon, title, desc }) => (
+              <div key={title} className={styles.safetyCard}>
+                <div className={styles.safetyIcon}><Icon size={24} /></div>
+                <h3>{title}</h3>
+                <p>{desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ══ POPULAR ROUTES (Dynamic) ═══════════════════════════ */}
-      <section className={`${styles.routesSection} reveal-on-scroll`} ref={addToRefs}>
+      <section className={`${styles.pricingSection} reveal-on-scroll`} ref={addToRefs}>
         <div className="container">
           <div className={styles.sectionHead}>
-            <span className="section-label">Popular Routes</span>
-            <h2>Transparent Pricing — No Surprises</h2>
+            <span className="section-label">Transparent Pricing</span>
+            <h2>What You See Is What You Pay</h2>
+            <p>No surge pricing. No hidden fees. Toll, fuel & GST — all included.</p>
           </div>
-          <div className={styles.routesTableWrap}>
-            <table className={styles.routesTable}>
+          <div className={styles.pricingTableWrap}>
+            <table className={styles.pricingTable}>
               <thead>
                 <tr>
                   <th>Route</th>
@@ -352,71 +375,98 @@ export default function Home() {
                   <tr><td colSpan={5}>Loading routes...</td></tr>
                 ) : pricing.map((r) => (
                   <tr key={r.id}>
-                    <td>{r.from_city} → {r.to_city}</td>
-                    <td>{r.distance}</td>
+                    <td><span className={styles.routeFrom}>{r.from_city}</span> → <span className={styles.routeTo}>{r.to_city}</span></td>
+                    <td className={styles.routeKm}>{r.distance}</td>
                     <td className={styles.routePrice}>{r.sedan_price}</td>
                     <td className={styles.routePrice}>{r.suv_price}</td>
-                    <td><Link href="/" className="btn btn-primary btn-sm">Book</Link></td>
+                    <td><Link href={`/?pickup=${encodeURIComponent(r.from_city)}&drop=${encodeURIComponent(r.to_city)}`} className="btn btn-primary btn-sm" scroll={false}>Book</Link></td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
+          <p className={styles.pricingNote}>Fares may vary based on season and availability. Contact us for exact quote.</p>
         </div>
       </section>
 
-      {/* ══ TESTIMONIALS (Multi-Card Carousel) ═══════════════════ */}
       <section className={`${styles.testimonialsSection} reveal-on-scroll`} ref={addToRefs}>
         <div className="container">
           <div className={styles.sectionHead}>
-            <span className="section-label">What Customers Say</span>
+            <span className="section-label">Testimonials</span>
             <h2>Real Reviews from Real Riders</h2>
           </div>
-          
-          <div className={styles.carouselContainer}>
-            <div 
-              className={styles.carouselTrack} 
-              style={{ transform: `translateX(-${activeIndex * (100 / (typeof window !== 'undefined' && window.innerWidth < 768 ? 1 : 3))}%)` }}
-            >
-              {loading ? (
-                <div className={styles.statLabel} style={{ padding: '4rem' }}>Loading reviews...</div>
-              ) : reviews.length === 0 ? (
-                <div className={styles.statLabel} style={{ padding: '4rem' }}>No reviews found.</div>
-              ) : (
-                reviews.map((t) => (
-                  <div key={t.id} className={styles.carouselSlide}>
-                    <div 
-                      className={styles.testimonialCard}
-                      onMouseMove={handleMouseMove}
-                      onMouseLeave={handleMouseLeave}
-                    >
-                      <div className={styles.testimonialHeader}>
-                        <div className={styles.authorAvatar}>{t.author[0]}</div>
-                        <div className={styles.authorInfo}>
-                          <strong>{t.author}</strong>
-                        </div>
+          {loading ? (
+            <div className={styles.loadingText}>Loading reviews...</div>
+          ) : reviews.length === 0 ? (
+            <div className={styles.loadingText}>No reviews yet.</div>
+          ) : (
+            <>
+              <div className={styles.testimonialsGrid}>
+                {reviews.slice(0, 3).map((t) => (
+                  <div key={t.id} className={styles.testimonialCard}>
+                    <div className={styles.testimonialHeader}>
+                      <div className={styles.authorAvatar}>{t.author[0]}</div>
+                      <div className={styles.authorInfo}>
+                        <strong>{t.author}</strong>
                       </div>
-                      <div className={styles.stars}>{"★".repeat(t.rating)}</div>
-                      <p className={styles.testimonialText}>&ldquo;{t.text}&rdquo;</p>
-                      <Quote size={20} className={styles.quoteIcon} />
                     </div>
+                    <div className={styles.stars}>{"★".repeat(t.rating)}</div>
+                    <p className={styles.testimonialText}>&ldquo;{t.text}&rdquo;</p>
                   </div>
-                ))
-              )}
-            </div>
-
-            {reviews.length > 3 && (
-              <div className={styles.carouselDots}>
-                {reviews.slice(0, reviews.length - 2).map((_, i) => (
-                  <button 
-                    key={i} 
-                    className={`${styles.dot} ${i === activeIndex ? styles.activeDot : ''}`}
-                    onClick={() => setActiveIndex(i)}
-                    aria-label={`Go to slide ${i + 1}`}
-                  />
                 ))}
               </div>
-            )}
+              {reviews.length > 3 && (
+                <div className={styles.reviewsMore}>
+                  <Link href="/contact" className="btn btn-outline">Read All Reviews <ArrowRight size={15} /></Link>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      </section>
+
+      <section className={`${styles.faqSection} reveal-on-scroll`} ref={addToRefs}>
+        <div className="container">
+          <div className={styles.sectionHead}>
+            <span className="section-label">FAQs</span>
+            <h2>Got Questions? We&apos;ve Got Answers</h2>
+          </div>
+          <div className={styles.faqList}>
+            {[
+              { q: 'How do I book a cab?', a: 'Fill the booking form with your pickup, drop, date and time. We confirm via WhatsApp or phone within minutes. Or just call us at +91 97804 26567.' },
+              { q: 'What are your service areas?', a: 'We cover the entire Tricity (Chandigarh, Mohali, Panchkula, Derabassi, Zirakpur) plus outstation routes to Delhi, Manali, Shimla, Amritsar, Dehradun, Dharamshala, Jammu, and all of North India.' },
+              { q: 'Do you offer one-way cabs?', a: 'Yes! Our one-way service means you only pay for the onward journey. Perfect for airport drops and single-direction travel. No return fare charges.' },
+              { q: 'How are your drivers verified?', a: 'All drivers undergo background verification, document checks, and professional training. They are experienced on highways and hill roads.' },
+              { q: 'What vehicles do you offer?', a: 'We have Toyota Etios/Maruti Dzire (sedan, 4 seats), Toyota Innova Crysta (SUV, 6 seats), and Tempo Traveler (12 seats). All AC and sanitized.' },
+              { q: 'Can I modify or cancel my booking?', a: 'Yes, you can call or WhatsApp us to modify or cancel. We offer flexible cancellation policies.' },
+            ].map((faq, i) => (
+              <div key={i} className={`${styles.faqItem} ${activeFaq === i ? styles.faqItemOpen : ''}`}>
+                <button className={styles.faqQ} onClick={() => setActiveFaq(activeFaq === i ? null : i)}>
+                  <span>{faq.q}</span>
+                  <ChevronDown size={16} className={styles.faqChevron} />
+                </button>
+                <div className={styles.faqA} style={{ maxHeight: activeFaq === i ? '200px' : '0' }}>
+                  <p>{faq.a}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className={`${styles.ctaSection} reveal-on-scroll`} ref={addToRefs}>
+        <div className="container">
+          <div className={styles.ctaBox}>
+            <div className={styles.ctaContent}>
+              <h2>Ready to Ride?</h2>
+              <p>Book your cab now and get instant confirmation. Or call us — we&apos;re available 24/7.</p>
+              <div className={styles.ctaActions}>
+                <Link href="/" className={`btn btn-primary btn-lg`} scroll={false}>Book Now — Free Quote</Link>
+                <a href="tel:+919780426567" className={`btn btn-outline-white btn-lg ${styles.ctaPhone}`}>
+                  <Phone size={18} /> +91 97804 26567
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </section>

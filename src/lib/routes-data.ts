@@ -343,7 +343,7 @@ export const allRoutes: RouteData[] = [
     from: 'Chandigarh', to: 'Anywhere',
     fromCity: 'Chandigarh', toCity: 'Multiple Destinations',
     distance: 'Varies', duration: 'Varies',
-    sedanPrice: '₹12/km', suvPrice: '₹18/km',
+    sedanPrice: '₹7,500+', suvPrice: '₹9,999+',
     category: 'outstation',
     metaTitle: 'One Way Cab in Chandigarh | Drop-Off Taxi Service | LookRides',
     metaDesc: 'Book one-way cab from Chandigarh to any city. Pay only for one-way — no return fare. Delhi, Manali, Shimla, Amritsar & more. 24/7 service.',
@@ -358,7 +358,7 @@ export const allRoutes: RouteData[] = [
     popularBadge: 'Most Economical',
     faqs: [
       { q: 'What is a one-way cab?', a: 'A one-way cab means you pay only for the onward journey. No return fare charges. Perfect for airport drops.' },
-      { q: 'How is one-way pricing calculated?', a: 'We charge ₹12/km for sedan and ₹18/km for SUV (Innova). Toll charges are extra for certain routes.' },
+      { q: 'How is one-way pricing calculated?', a: 'We offer fixed point-to-point fares based on your destination. Contact us for an exact quote — no hidden charges, toll included on most routes.' },
       { q: 'Which destinations do you offer one-way to?', a: 'Delhi, Manali, Shimla, Amritsar, Dehradun, Jammu, and anywhere in North India. Just tell us where.' },
     ],
   },

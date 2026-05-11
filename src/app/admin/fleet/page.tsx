@@ -38,7 +38,7 @@ export default function FleetManagement() {
       category: 'Sedan',
       seats: 4,
       bags: 2,
-      price_desc: 'from ₹10/km',
+      price_desc: 'Fixed fare',
       image_url: '/etios.png',
       is_active: true,
       order_index: vehicles.length,
@@ -116,7 +116,7 @@ export default function FleetManagement() {
               <input 
                 value={formData.price_desc || ''} 
                 onChange={e => setFormData({...formData, price_desc: e.target.value})}
-                placeholder="e.g. from ₹16/km"
+                placeholder="e.g. Fixed fare"
               />
             </div>
             <div className={styles.formField}>

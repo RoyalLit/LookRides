@@ -117,7 +117,7 @@ const faqData = [
     "name": "Do you offer one-way cabs?",
     "acceptedAnswer": {
       "@type": "Answer",
-      "text": "Absolutely! Our one-way cab service means you only pay for the onward journey — no return fare. Perfect for airport drops, Delhi trips, and single-direction travel. Sedan: ₹6/km, Innova: ₹10/km."
+      "text": "Absolutely! Our one-way cab service means you only pay for the onward journey — no return fare. Perfect for airport drops, Delhi trips, and single-direction travel. Fixed fares based on destination."
     }
   },
   {

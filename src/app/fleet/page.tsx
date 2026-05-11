@@ -67,7 +67,9 @@ export default function FleetPage() {
                       </div>
                     </div>
                     <div className={styles.bestFor}>
-                      <span className={styles.bestForValue}>{v.price_desc}</span>
+                      <span className={styles.bestForValue}>
+                        {v.price_desc?.includes('/km') ? 'Fixed Fare' : v.price_desc}
+                      </span>
                     </div>
                   </div>
                   <div className={styles.cardFooter}>

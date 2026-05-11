@@ -71,6 +71,17 @@
   z-index: 50;
 }
 
+/* Bridge the gap between the link and the menu */
+.dropdownMenu::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: 0;
+  width: 100%;
+  height: 12px;
+  background: transparent;
+}
+
 .dropdownItem {
   display: block;
   padding: 0.6rem 1rem;

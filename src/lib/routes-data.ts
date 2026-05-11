@@ -8,7 +8,7 @@ export interface RouteData {
   duration: string;
   sedanPrice: string;
   suvPrice: string;
-  category: 'outstation' | 'airport';
+  category: 'outstation' | 'airport' | 'local';
   metaTitle: string;
   metaDesc: string;
   keywords: string[];

@@ -137,13 +137,14 @@ export default function Home() {
             </div>
 
             <h1 className={styles.heroTitle}>
-              North India&apos;s Premium<br />
-              <span className="text-gradient">Intercity Cab Service</span>
+              <span className="text-gradient">Reliable Intercity Cabs</span><br />
+              Book in Under 30 Seconds
             </h1>
 
             <p className={styles.heroSubtitle}>
-              Chandigarh · Derabassi · Zirakpur · Mohali · Panchkula — serving Delhi, Manali, 
-              Shimla, Amritsar & all of North India. <strong>Fixed fares, verified drivers, zero surprises.</strong>
+              Fixed fares, verified drivers, 24/7 support. Premium outstation
+              and airport transfers from Chandigarh, Mohali, Zirakpur,
+              Panchkula &amp; Derabassi to Delhi, Manali, Shimla, Amritsar &amp; beyond.
             </p>
 
             <div className={styles.heroActions}>

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { Shield, Star, Banknote, Clock, Award, Users } from 'lucide-react';
 import styles from './about.module.css';
 
@@ -63,7 +64,14 @@ export default function AboutPage() {
 
             <div className={styles.storyVisual}>
               <div className={styles.visualBox}>
-                <p>Company Photo</p>
+                <Image 
+                  src="/company-fleet.jpg" 
+                  alt="LookRides Fleet" 
+                  fill 
+                  style={{ objectFit: 'cover' }}
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className={styles.storyImage}
+                />
               </div>
             </div>
           </div>

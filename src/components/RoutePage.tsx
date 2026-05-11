@@ -76,13 +76,17 @@ function RouteHero({ route }: { route: RouteData }) {
         .routeBreadcrumb { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: rgba(255,255,255,0.5); margin-bottom: 1.5rem; flex-wrap: wrap; }
         .routeBreadcrumb a { color: rgba(255,255,255,0.5); transition: color 200ms; }
         .routeBreadcrumb a:hover { color: #FCA311; }
-        .routeHeroTitle { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; margin-bottom: 1rem; line-height: 1.2; }
-        .routeHeroSubtitle { font-size: 1.1rem; opacity: 0.85; max-width: 600px; margin-bottom: 2rem; line-height: 1.6; }
+        .routeHeroTitle { font-size: clamp(2rem, 5vw, 3.75rem); font-weight: 800; margin-bottom: 1rem; line-height: 1.1; color: #FFFFFF; }
+        .routeHeroSubtitle { font-size: 1.15rem; color: rgba(255,255,255,0.85); max-width: 650px; margin-bottom: 2.5rem; line-height: 1.6; }
         .routeHeroStats { display: flex; gap: 3rem; flex-wrap: wrap; }
         .routeStat { display: flex; flex-direction: column; gap: 0.25rem; }
-        .routeStatValue { font-size: 1.5rem; font-weight: 700; color: #FCA311; }
-        .routeStatLabel { font-size: 0.85rem; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.05em; }
-        @media (max-width: 768px) { .routeHeroStats { gap: 1.5rem; } }
+        .routeStatValue { font-size: 1.6rem; font-weight: 700; color: #FCA311; }
+        .routeStatLabel { font-size: 0.8rem; opacity: 0.8; text-transform: uppercase; letter-spacing: 0.1em; }
+        @media (max-width: 768px) { 
+          .routeHero { padding: 3rem 0; }
+          .routeHeroStats { gap: 1.5rem; justify-content: space-between; } 
+          .routeStatValue { font-size: 1.25rem; }
+        }
       `}</style>
       <div className="container">
         <nav className="routeBreadcrumb" aria-label="Breadcrumb">

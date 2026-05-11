@@ -23,7 +23,6 @@ const servicesList = [
     description: 'Planning a trip to the hills or another city? We offer one-way drops and round-trip packages across North India. Travel comfortably to Manali, Shimla, Dharamshala, Delhi, or Amritsar with experienced mountain drivers.',
     features: ['Experienced Hill Drivers', 'Flexible Packages', 'Transparent Toll Billing', 'Comfortable Long Drives'],
   },
-
 ];
 
 export default function ServicesPage() {

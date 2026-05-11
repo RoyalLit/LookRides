@@ -321,9 +321,7 @@ export default function Home() {
                     <span><Luggage size={14} /> {v.bags} bags</span>
                   </div>
                   <div className={styles.fleetFooter}>
-                    <strong className={styles.fleetPrice}>
-                      {v.price_desc?.includes('/km') ? 'Fixed Fare' : v.price_desc}
-                    </strong>
+                    <span className={styles.fleetFeature}>Premium & AC</span>
                     <Link href="/" className="btn btn-primary btn-sm" scroll={false}>Book</Link>
                   </div>
                 </div>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { supabase, GoogleReview } from '@/lib/supabase';
+import { supabaseBrowser as supabase, GoogleReview } from '@/lib/supabase-browser';
 import { Plus, Edit2, Trash2, Save, X, Star, Eye, EyeOff } from 'lucide-react';
 import styles from '../admin.module.css';
 

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
-import { supabase, BookingRequest } from '@/lib/supabase';
+import { supabaseBrowser as supabase, BookingRequest } from '@/lib/supabase-browser';
 import { Check, X, Phone, User, Calendar } from 'lucide-react';
 import styles from '../admin.module.css';
 

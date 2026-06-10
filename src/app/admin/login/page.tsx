@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import styles from './login.module.css';
-import { supabase } from '@/lib/supabase';
+import { supabaseBrowser as supabase } from '@/lib/supabase-browser';
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('');
@@ -28,7 +28,7 @@ export default function AdminLogin() {
       }
 
       // Hard redirect forces a fresh layout mount
-      // getSession() in layout reads from localStorage where signInWithPassword persisted the session
+      // getSession() in layout reads from cookie where signInWithPassword persisted the session
       window.location.href = '/admin';
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Failed to authenticate');

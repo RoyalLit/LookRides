@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { supabase, PricingRoute } from '@/lib/supabase';
+import { supabaseBrowser as supabase, PricingRoute } from '@/lib/supabase-browser';
 import { Plus, Edit2, Trash2, Save, X, Map } from 'lucide-react';
 import styles from '../admin.module.css';
 

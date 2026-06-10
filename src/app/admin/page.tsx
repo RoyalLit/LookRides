@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { supabase, BookingRequest } from '@/lib/supabase';
+import { supabaseBrowser as supabase, BookingRequest } from '@/lib/supabase-browser';
 import styles from './admin.module.css';
 
 export default function AdminDashboard() {

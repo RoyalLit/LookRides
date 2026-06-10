@@ -26,9 +26,7 @@ export default function AdminLogin() {
       if (error) throw error;
       
       if (data.session) {
-        // Redirect to admin dashboard
         router.push('/admin');
-        router.refresh();
       }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Failed to authenticate');

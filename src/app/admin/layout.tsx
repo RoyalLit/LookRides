@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
+import { useEffect, useState, useCallback } from 'react';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 import { LayoutDashboard, Car, Map, Star, Settings, LogOut, CalendarCheck } from 'lucide-react';
@@ -15,38 +15,40 @@ export default function AdminLayout({
 }) {
   const [loading, setLoading] = useState(true);
   const [authError, setAuthError] = useState(false);
-  const router = useRouter();
   const pathname = usePathname();
 
+  const redirect = useCallback((to: string) => {
+    if (typeof window !== 'undefined') {
+      window.location.href = to;
+    }
+  }, []);
+
   useEffect(() => {
-    const checkSession = async () => {
-      try {
-        const { data: { session } } = await supabase.auth.getSession();
-
-        if (!session && pathname !== '/admin/login') {
-          router.push('/admin/login');
-        } else if (session && pathname === '/admin/login') {
-          router.push('/admin');
-          setLoading(false);
-        } else {
-          setLoading(false);
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        if (event === 'SIGNED_IN') {
+          if (pathname === '/admin/login') redirect('/admin');
+          else setLoading(false);
+        } else if (event === 'INITIAL_SESSION') {
+          if (session) {
+            if (pathname === '/admin/login') redirect('/admin');
+            else setLoading(false);
+          } else {
+            if (pathname !== '/admin/login') redirect('/admin/login');
+            else setLoading(false);
+          }
+        } else if (event === 'SIGNED_OUT') {
+          if (pathname !== '/admin/login') redirect('/admin/login');
+          else setLoading(false);
         }
-      } catch {
-        setAuthError(true);
-        setLoading(false);
       }
-    };
+    );
 
-    checkSession();
-  }, [router, pathname]);
+    return () => subscription?.unsubscribe();
+  }, [pathname, redirect]);
 
   const handleSignOut = async () => {
-    try {
-      await supabase.auth.signOut();
-    } catch {
-      // signOut failed silently
-    }
-    router.push('/admin/login');
+    await supabase.auth.signOut();
   };
 
   if (loading) {
@@ -62,7 +64,7 @@ export default function AdminLayout({
     return (
       <div className={styles.loadingContainer}>
         <p>Failed to verify session. Please try logging in again.</p>
-        <button onClick={() => router.push('/admin/login')} className="btn btn-primary btn-sm">
+        <button onClick={() => redirect('/admin/login')} className="btn btn-primary btn-sm">
           Go to Login
         </button>
       </div>

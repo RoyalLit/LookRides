@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { supabase, PricingRoute } from '@/lib/supabase';
 import { Plus, Edit2, Trash2, Save, X, Map } from 'lucide-react';
 import styles from '../admin.module.css';
@@ -11,7 +11,7 @@ export default function PricingManagement() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState<Partial<PricingRoute>>({});
 
-  const fetchRoutes = async () => {
+  const fetchRoutes = useCallback(async () => {
     setLoading(true);
     const { data, error } = await supabase
       .from('pricing_routes')
@@ -20,18 +20,18 @@ export default function PricingManagement() {
     
     if (!error && data) setRoutes(data);
     setLoading(false);
-  };
+  }, []);
 
-  const handleEdit = (route: PricingRoute) => {
+  const handleEdit = useCallback((route: PricingRoute) => {
     setEditingId(route.id);
     setFormData(route);
-  };
+  }, []);
 
   useEffect(() => {
     fetchRoutes();
-  }, [fetchRoutes]);
+  }, []);
 
-  const handleAddNew = () => {
+  const handleAddNew = useCallback(() => {
     setEditingId('new');
     setFormData({
       from_city: '',
@@ -41,25 +41,39 @@ export default function PricingManagement() {
       suv_price: '',
       order_index: routes.length,
     });
-  };
+  }, []);
 
-  const handleSave = async () => {
-    if (editingId === 'new') {
-      const { error } = await supabase.from('pricing_routes').insert([formData]);
-      if (!error) fetchRoutes();
-    } else {
-      const { error } = await supabase.from('pricing_routes').update(formData).eq('id', editingId);
-      if (!error) fetchRoutes();
+  const handleSave = useCallback(async () => {
+    if (!formData.from_city?.trim()) { alert('From (Source) location is required.'); return; }
+    if (!formData.to_city?.trim()) { alert('To (Destination) location is required.'); return; }
+    if (!formData.sedan_price?.toString().trim()) { alert('Sedan price is required.'); return; }
+    if (!formData.suv_price?.toString().trim()) { alert('SUV price is required.'); return; }
+
+    try {
+      if (editingId === 'new') {
+        const { error } = await supabase.from('pricing_routes').insert([formData]);
+        if (error) { alert('Failed to add route: ' + error.message); return; }
+      } else {
+        const { error } = await supabase.from('pricing_routes').update(formData).eq('id', editingId);
+        if (error) { alert('Failed to update route: ' + error.message); return; }
+      }
+      fetchRoutes();
+      setEditingId(null);
+    } catch (err: unknown) {
+      alert('An unexpected error occurred: ' + (err instanceof Error ? err.message : 'Unknown error'));
     }
-    setEditingId(null);
-  };
+  }, []);
 
-  const handleDelete = async (id: string) => {
-    if (confirm('Are you sure you want to delete this route?')) {
+  const handleDelete = useCallback(async (id: string) => {
+    if (!confirm('Are you sure you want to delete this route?')) return;
+    try {
       const { error } = await supabase.from('pricing_routes').delete().eq('id', id);
-      if (!error) fetchRoutes();
+      if (error) { alert('Failed to delete route: ' + error.message); return; }
+      fetchRoutes();
+    } catch (err: unknown) {
+      alert('An unexpected error occurred: ' + (err instanceof Error ? err.message : 'Unknown error'));
     }
-  };
+  }, []);
 
   return (
     <div className={styles.dashboardContainer}>

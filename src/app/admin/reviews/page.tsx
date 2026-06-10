@@ -1,18 +1,17 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { supabase, GoogleReview } from '@/lib/supabase';
-import { Plus, Edit2, Trash2, Save, X, Star, RefreshCw, Eye, EyeOff } from 'lucide-react';
+import { Plus, Edit2, Trash2, Save, X, Star, Eye, EyeOff } from 'lucide-react';
 import styles from '../admin.module.css';
 
 export default function ReviewsManagement() {
   const [reviews, setReviews] = useState<GoogleReview[]>([]);
   const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState<Partial<GoogleReview>>({});
 
-  const fetchReviews = async () => {
+  const fetchReviews = useCallback(async () => {
     setLoading(true);
     const { data, error } = await supabase
       .from('reviews')
@@ -21,49 +20,28 @@ export default function ReviewsManagement() {
     
     if (!error && data) setReviews(data);
     setLoading(false);
-  };
-
-  const handleRefresh = async () => {
-    setRefreshing(true);
-    try {
-      const mockReviews = [
-        { author: "Vivak Anand", city: "Chandigarh", rating: 5, text: "The Innova Crysta was spotlessly clean and super comfortable. Driver was on time and very professional for our Chandigarh to Delhi Airport transfer. Highly recommend LookRides!", is_visible: true },
-        { author: "Lovish Manchanda", city: "Derabassi", rating: 5, text: "Proper hygiene maintained throughout the journey. Driver was punctual and courteous. Best taxi service I've used in the tricity area. Will definitely book again.", is_visible: true },
-        { author: "Abhishek Kumar", city: "Mohali", rating: 5, text: "The Toyota Innova Crysta is a statement of comfort and reliability. Had a fantastic experience on the Chandigarh to Shimla route. 5 stars without a doubt!", is_visible: true }
-      ];
-
-      const { error } = await supabase.from('reviews').insert(mockReviews);
-      if (error) throw error;
-      
-      await fetchReviews();
-      alert('Successfully synced reviews from Google!');
-    } catch (err: unknown) {
-      alert('Failed to sync: ' + (err instanceof Error ? err.message : 'Unknown error'));
-    } finally {
-      setRefreshing(false);
-    }
-  };
+  }, []);
 
   useEffect(() => {
     fetchReviews();
-  }, [fetchReviews]);
+  }, []);
 
-  const handleToggleVisibility = async (review: GoogleReview) => {
+  const handleToggleVisibility = useCallback(async (review: GoogleReview) => {
     const { error } = await supabase
       .from('reviews')
       .update({ is_visible: !review.is_visible })
       .eq('id', review.id);
     if (!error) fetchReviews();
-  };
+  }, []);
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = useCallback(async (id: string) => {
     if (confirm('Delete this review?')) {
       const { error } = await supabase.from('reviews').delete().eq('id', id);
       if (!error) fetchReviews();
     }
-  };
+  }, []);
 
-  const handleSave = async () => {
+  const handleSave = useCallback(async () => {
     if (editingId === 'new') {
       const { error } = await supabase.from('reviews').insert([formData]);
       if (!error) fetchReviews();
@@ -72,26 +50,20 @@ export default function ReviewsManagement() {
       if (!error) fetchReviews();
     }
     setEditingId(null);
-  };
+  }, []);
 
-  const handleEdit = (review: GoogleReview) => {
+  const handleEdit = useCallback((review: GoogleReview) => {
     setEditingId(review.id);
     setFormData(review);
-  };
+  }, []);
 
   return (
     <div className={styles.dashboardContainer}>
       <header className={styles.pageHeader}>
         <h1>Customer Reviews</h1>
-        <div className={styles.pageActions}>
-          <button className={`btn btn-primary btn-sm`} onClick={handleRefresh} disabled={refreshing}>
-            <RefreshCw size={16} className={refreshing ? 'spin' : ''} /> 
-            {refreshing ? 'Syncing...' : 'Sync Google Reviews'}
-          </button>
-          <button className="btn btn-outline btn-sm" onClick={() => { setEditingId('new'); setFormData({ author: '', text: '', rating: 5, city: '', is_visible: true }); }}>
-            <Plus size={16} /> Add Manual
-          </button>
-        </div>
+        <button className="btn btn-outline btn-sm" onClick={() => { setEditingId('new'); setFormData({ author: '', text: '', rating: 5, city: '', is_visible: true }); }}>
+          <Plus size={16} /> Add Review
+        </button>
       </header>
 
       {editingId && (
@@ -147,7 +119,7 @@ export default function ReviewsManagement() {
         ) : reviews.length === 0 ? (
           <div className={styles.emptyState}>
             <Star size={48} opacity={0.2} style={{ marginBottom: '1rem' }} />
-            <p>No reviews found. Try syncing with Google.</p>
+            <p>No reviews found. Click "Add Review" to add one.</p>
           </div>
         ) : (
           <table className={styles.table}>

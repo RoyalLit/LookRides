@@ -28,8 +28,8 @@ export default function Logo({ variant = 'dark', height = 80 }: { variant?: 'dar
         <Image
           src={src}
           alt={alt}
-          width={1024}
-          height={1024}
+          width={160}
+          height={60}
           style={{ 
             position: 'absolute',
             objectFit: 'contain',

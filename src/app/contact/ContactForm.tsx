@@ -41,12 +41,14 @@ export default function ContactForm() {
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
-      {success && (
-        <div className={styles.successBox}>✓ &nbsp;Message sent! We&apos;ll get back to you shortly.</div>
-      )}
-      {error && (
-        <div className={styles.errorBox}>{error}</div>
-      )}
+      <div aria-live="polite" role="status">
+        {success && (
+          <div className={styles.successBox}>✓ &nbsp;Message sent! We&apos;ll get back to you shortly.</div>
+        )}
+        {error && (
+          <div className={styles.errorBox}>{error}</div>
+        )}
+      </div>
 
       <div className={styles.formRow}>
         <div className={styles.field}>

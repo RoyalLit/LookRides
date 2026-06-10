@@ -9,12 +9,27 @@ export type BookingRequest = {
   id: string;
   pickup_location: string;
   drop_location: string;
+  passenger_name: string | null;
+  phone: string | null;
   date: string;
   time: string;
-  passenger_name?: string;
-  phone?: string;
   status: 'pending' | 'confirmed' | 'completed' | 'cancelled';
   created_at: string;
+};
+
+export type SiteSetting = {
+  id: number;
+  key: string;
+  value: any;
+  updated_at: string | null;
+};
+
+export type Database = {
+  booking_requests: BookingRequest;
+  site_settings: SiteSetting;
+  fleet: FleetVehicle;
+  pricing_routes: PricingRoute;
+  reviews: GoogleReview;
 };
 
 export type FleetVehicle = {

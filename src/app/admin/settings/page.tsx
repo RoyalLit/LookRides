@@ -1,38 +1,60 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { supabase } from '@/lib/supabase';
+import { useState, useEffect, useCallback } from 'react';
 import { Save, Globe, Star } from 'lucide-react';
 import styles from '../admin.module.css';
 
 export default function SettingsManagement() {
   const [settings, setSettings] = useState<{key: string, value: string}[]>([]);
-  const [, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
-  const fetchSettings = async () => {
+  const fetchSettings = useCallback(async () => {
     setLoading(true);
-    const { data, error } = await supabase.from('site_settings').select('*');
-    if (!error && data) setSettings(data);
+    try {
+      const res = await fetch('/api/admin/settings');
+      if (!res.ok) {
+        const err = await res.json();
+        alert('Failed to load settings: ' + (err.error || 'Unknown error'));
+        return;
+      }
+      const data = await res.json();
+      setSettings(data);
+    } catch (err: unknown) {
+      alert('Failed to load settings: ' + (err instanceof Error ? err.message : 'Network error'));
+    }
     setLoading(false);
-  };
+  }, []);
 
-  const handleUpdate = (key: string, value: string) => {
+  const handleUpdate = useCallback((key: string, value: string) => {
     setSettings(prev => prev.map(s => s.key === key ? { ...s, value } : s));
-  };
+  }, []);
 
   useEffect(() => {
     fetchSettings();
-  }, [fetchSettings]);
+  }, []);
 
-  const handleSave = async () => {
+  const handleSave = useCallback(async () => {
     setSaving(true);
-    for (const setting of settings) {
-      await supabase.from('site_settings').update({ value: setting.value }).eq('key', setting.key);
+    try {
+      for (const setting of settings) {
+        const res = await fetch('/api/admin/settings', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ key: setting.key, value: setting.value }),
+        });
+        if (!res.ok) {
+          const err = await res.json();
+          alert('Failed to save "' + setting.key + '": ' + (err.error || 'Unknown error'));
+          return;
+        }
+      }
+      alert('Settings updated successfully!');
+    } catch (err: unknown) {
+      alert('Failed to save settings: ' + (err instanceof Error ? err.message : 'Network error'));
     }
     setSaving(false);
-    alert('Settings updated successfully!');
-  };
+  }, []);
 
   return (
     <div className={styles.dashboardContainer}>
@@ -43,6 +65,9 @@ export default function SettingsManagement() {
         </button>
       </header>
 
+      {loading ? (
+        <p>Loading settings...</p>
+      ) : (
       <div className={styles.formGrid}>
         <div className={`glass-panel ${styles.tableContainer}`} style={{ gridColumn: 'span 1' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
@@ -90,16 +115,6 @@ export default function SettingsManagement() {
             <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Bookings will be sent here via Resend.</p>
           </div>
 
-          <div className={styles.formField} style={{ marginBottom: '1.5rem' }}>
-            <label>Telegram Bot Token (For Free Alerts)</label>
-            <input 
-              type="password" 
-              value={settings.find(s => s.key === 'telegram_bot_token')?.value || ''} 
-              onChange={e => handleUpdate('telegram_bot_token', e.target.value)}
-              placeholder="Enter Bot Token from @BotFather"
-            />
-          </div>
-
           <div className={styles.formField}>
             <label>Telegram Chat ID</label>
             <input 
@@ -111,7 +126,8 @@ export default function SettingsManagement() {
             <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Get instant WhatsApp-like alerts for FREE.</p>
           </div>
         </div>
-      </div>
+        </div>
+      )}
     </div>
   );
 }

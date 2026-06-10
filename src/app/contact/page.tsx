@@ -6,11 +6,47 @@ import styles from './contact.module.css';
 export const metadata: Metadata = {
   title: 'Contact LookRides | Taxi Booking in Derabassi & Chandigarh',
   description: 'Contact LookRides for taxi bookings, corporate travel, and support. Call +91 97804 26567 or email info@lookride.in. Based in Derabassi, near Chandigarh.',
+  openGraph: {
+    title: 'Contact LookRides | 24/7 Taxi Booking Support',
+    description: 'Call +91 97804 26567 or email info@lookride.in. Available 24/7 for airport transfers, outstation trips & corporate travel across North India.',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Contact LookRides Taxi Service',
+    description: 'Book your ride: +91-9780426567. 24/7 customer support for bookings & inquiries.',
+  },
+};
+
+const contactJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://lookrides.com" },
+        { "@type": "ListItem", "position": 2, "name": "Contact", "item": "https://lookrides.com/contact" },
+      ],
+    },
+    {
+      "@type": "ContactPoint",
+      "telephone": "+91-9780426567",
+      "contactType": "customer service",
+      "availableLanguage": ["Hindi", "English", "Punjabi"],
+      "areaServed": ["IN"],
+      "hoursAvailable": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+        "opens": "00:00",
+        "closes": "23:59",
+      },
+    },
+  ],
 };
 
 export default function ContactPage() {
   return (
     <div className={styles.page}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(contactJsonLd) }} />
       <header className={styles.pageHeader}>
         <div className="container">
           <p className={styles.headerLabel}>We&apos;re Here to Help</p>

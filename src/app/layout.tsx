@@ -35,6 +35,17 @@ export const metadata: Metadata = {
     "lookrides", "taxi booking chandigarh", "online cab booking",
     "24 hour taxi service", "best cab service in chandigarh",
     "chandigarh taxi service", "derabassi cab service",
+    "cab near me", "taxi near me", "chandigarh to jammu taxi",
+    "chandigarh to dehradun taxi", "chandigarh to dharamshala taxi",
+    "chandigarh to ludhiana taxi", "chandigarh airport to mohali",
+    "chandigarh airport to panchkula", "chandigarh airport to zirakpur",
+    "chandigarh to katra taxi", "chandigarh to haridwar taxi",
+    "taxi service panchkula", "taxi service mohali",
+    "car rental chandigarh", "chandigarh taxi fare",
+    "outstation cab booking", "intercity taxi near me",
+    "chandigarh cab service 24 hours", "round trip taxi chandigarh",
+    "tempo traveller on rent chandigarh", "innova on rent chandigarh",
+    "taxi for delhi airport from chandigarh",
   ],
   authors: [{ name: "LookRides", url: siteUrl }],
   creator: "LookRides",
@@ -62,81 +73,22 @@ export const metadata: Metadata = {
     ],
     apple: "/logo.png",
   },
-  alternates: { canonical: siteUrl },
+  alternates: {
+    canonical: siteUrl,
+    languages: { 'en-in': siteUrl, 'en': siteUrl },
+  },
+  verification: {
+    ...(process.env.GOOGLE_SITE_VERIFICATION ? { google: process.env.GOOGLE_SITE_VERIFICATION } : {}),
+  },
   category: "travel",
   classification: "Transportation",
 };
 
 export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
   themeColor: "#0B132B",
 };
-
-const faqData = [
-  {
-    "@type": "Question",
-    "name": "How do I book a cab with LookRides?",
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": "Fill in the booking form on the homepage with your pickup, drop, date and time. We confirm via WhatsApp or phone within minutes. You can also call us directly at +91 97804 26567 for instant booking."
-    }
-  },
-  {
-    "@type": "Question",
-    "name": "What is the fare from Chandigarh to Delhi?",
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": "The one-way fare from Chandigarh to Delhi is ₹3,500 for a sedan (Etios/Dzire) and ₹5,500 for an Innova Crysta SUV. All tolls, fuel, and GST are included — no hidden charges."
-    }
-  },
-  {
-    "@type": "Question",
-    "name": "Do you provide airport pick-up and drop?",
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": "Yes! We provide 24/7 airport transfers to and from Chandigarh (IXC) and Delhi (IGI) airports. Our drivers track flights for timely pickups. Fare from Derabassi to Chandigarh Airport starts at ₹600."
-    }
-  },
-  {
-    "@type": "Question",
-    "name": "What vehicles do you have?",
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": "Our fleet includes Toyota Etios/Maruti Dzire (Sedan, 4 seats), Toyota Innova Crysta (SUV, 6 seats), and Tempo Traveler (MUV, 12 seats). All vehicles are well-maintained, sanitized, and AC equipped."
-    }
-  },
-  {
-    "@type": "Question",
-    "name": "Are your drivers verified?",
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": "All our drivers are background-verified, professionally trained, and follow strict hygiene protocols. They are experienced on routes across North India including hill roads and highways."
-    }
-  },
-  {
-    "@type": "Question",
-    "name": "Do you offer one-way cabs?",
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": "Absolutely! Our one-way cab service means you only pay for the onward journey — no return fare. Perfect for airport drops, Delhi trips, and single-direction travel. Fixed fares based on destination."
-    }
-  },
-  {
-    "@type": "Question",
-    "name": "What payment methods are accepted?",
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": "We accept Cash, UPI (Google Pay, PhonePe, Paytm), and bank transfers. Payment is collected at the end of your journey. Online payment options coming soon."
-    }
-  },
-  {
-    "@type": "Question",
-    "name": "Does LookRides serve my area?",
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": "We serve the entire Tricity area plus outstation routes to Delhi, Manali, Shimla, Amritsar, Dehradun, Dharamshala, Jammu, and all of North India."
-    }
-  },
-];
 
 const breadcrumbData = {
   "@context": "https://schema.org",
@@ -227,10 +179,6 @@ const structuredData = {
           reviewBody: "Toyota Innova Crysta is a statement of comfort and reliability. Great experience on the Chandigarh to Shimla route.",
         },
       ],
-    },
-    {
-      "@type": "FAQPage",
-      "mainEntity": faqData,
     },
   ],
 };

@@ -303,6 +303,12 @@
   gap: 0.75rem;
 }
 
+.pageActions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
 .editBtn, .deleteBtn {
   background: #F1F5F9;
   border: none;

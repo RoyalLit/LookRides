@@ -5,7 +5,16 @@ import styles from './services.module.css';
 
 export const metadata: Metadata = {
   title: 'Our Taxi Services | Airport Transfers & Outstation Cabs - LookRides',
-  description: 'LookRides provides 24/7 airport transfers and outstation trips from Chandigarh and Zirakpur to Delhi, Himachal Pradesh, and across Punjab.',
+  description: 'LookRides provides 24/7 airport transfers and outstation trips from Chandigarh/Zirakpur to Delhi, Manali, Shimla, Amritsar, Dehradun, and across North India. Premium fleet with verified drivers.',
+  openGraph: {
+    title: 'Taxi Services in Chandigarh | Airport & Outstation | LookRides',
+    description: '24/7 airport transfers to IGI Delhi & Chandigarh Airport. Outstation one-way and round-trip cabs across North India. Book sedan, Innova or Tempo Traveler.',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'LookRides Services | Airport Transfer & Outstation Taxi',
+    description: 'Premium airport & outstation taxi service in Chandigarh, Mohali, Zirakpur. Available 24/7.',
+  },
 };
 
 const servicesList = [
@@ -25,9 +34,49 @@ const servicesList = [
   },
 ];
 
+const serviceJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://lookrides.com" },
+        { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://lookrides.com/services" },
+      ],
+    },
+    {
+      "@type": ["ProfessionalService", "TaxiService"],
+      "@id": "https://lookrides.com/services",
+      "name": "LookRides Taxi Services",
+      "description": "24/7 airport transfers and outstation cab services from Chandigarh, Mohali, Zirakpur, Panchkula & Derabassi to Delhi, Manali, Shimla, Amritsar and across North India.",
+      "provider": { "@type": "LocalBusiness", "@id": "https://lookrides.com/#business" },
+      "areaServed": [
+        { "@type": "City", "name": "Chandigarh" },
+        { "@type": "City", "name": "Mohali" },
+        { "@type": "City", "name": "Zirakpur" },
+        { "@type": "City", "name": "Panchkula" },
+        { "@type": "City", "name": "Derabassi" },
+        { "@type": "City", "name": "Delhi" },
+        { "@type": "State", "name": "Punjab" },
+        { "@type": "State", "name": "Himachal Pradesh" },
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Taxi Services",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Airport Transfer" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Outstation One-Way Cab" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Outstation Round-Trip" } },
+        ],
+      },
+    },
+  ],
+};
+
 export default function ServicesPage() {
   return (
     <div className={styles.page}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }} />
       <header className={styles.pageHeader}>
         <div className="container">
           <p className={styles.headerLabel}>What We Offer</p>

@@ -4,6 +4,18 @@ import { supabase } from './supabase';
 const resendApiKey = process.env.RESEND_API_KEY || '';
 export const resend = new Resend(resendApiKey);
 
+function htmlEscape(str: string | null | undefined): string {
+  if (!str) return '';
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;');
+}
+
+const fromEmail = process.env.RESEND_FROM_EMAIL || 'LookRides <onboarding@resend.dev>';
+
 /**
  * Fetches notification settings from Supabase and sends alerts via Email and Telegram
  */
@@ -14,11 +26,11 @@ export const sendBookingNotification = async (bookingDetails: {
   phone?: string;
   date?: string;
   time?: string;
+  notes?: string;
 }) => {
   try {
-    // 1. Fetch settings from DB
     const { data: settings } = await supabase.from('site_settings').select('*');
-    
+
     const targetEmail = settings?.find(s => s.key === 'notification_email')?.value || 'info@lookride.in';
     const tgToken = settings?.find(s => s.key === 'telegram_bot_token')?.value;
     const tgChatId = settings?.find(s => s.key === 'telegram_chat_id')?.value;
@@ -33,32 +45,40 @@ export const sendBookingNotification = async (bookingDetails: {
       Drop: ${bookingDetails.drop_location}
       Date: ${bookingDetails.date}
       Time: ${bookingDetails.time}
-      
+      Notes: ${bookingDetails.notes || 'N/A'}
+
       Manage lead: https://lookrides.in/admin/bookings
     `;
 
-    // 2. Send Email via Resend
+    const pn = htmlEscape(bookingDetails.passenger_name);
+    const ph = htmlEscape(bookingDetails.phone);
+    const pu = htmlEscape(bookingDetails.pickup_location);
+    const dr = htmlEscape(bookingDetails.drop_location);
+    const da = htmlEscape(bookingDetails.date);
+    const ti = htmlEscape(bookingDetails.time);
+    const nt = htmlEscape(bookingDetails.notes);
+
     const emailPromise = resend.emails.send({
-      from: 'LookRides <onboarding@resend.dev>',
+      from: fromEmail,
       to: [targetEmail],
       subject: emailSubject,
       text: messageBody,
       html: `
         <div style="font-family: sans-serif; padding: 20px; color: #0B132B;">
           <h2 style="color: #FCA311;">&#x1F69C; New Booking Request</h2>
-          <p><strong>Customer:</strong> ${bookingDetails.passenger_name}</p>
-          <p><strong>Phone:</strong> ${bookingDetails.phone}</p>
-          <p><strong>Pickup:</strong> ${bookingDetails.pickup_location}</p>
-          <p><strong>Drop:</strong> ${bookingDetails.drop_location}</p>
-          <p><strong>Date:</strong> ${bookingDetails.date}</p>
-          <p><strong>Time:</strong> ${bookingDetails.time}</p>
+          <p><strong>Customer:</strong> ${pn}</p>
+          <p><strong>Phone:</strong> ${ph}</p>
+          <p><strong>Pickup:</strong> ${pu}</p>
+          <p><strong>Drop:</strong> ${dr}</p>
+          <p><strong>Date:</strong> ${da}</p>
+          <p><strong>Time:</strong> ${ti}</p>
+          ${nt ? `<p><strong>Notes:</strong> ${nt}</p>` : ''}
           <hr/>
           <p><a href="https://lookrides.in/admin/bookings" style="background: #FCA311; color: #0B132B; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">Manage in Dashboard</a></p>
         </div>
       `,
     });
 
-    // 3. Send Telegram Alert (if configured)
     let telegramPromise: Promise<unknown> = Promise.resolve();
     if (tgToken && tgChatId) {
       const tgUrl = `https://api.telegram.org/bot${tgToken}/sendMessage`;
@@ -67,7 +87,7 @@ export const sendBookingNotification = async (bookingDetails: {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           chat_id: tgChatId,
-          text: `🚕 *New Booking Request*\n\n👤 *${bookingDetails.passenger_name}*\n📞 ${bookingDetails.phone}\n📍 From: ${bookingDetails.pickup_location}\n🏁 To: ${bookingDetails.drop_location}\n📅 ${bookingDetails.date} at ${bookingDetails.time}`,
+          text: `🚕 *New Booking Request*\n\n👤 *${bookingDetails.passenger_name || 'N/A'}*\n📞 ${bookingDetails.phone || 'N/A'}\n📍 From: ${bookingDetails.pickup_location}\n🏁 To: ${bookingDetails.drop_location}\n📅 ${bookingDetails.date} at ${bookingDetails.time}`,
           parse_mode: 'Markdown'
         })
       });
@@ -77,6 +97,73 @@ export const sendBookingNotification = async (bookingDetails: {
     return { success: true };
   } catch (err) {
     console.error('Notification system failed:', err);
+    return { success: false, error: err };
+  }
+};
+
+export const sendContactNotification = async (contactDetails: {
+  name: string;
+  email: string;
+  phone?: string;
+  message: string;
+}) => {
+  try {
+    const { data: settings } = await supabase.from('site_settings').select('*');
+
+    const targetEmail = settings?.find(s => s.key === 'notification_email')?.value || 'info@lookride.in';
+    const tgToken = settings?.find(s => s.key === 'telegram_bot_token')?.value;
+    const tgChatId = settings?.find(s => s.key === 'telegram_chat_id')?.value;
+
+    const n = htmlEscape(contactDetails.name);
+    const e = htmlEscape(contactDetails.email);
+    const p = htmlEscape(contactDetails.phone);
+    const m = htmlEscape(contactDetails.message);
+
+    const emailSubject = `📬 Contact Form: ${contactDetails.name}`;
+    const textBody = `
+      Contact Form Submission:
+      -----------------------
+      Name: ${contactDetails.name}
+      Email: ${contactDetails.email}
+      Phone: ${contactDetails.phone || 'N/A'}
+      Message: ${contactDetails.message}
+    `;
+
+    const emailPromise = resend.emails.send({
+      from: fromEmail,
+      to: [targetEmail],
+      subject: emailSubject,
+      text: textBody,
+      html: `
+        <div style="font-family: sans-serif; padding: 20px; color: #0B132B;">
+          <h2 style="color: #FCA311;">&#x1F4EC; New Contact Message</h2>
+          <p><strong>Name:</strong> ${n}</p>
+          <p><strong>Email:</strong> ${e}</p>
+          ${p ? `<p><strong>Phone:</strong> ${p}</p>` : ''}
+          <p><strong>Message:</strong></p>
+          <blockquote style="background: #f5f5f5; padding: 12px; border-left: 4px solid #FCA311;">${m}</blockquote>
+        </div>
+      `,
+    });
+
+    let telegramPromise: Promise<unknown> = Promise.resolve();
+    if (tgToken && tgChatId) {
+      const tgUrl = `https://api.telegram.org/bot${tgToken}/sendMessage`;
+      telegramPromise = fetch(tgUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: tgChatId,
+          text: `📬 *Contact Form*\n\n👤 ${contactDetails.name}\n📧 ${contactDetails.email}\n💬 ${contactDetails.message}`,
+          parse_mode: 'Markdown'
+        })
+      });
+    }
+
+    await Promise.allSettled([emailPromise, telegramPromise]);
+    return { success: true };
+  } catch (err) {
+    console.error('Contact notification failed:', err);
     return { success: false, error: err };
   }
 };

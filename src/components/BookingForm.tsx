@@ -218,16 +218,18 @@ function FormInner() {
 
   return (
     <div className={styles.formBody}>
-      {success && (
-        <div className={styles.successBox}>
-          &#x2713; &nbsp;Booking request received! We&apos;ll call you shortly to confirm.
-        </div>
-      )}
-      {error && (
-        <div className={styles.errorBox}>{error}</div>
-      )}
+      <div aria-live="polite" role="status">
+        {success && (
+          <div className={styles.successBox} id="booking-success">
+            &#x2713; &nbsp;Booking request received! We&apos;ll call you shortly to confirm.
+          </div>
+        )}
+        {error && (
+          <div className={styles.errorBox} id="booking-error">{error}</div>
+        )}
+      </div>
 
-      <form className={styles.form} onSubmit={handleSubmit} noValidate>
+      <form className={styles.form} onSubmit={handleSubmit} aria-describedby={error ? 'booking-error' : success ? 'booking-success' : undefined}>
 
         {/* Name & Phone row */}
         <div className={styles.fieldRow}>

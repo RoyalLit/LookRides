@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { supabase, BookingRequest } from '@/lib/supabase';
 import { Check, X, Phone, User, Calendar } from 'lucide-react';
 import styles from '../admin.module.css';
@@ -9,7 +9,7 @@ export default function BookingsManagement() {
   const [bookings, setBookings] = useState<BookingRequest[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchBookings = async () => {
+  const fetchBookings = useCallback(async () => {
     setLoading(true);
     const { data, error } = await supabase
       .from('booking_requests')
@@ -18,19 +18,27 @@ export default function BookingsManagement() {
     
     if (!error && data) setBookings(data);
     setLoading(false);
-  };
+  }, []);
 
-  const updateStatus = async (id: string, status: string) => {
-    const { error } = await supabase
-      .from('booking_requests')
-      .update({ status })
-      .eq('id', id);
-    if (!error) fetchBookings();
-  };
+  const updateStatus = useCallback(async (id: string, status: string) => {
+    try {
+      const { error } = await supabase
+        .from('booking_requests')
+        .update({ status })
+        .eq('id', id);
+      if (error) {
+        alert('Failed to update booking status: ' + error.message);
+        return;
+      }
+      fetchBookings();
+    } catch (err: unknown) {
+      alert('An unexpected error occurred: ' + (err instanceof Error ? err.message : 'Unknown error'));
+    }
+  }, []);
 
   useEffect(() => {
     fetchBookings();
-  }, [fetchBookings]);
+  }, []);
 
   return (
     <div className={styles.dashboardContainer}>

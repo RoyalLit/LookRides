@@ -6,6 +6,15 @@ import styles from './about.module.css';
 export const metadata: Metadata = {
   title: 'About LookRides | Trusted Taxi Service in Chandigarh & Zirakpur',
   description: 'Learn about LookRides — the leading provider of premium outstation cabs and airport transfers in Chandigarh, Mohali, and Zirakpur since 2014.',
+  openGraph: {
+    title: 'About LookRides | Premium Outstation Taxi Service Since 2014',
+    description: 'Chandigarh-based cab service with 100+ vehicles, verified drivers, and 24/7 support. Serving Delhi, Manali, Shimla, Amritsar & all North India.',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'About LookRides | Premium Outstation Taxi',
+    description: 'Trusted taxi service in Chandigarh, Mohali, Zirakpur & Panchkula since 2014.',
+  },
 };
 
 const values = [
@@ -15,9 +24,33 @@ const values = [
   { Icon: Clock, title: '24/7 Availability', desc: 'Early morning flights or late-night returns — our support team and fleet are on standby round the clock.' },
 ];
 
+const aboutJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://lookrides.com" },
+        { "@type": "ListItem", "position": 2, "name": "About", "item": "https://lookrides.com/about" },
+      ],
+    },
+    {
+      "@type": "AboutPage",
+      "@id": "https://lookrides.com/about",
+      "name": "About LookRides",
+      "description": "Learn about LookRides — the leading provider of premium outstation cabs and airport transfers in Chandigarh, Mohali, and Zirakpur since 2014.",
+      "mainEntity": {
+        "@type": "LocalBusiness",
+        "@id": "https://lookrides.com/#business",
+      },
+    },
+  ],
+};
+
 export default function AboutPage() {
   return (
     <div className={styles.page}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutJsonLd) }} />
       <header className={styles.pageHeader}>
         <div className="container">
           <p className={styles.headerLabel}>Our Story</p>

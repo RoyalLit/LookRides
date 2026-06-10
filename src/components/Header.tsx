@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Phone, Menu, X, Star } from 'lucide-react';
+import { Phone, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import Logo from './Logo';
 import styles from './Header.module.css';
@@ -32,7 +32,7 @@ export default function Header() {
           <Logo variant="dark" height={46} />
         </Link>
 
-        <nav className={styles.nav}>
+        <nav className={styles.nav} aria-label="Main navigation">
           {navLinks.map((l) => (
             <Link key={l.href} href={l.href} className={styles.navLink}>{l.label}</Link>
           ))}
@@ -40,16 +40,31 @@ export default function Header() {
             className={styles.dropdown}
             onMouseEnter={() => setRoutesOpen(true)}
             onMouseLeave={() => setRoutesOpen(false)}
+            onFocus={() => setRoutesOpen(true)}
+            onBlur={(e) => {
+              if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+                setRoutesOpen(false);
+              }
+            }}
           >
-            <button className={styles.navLink} style={{ background: 'none', border: 'none', cursor: 'pointer', font: 'inherit' }}>
+            <button
+              className={styles.navLink}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', font: 'inherit' }}
+              aria-expanded={routesOpen}
+              aria-haspopup="true"
+              onClick={() => setRoutesOpen(!routesOpen)}
+              onKeyDown={(e) => {
+                if (e.key === 'Escape') setRoutesOpen(false);
+              }}
+            >
               Routes ▾
             </button>
             {routesOpen && (
-              <div className={styles.dropdownMenu}>
+              <div className={styles.dropdownMenu} role="menu">
                 {routeLinks.map((r) => (
-                  <Link key={r.href} href={r.href} className={styles.dropdownItem}>{r.label}</Link>
+                  <Link key={r.href} href={r.href} className={styles.dropdownItem} role="menuitem">{r.label}</Link>
                 ))}
-                <Link href="/services" className={styles.dropdownItem} style={{ borderTop: '1px solid var(--border)', marginTop: '0.25rem', paddingTop: '0.75rem' }}>
+                <Link href="/services" className={styles.dropdownItem} style={{ borderTop: '1px solid var(--border)', marginTop: '0.25rem', paddingTop: '0.75rem' }} role="menuitem">
                   View All Routes →
                 </Link>
               </div>
@@ -76,7 +91,7 @@ export default function Header() {
 
       {mobileOpen && (
         <div className={styles.mobileMenu}>
-          <nav className={styles.mobileNav}>
+          <nav className={styles.mobileNav} aria-label="Mobile navigation">
             {navLinks.map((l) => (
               <Link key={l.href} href={l.href} className={styles.mobileNavLink} onClick={() => setMobileOpen(false)}>
                 {l.label}

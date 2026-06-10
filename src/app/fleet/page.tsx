@@ -49,6 +49,7 @@ export default function FleetPage() {
                       src={v.image_url}
                       alt={`${v.name} - LookRides Taxi`}
                       fill
+                      priority={index === 0}
                       style={{ objectFit: 'contain', padding: '1.5rem' }}
                       sizes="(max-width: 768px) 100vw, 33vw"
                     />

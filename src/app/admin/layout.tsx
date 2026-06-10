@@ -14,19 +14,25 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   const [loading, setLoading] = useState(true);
+  const [authError, setAuthError] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
     const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      if (!session && pathname !== '/admin/login') {
-        router.push('/admin/login');
-      } else if (session && pathname === '/admin/login') {
-        router.push('/admin');
-        setLoading(false);
-      } else {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+
+        if (!session && pathname !== '/admin/login') {
+          router.push('/admin/login');
+        } else if (session && pathname === '/admin/login') {
+          router.push('/admin');
+          setLoading(false);
+        } else {
+          setLoading(false);
+        }
+      } catch {
+        setAuthError(true);
         setLoading(false);
       }
     };
@@ -35,7 +41,11 @@ export default function AdminLayout({
   }, [router, pathname]);
 
   const handleSignOut = async () => {
-    await supabase.auth.signOut();
+    try {
+      await supabase.auth.signOut();
+    } catch {
+      // signOut failed silently
+    }
     router.push('/admin/login');
   };
 
@@ -44,6 +54,17 @@ export default function AdminLayout({
       <div className={styles.loadingContainer}>
         <div className={styles.spinner}></div>
         <p>Verifying secure session...</p>
+      </div>
+    );
+  }
+
+  if (authError) {
+    return (
+      <div className={styles.loadingContainer}>
+        <p>Failed to verify session. Please try logging in again.</p>
+        <button onClick={() => router.push('/admin/login')} className="btn btn-primary btn-sm">
+          Go to Login
+        </button>
       </div>
     );
   }

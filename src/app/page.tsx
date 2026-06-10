@@ -89,17 +89,21 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    async function q<T>(query: PromiseLike<{ data: T | null; error: any }>): Promise<{ data: T | null; error: any }> {
+      try { return await query; } catch { return { data: null as T | null, error: 'Query failed' }; }
+    }
+
     async function loadData() {
       const [fleetRes, pricingRes, reviewRes, settingsRes] = await Promise.all([
-        supabase.from('fleet').select('*').eq('is_active', true).order('order_index'),
-        supabase.from('pricing_routes').select('*').order('order_index'),
-        supabase.from('reviews').select('*').eq('is_visible', true).order('created_at', { ascending: false }).limit(6),
-        supabase.from('site_settings').select('*')
+        q(supabase.from('fleet').select('*').eq('is_active', true).order('order_index')),
+        q(supabase.from('pricing_routes').select('*').order('order_index')),
+        q(supabase.from('reviews').select('*').eq('is_visible', true).order('created_at', { ascending: false }).limit(6)),
+        q(supabase.from('site_settings').select('*'))
       ]);
       if (fleetRes.data) setFleet(fleetRes.data);
       if (pricingRes.data) setPricing(pricingRes.data);
       if (reviewRes.data) setReviews(reviewRes.data);
-      if (settingsRes.data) {
+      if (settingsRes.data && Array.isArray(settingsRes.data)) {
         const r = settingsRes.data.find(s => s.key === 'google_rating')?.value;
         const c = settingsRes.data.find(s => s.key === 'review_count')?.value;
         setSettings({ rating: r || '4.8', reviews: c || '54' });
@@ -115,8 +119,22 @@ export default function Home() {
     return () => clearInterval(interval);
   }, [reviews]);
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "How do I book a cab?", "acceptedAnswer": { "@type": "Answer", "text": "Fill the booking form with your pickup, drop, date and time. We confirm via WhatsApp or phone within minutes. Or just call us at +91 97804 26567." } },
+      { "@type": "Question", "name": "What are your service areas?", "acceptedAnswer": { "@type": "Answer", "text": "We cover the entire Tricity area plus outstation routes to Delhi, Manali, Shimla, Amritsar, Dehradun, Dharamshala, Jammu, and all of North India." } },
+      { "@type": "Question", "name": "Do you offer one-way cabs?", "acceptedAnswer": { "@type": "Answer", "text": "Yes! Our one-way service means you only pay for the onward journey. Perfect for airport drops and single-direction travel. No return fare charges." } },
+      { "@type": "Question", "name": "How are your drivers verified?", "acceptedAnswer": { "@type": "Answer", "text": "All drivers undergo background verification, document checks, and professional training. They are experienced on highways and hill roads." } },
+      { "@type": "Question", "name": "What vehicles do you offer?", "acceptedAnswer": { "@type": "Answer", "text": "We have Toyota Etios/Maruti Dzire (sedan, 4 seats), Toyota Innova Crysta (SUV, 6 seats), and Tempo Traveler (12 seats). All AC and sanitized." } },
+      { "@type": "Question", "name": "Can I modify or cancel my booking?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, you can call or WhatsApp us to modify or cancel. We offer flexible cancellation policies." } },
+    ],
+  };
+
   return (
     <div className={styles.page}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <section className={styles.hero}>
         <div className={styles.heroBg}>
           <div className={styles.heroGlow1} />

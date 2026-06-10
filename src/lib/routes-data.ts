@@ -364,6 +364,10 @@ export const allRoutes: RouteData[] = [
   },
 ];
 
+export function getAllRouteSlugs(): { slug: string }[] {
+  return allRoutes.map(r => ({ slug: r.slug }));
+}
+
 export function getRouteBySlug(slug: string): RouteData | undefined {
   return allRoutes.find(r => r.slug === slug);
 }

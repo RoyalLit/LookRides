@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { supabase, FleetVehicle } from '@/lib/supabase';
 import { Plus, Edit2, Trash2, Save, X, Car } from 'lucide-react';
 import styles from '../admin.module.css';
@@ -11,7 +11,7 @@ export default function FleetManagement() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState<Partial<FleetVehicle>>({});
 
-  const fetchFleet = async () => {
+  const fetchFleet = useCallback(async () => {
     setLoading(true);
     const { data, error } = await supabase
       .from('fleet')
@@ -20,18 +20,18 @@ export default function FleetManagement() {
     
     if (!error && data) setVehicles(data);
     setLoading(false);
-  };
+  }, []);
 
-  const handleEdit = (vehicle: FleetVehicle) => {
+  const handleEdit = useCallback((vehicle: FleetVehicle) => {
     setEditingId(vehicle.id);
     setFormData(vehicle);
-  };
+  }, []);
 
   useEffect(() => {
     fetchFleet();
-  }, [fetchFleet]);
+  }, []);
 
-  const handleAddNew = () => {
+  const handleAddNew = useCallback(() => {
     setEditingId('new');
     setFormData({
       name: '',
@@ -43,25 +43,40 @@ export default function FleetManagement() {
       is_active: true,
       order_index: vehicles.length,
     });
-  };
+  }, []);
 
-  const handleSave = async () => {
-    if (editingId === 'new') {
-      const { error } = await supabase.from('fleet').insert([formData]);
-      if (!error) fetchFleet();
-    } else {
-      const { error } = await supabase.from('fleet').update(formData).eq('id', editingId);
-      if (!error) fetchFleet();
+  const handleSave = useCallback(async () => {
+    if (!formData.name?.trim()) { alert('Vehicle name is required.'); return; }
+    if (!formData.category?.trim()) { alert('Category is required.'); return; }
+    if (!formData.seats || formData.seats < 1) { alert('Seats must be at least 1.'); return; }
+    if (!formData.bags || formData.bags < 0) { alert('Bags value is required.'); return; }
+    if (!formData.image_url?.trim()) { alert('Image URL is required.'); return; }
+
+    try {
+      if (editingId === 'new') {
+        const { error } = await supabase.from('fleet').insert([formData]);
+        if (error) { alert('Failed to add vehicle: ' + error.message); return; }
+      } else {
+        const { error } = await supabase.from('fleet').update(formData).eq('id', editingId);
+        if (error) { alert('Failed to update vehicle: ' + error.message); return; }
+      }
+      fetchFleet();
+      setEditingId(null);
+    } catch (err: unknown) {
+      alert('An unexpected error occurred: ' + (err instanceof Error ? err.message : 'Unknown error'));
     }
-    setEditingId(null);
-  };
+  }, []);
 
-  const handleDelete = async (id: string) => {
-    if (confirm('Are you sure you want to remove this vehicle?')) {
+  const handleDelete = useCallback(async (id: string) => {
+    if (!confirm('Are you sure you want to remove this vehicle?')) return;
+    try {
       const { error } = await supabase.from('fleet').delete().eq('id', id);
-      if (!error) fetchFleet();
+      if (error) { alert('Failed to delete vehicle: ' + error.message); return; }
+      fetchFleet();
+    } catch (err: unknown) {
+      alert('An unexpected error occurred: ' + (err instanceof Error ? err.message : 'Unknown error'));
     }
-  };
+  }, []);
 
   return (
     <div className={styles.dashboardContainer}>

@@ -9,14 +9,13 @@ export default function ScrollAnimations() {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add('visible');
-            observer.unobserve(entry.target); // fire once
+            observer.unobserve(entry.target);
           }
         });
       },
       { threshold: 0.12 }
     );
 
-    // Observe all elements with animation classes
     document.querySelectorAll('[class*="fadeUp"], [class*="fadeIn"], [class*="slideUp"], [class*="fleetCard"], [class*="serviceCard"], [class*="trustCard"], [class*="testimonialCard"], [class*="valueCard"]').forEach((el) => {
       observer.observe(el);
     });

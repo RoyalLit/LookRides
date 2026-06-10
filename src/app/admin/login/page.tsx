@@ -3,14 +3,12 @@
 import { useState } from 'react';
 import styles from './login.module.css';
 import { supabase } from '@/lib/supabase';
-import { useRouter } from 'next/navigation';
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,8 +23,8 @@ export default function AdminLogin() {
 
       if (error) throw error;
       
-      if (data.session) {
-        router.push('/admin');
+      if (!data.session) {
+        throw new Error('No session returned. Please try again.');
       }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Failed to authenticate');

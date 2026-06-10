@@ -22,10 +22,14 @@ export default function AdminLogin() {
       });
 
       if (error) throw error;
-      
+
       if (!data.session) {
         throw new Error('No session returned. Please try again.');
       }
+
+      // Hard redirect forces a fresh layout mount
+      // getSession() in layout reads from localStorage where signInWithPassword persisted the session
+      window.location.href = '/admin';
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Failed to authenticate');
     } finally {

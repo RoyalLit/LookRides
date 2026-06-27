@@ -40,56 +40,56 @@ const popularDestinations = [
     name: "Delhi",
     desc: "Capital connection to historical landmarks, commercial hubs, and IGI terminal 3.",
     time: "4.5 hours",
-    image: "https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1761480458272-4b2f06cda520?auto=format&fit=crop&w=600&q=80",
     route: "/routes/chandigarh-to-delhi"
   },
   {
     name: "Shimla",
     desc: "The serene Queen of Hills, featuring pine-filled trails and colonial ridge vistas.",
     time: "3 hours",
-    image: "https://images.unsplash.com/photo-1562691318-2313a72d7a4d?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1619417889956-c701044fed86?auto=format&fit=crop&w=600&q=80",
     route: "/routes/chandigarh-to-shimla"
   },
   {
     name: "Manali",
     desc: "Breathtaking mountain slopes, Aut tunnel highway runs, and Solang snow adventures.",
     time: "7 hours",
-    image: "https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1652543393130-e30a1aad2959?auto=format&fit=crop&w=600&q=80",
     route: "/routes/chandigarh-to-manali"
   },
   {
     name: "Dharamshala",
     desc: "Nestled in Dhauladhars, offering rich spiritual vibes and scenic tea garden paths.",
     time: "5.5 hours",
-    image: "https://images.unsplash.com/photo-1626697593774-4b5be2c8d234?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1701153760841-f329753e88a2?auto=format&fit=crop&w=600&q=80",
     route: "/routes/chandigarh-to-dharamshala"
   },
   {
     name: "Mussoorie",
     desc: "Gateway to Mist, highlighting beautiful cascades and walking paths above clouds.",
     time: "5.5 hours",
-    image: "https://images.unsplash.com/photo-1599827602075-8b89e6eb10f8?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1591420327964-83a732b70ee2?auto=format&fit=crop&w=600&q=80",
     route: "/routes/chandigarh-to-dehradun"
   },
   {
     name: "Dehradun",
     desc: "Sprawling valley beauty bounded by Ganges and Yamuna, lush forest trails.",
     time: "4.5 hours",
-    image: "https://images.unsplash.com/photo-1602772343666-b3336ee00c3d?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1721975178671-726ee3e22456?auto=format&fit=crop&w=600&q=80",
     route: "/routes/chandigarh-to-dehradun"
   },
   {
     name: "Jammu",
     desc: "Holy city of Temples and the primary baseline for the Vaishno Devi pilgrimage.",
     time: "6.5 hours",
-    image: "https://images.unsplash.com/photo-1588096344316-f5f5b3ff696e?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1763297066872-257ea7e91cd7?auto=format&fit=crop&w=600&q=80",
     route: "/routes/chandigarh-to-jammu"
   },
   {
     name: "Amritsar",
     desc: "Home to the spectacular Golden Temple, rich Wagah history, and vibrant local cuisine.",
     time: "4 hours",
-    image: "https://images.unsplash.com/photo-1514222134-b57cbb8ce073?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1629887424001-c1442e96b73d?auto=format&fit=crop&w=600&q=80",
     route: "/routes/chandigarh-to-amritsar"
   }
 ];
@@ -104,10 +104,10 @@ const reviewerAvatars = [
 ];
 
 const routeImages: Record<string, string> = {
-  'chandigarh-to-delhi': 'https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=600&q=80',
-  'chandigarh-to-manali': 'https://images.unsplash.com/photo-1605649487212-47bdab064df7?auto=format&fit=crop&w=600&q=80',
-  'chandigarh-to-shimla': 'https://images.unsplash.com/photo-1562691318-2313a72d7a4d?auto=format&fit=crop&w=600&q=80',
-  'chandigarh-to-amritsar': 'https://images.unsplash.com/photo-1514222134-b57cbb8ce073?auto=format&fit=crop&w=600&q=80',
+  'chandigarh-to-delhi': 'https://images.unsplash.com/photo-1761480458272-4b2f06cda520?auto=format&fit=crop&w=600&q=80',
+  'chandigarh-to-manali': 'https://images.unsplash.com/photo-1652543393130-e30a1aad2959?auto=format&fit=crop&w=600&q=80',
+  'chandigarh-to-shimla': 'https://images.unsplash.com/photo-1619417889956-c701044fed86?auto=format&fit=crop&w=600&q=80',
+  'chandigarh-to-amritsar': 'https://images.unsplash.com/photo-1629887424001-c1442e96b73d?auto=format&fit=crop&w=600&q=80',
 };
 
 const getFleetDetails = (category: string) => {

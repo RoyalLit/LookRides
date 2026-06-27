@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { supabase, FleetVehicle, PricingRoute, GoogleReview } from "@/lib/supabase";
 import BookingForm from "@/components/BookingForm";
+import { SkeletonSlide, SkeletonReviewCard } from "@/components/Skeleton";
 import styles from "./page.module.css";
 import { allRoutes, getPopularRoutes, RouteData } from "@/lib/routes-data";
 import useEmblaCarousel from 'embla-carousel-react';
@@ -411,7 +412,7 @@ export default function Home() {
           <div className={styles.embla} ref={emblaRef}>
             <div className={styles.embla__container}>
               {loading ? (
-                <div className={styles.loadingText}>Loading fleet...</div>
+                <SkeletonSlide count={3} />
               ) : fleet.map((v) => {
                 const details = getFleetDetails(v.category);
                 return (
@@ -545,7 +546,9 @@ export default function Home() {
           </div>
 
           {loading ? (
-            <div className={styles.loadingText}>Loading reviews...</div>
+            <div className={styles.testimonialsGrid}>
+              <SkeletonReviewCard count={3} />
+            </div>
           ) : reviews.length === 0 ? (
             <div className={styles.loadingText}>No reviews found.</div>
           ) : (

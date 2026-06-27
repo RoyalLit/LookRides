@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { supabaseBrowser as supabase, BookingRequest } from '@/lib/supabase-browser';
+import { SkeletonTable } from '@/components/Skeleton';
 import styles from './admin.module.css';
 
 export default function AdminDashboard() {
@@ -53,7 +54,7 @@ export default function AdminDashboard() {
       <div className={styles.tableContainer}>
         <h2>Recent Booking Requests</h2>
         {loading ? (
-          <p>Loading records...</p>
+          <SkeletonTable rows={5} />
         ) : (
           <table className={styles.table}>
             <thead>

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { Save, Globe, Star } from 'lucide-react';
+import { SkeletonTable, Spinner } from '@/components/Skeleton';
 import styles from '../admin.module.css';
 
 export default function SettingsManagement() {
@@ -61,12 +62,12 @@ export default function SettingsManagement() {
       <header className={styles.pageHeader}>
         <h1>Site Settings</h1>
         <button className="btn btn-primary btn-sm" onClick={handleSave} disabled={saving}>
-          <Save size={16} /> {saving ? 'Saving...' : 'Save All Settings'}
+          {saving ? <Spinner size={16} light /> : <Save size={16} />} {saving ? '' : 'Save All Settings'}
         </button>
       </header>
 
       {loading ? (
-        <p>Loading settings...</p>
+        <SkeletonTable rows={4} />
       ) : (
       <div className={styles.formGrid}>
         <div className={`glass-panel ${styles.tableContainer}`} style={{ gridColumn: 'span 1' }}>

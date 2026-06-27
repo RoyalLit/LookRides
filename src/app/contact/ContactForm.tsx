@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Send } from 'lucide-react';
+import { Spinner } from '@/components/Skeleton';
 import styles from './contact.module.css';
 
 export default function ContactForm() {
@@ -73,7 +74,7 @@ export default function ContactForm() {
 
       <button type="submit" className={styles.submitBtn} disabled={loading}>
         <Send size={16} />
-        {loading ? 'Sending…' : 'Send Message'}
+        {loading ? <Spinner size={18} light /> : 'Send Message'}
       </button>
     </form>
   );

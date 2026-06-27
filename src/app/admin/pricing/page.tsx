@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { supabaseBrowser as supabase, PricingRoute } from '@/lib/supabase-browser';
 import { Plus, Edit2, Trash2, Save, X, Map } from 'lucide-react';
+import { SkeletonTable } from '@/components/Skeleton';
 import styles from '../admin.module.css';
 
 export default function PricingManagement() {
@@ -142,7 +143,7 @@ export default function PricingManagement() {
 
       <div className={styles.tableContainer}>
         {loading ? (
-          <p>Loading routes...</p>
+          <SkeletonTable rows={5} />
         ) : routes.length === 0 ? (
           <div className={styles.emptyState}>
             <Map size={48} opacity={0.2} style={{ marginBottom: '1rem' }} />

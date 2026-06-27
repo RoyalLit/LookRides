@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import styles from './login.module.css';
+import { Spinner } from '@/components/Skeleton';
 import { supabaseBrowser as supabase } from '@/lib/supabase-browser';
 
 export default function AdminLogin() {
@@ -73,7 +74,7 @@ export default function AdminLogin() {
             className={`btn btn-primary ${styles.submitBtn}`}
             disabled={loading}
           >
-            {loading ? 'Authenticating...' : 'Sign In'}
+            {loading ? <Spinner size={18} light /> : 'Sign In'}
           </button>
         </form>
       </div>

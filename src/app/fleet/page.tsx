@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Users, Luggage, ArrowRight } from 'lucide-react';
 import { supabase, FleetVehicle } from '@/lib/supabase';
+import { SkeletonCard } from '@/components/Skeleton';
 import styles from './fleet.module.css';
 
 export default function FleetPage() {
@@ -39,7 +40,9 @@ export default function FleetPage() {
       <section className={styles.fleetSection}>
         <div className="container">
           {loading ? (
-            <div style={{ textAlign: 'center', padding: '4rem' }}>Loading fleet information...</div>
+            <div className={styles.fleetGrid}>
+              <SkeletonCard count={3} />
+            </div>
           ) : (
             <div className={styles.fleetGrid}>
               {fleet.map((v, index) => (

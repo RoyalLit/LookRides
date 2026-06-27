@@ -2,7 +2,8 @@
 
 import { useState, useRef, useEffect, useCallback, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { MapPin, Navigation, Calendar, Clock, Phone, User, X } from 'lucide-react';
+import { MapPin, Navigation, Calendar, Clock, Phone, User, X, Send } from 'lucide-react';
+import { Spinner } from '@/components/Skeleton';
 import styles from './BookingForm.module.css';
 
 /* ── Location autocomplete via OpenStreetMap (free, no key) ── */
@@ -300,7 +301,8 @@ function FormInner() {
         </div>
 
         <button type="submit" className={styles.submitBtn} disabled={loading}>
-          {loading ? 'Sending…' : 'Check Availability & Book'}
+          {loading ? <Spinner size={18} light /> : <Send size={16} />}
+          {loading ? '' : 'Check Availability & Book'}
         </button>
       </form>
 
@@ -313,7 +315,7 @@ function FormInner() {
 
 export default function BookingForm() {
   return (
-    <Suspense fallback={<div>Loading form...</div>}>
+    <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center' }}><Spinner size={24} /></div>}>
       <FormInner />
     </Suspense>
   );

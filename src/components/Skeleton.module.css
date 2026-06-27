@@ -1,0 +1,117 @@
+@keyframes shimmer {
+  0% { background-position: -600px 0; }
+  100% { background-position: 600px 0; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+  background-size: 1200px 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: 6px;
+  line-height: 1;
+}
+
+/* Card skeleton (matches fleetCardV2 / fleetCard dimensions) */
+.skeletonCard {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  height: 100%;
+}
+
+.skeletonCardBody {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+/* Embla slide skeleton (matches embla__slide flex-basis) */
+.skeletonSlide {
+  flex: 0 0 calc(31% - 1.166rem);
+  min-width: 0;
+}
+
+@media (max-width: 1024px) {
+  .skeletonSlide {
+    flex: 0 0 calc(45% - 0.875rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .skeletonSlide {
+    flex: 0 0 85%;
+  }
+}
+
+/* Table skeleton */
+.skeletonTableContainer {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.skeletonTableRow {
+  display: flex;
+  gap: 1rem;
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid #f1f5f9;
+  align-items: center;
+}
+
+.skeletonTableRow:last-child {
+  border-bottom: none;
+}
+
+/* Form skeleton */
+.skeletonFormContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.5rem;
+}
+
+/* Review skeleton */
+.skeletonReviewCard {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.skeletonReviewRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Spinner */
+.spinner {
+  display: inline-block;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  vertical-align: middle;
+}
+
+.spinnerDark {
+  border: 2px solid #cbd5e1;
+  border-top-color: #1e293b;
+}
+
+.spinnerLight {
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+}

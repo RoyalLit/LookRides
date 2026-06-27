@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { supabaseBrowser as supabase, BookingRequest } from '@/lib/supabase-browser';
 import { Check, X, Phone, User, Calendar } from 'lucide-react';
+import { SkeletonTable } from '@/components/Skeleton';
 import styles from '../admin.module.css';
 
 export default function BookingsManagement() {
@@ -51,7 +52,7 @@ export default function BookingsManagement() {
 
       <div className={styles.tableContainer}>
         {loading ? (
-          <p>Loading bookings...</p>
+          <SkeletonTable rows={5} />
         ) : bookings.length === 0 ? (
           <p>No bookings yet.</p>
         ) : (

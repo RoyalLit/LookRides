@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { supabaseBrowser as supabase, GoogleReview } from '@/lib/supabase-browser';
 import { Plus, Edit2, Trash2, Save, X, Star, Eye, EyeOff } from 'lucide-react';
+import { SkeletonTable } from '@/components/Skeleton';
 import styles from '../admin.module.css';
 
 export default function ReviewsManagement() {
@@ -115,7 +116,7 @@ export default function ReviewsManagement() {
 
       <div className={styles.tableContainer}>
         {loading ? (
-          <p>Loading reviews...</p>
+          <SkeletonTable rows={5} />
         ) : reviews.length === 0 ? (
           <div className={styles.emptyState}>
             <Star size={48} opacity={0.2} style={{ marginBottom: '1rem' }} />

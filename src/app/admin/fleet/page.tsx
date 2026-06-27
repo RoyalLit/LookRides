@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { supabaseBrowser as supabase, FleetVehicle } from '@/lib/supabase-browser';
 import { Plus, Edit2, Trash2, Save, X, Car } from 'lucide-react';
+import { SkeletonTable } from '@/components/Skeleton';
 import styles from '../admin.module.css';
 
 export default function FleetManagement() {
@@ -156,7 +157,7 @@ export default function FleetManagement() {
 
       <div className={styles.tableContainer}>
         {loading ? (
-          <p>Loading fleet...</p>
+          <SkeletonTable rows={5} />
         ) : vehicles.length === 0 ? (
           <div className={styles.emptyState}>
             <Car size={48} opacity={0.2} style={{ marginBottom: '1rem' }} />

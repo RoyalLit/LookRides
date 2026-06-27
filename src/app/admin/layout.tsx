@@ -54,7 +54,6 @@ export default function AdminLayout({
     return (
       <div className={styles.loadingContainer}>
         <div className={styles.spinner}></div>
-        <p>Verifying secure session...</p>
       </div>
     );
   }

@@ -64,7 +64,7 @@ export default function Header() {
                 {routeLinks.map((r) => (
                   <Link key={r.href} href={r.href} className={styles.dropdownItem} role="menuitem">{r.label}</Link>
                 ))}
-                <Link href="/services" className={styles.dropdownItem} style={{ borderTop: '1px solid var(--border)', marginTop: '0.25rem', paddingTop: '0.75rem' }} role="menuitem">
+                <Link href="/routes" className={styles.dropdownItem} style={{ borderTop: '1px solid var(--border)', marginTop: '0.25rem', paddingTop: '0.75rem' }} role="menuitem">
                   View All Routes →
                 </Link>
               </div>

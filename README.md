@@ -1,7 +1,5 @@
 # LookRides 🚖 | Premium Intercity Taxi Platform
 
-![LookRides Hero](public/screenshots/hero.png)
-
 > **LookRides** is a highly optimized, full-stack Next.js web application built for a premium intercity taxi and airport transfer service operating across North India (Chandigarh, Mohali, Zirakpur, Delhi, Himachal Pradesh). 
 
 This repository showcases an enterprise-grade booking platform featuring real-time Telegram notifications, a secure Supabase backend for rate-limiting and contact persistence, and a heavily optimized, programmatic SEO architecture designed to dominate local and regional search results.
@@ -32,15 +30,12 @@ This repository showcases an enterprise-grade booking platform featuring real-ti
 
 ### The Booking Experience
 The primary call-to-action is a frictionless booking widget designed to convert. It seamlessly passes parameters and triggers a real-time Telegram notification upon submission.
-<img src="public/screenshots/cta.png" width="800" alt="Booking Widget">
 
 ### Dynamic Route & Destination Showcases
 Programmatic rendering of popular travel routes out of the Tricity area (Chandigarh to Shimla, Manali, Delhi).
-<img src="public/screenshots/routes.png" width="800" alt="Popular Routes">
 
 ### Premium Fleet Display
 Interactive Embla-powered carousel showcasing the luxury fleet (Innova Crysta, Etios, Urbania).
-<img src="public/screenshots/fleet.png" width="800" alt="Fleet Carousel">
 
 ---
 

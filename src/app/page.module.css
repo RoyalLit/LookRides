@@ -1688,3 +1688,27 @@
   .heroStatItem { align-items: center; }
   .quickRoute { font-size: 0.7rem; }
 }
+
+.embla {
+  overflow: hidden;
+  margin-bottom: 2.5rem;
+  padding: 1rem 0;
+}
+.embla__container {
+  display: flex;
+  gap: 1.75rem;
+}
+.embla__slide {
+  flex: 0 0 calc(33.333% - 1.166rem);
+  min-width: 0;
+}
+@media (max-width: 1024px) {
+  .embla__slide {
+    flex: 0 0 calc(50% - 0.875rem);
+  }
+}
+@media (max-width: 768px) {
+  .embla__slide {
+    flex: 0 0 100%;
+  }
+}

@@ -14,6 +14,8 @@ import { supabase, FleetVehicle, PricingRoute, GoogleReview } from "@/lib/supaba
 import BookingForm from "@/components/BookingForm";
 import styles from "./page.module.css";
 import { allRoutes, getPopularRoutes, RouteData } from "@/lib/routes-data";
+import useEmblaCarousel from 'embla-carousel-react';
+import Autoplay from 'embla-carousel-autoplay';
 
 const steps = [
   { n: "01", title: "Fill the Booking Form", desc: "Enter your pickup, drop, date and time. Takes 30 seconds." },
@@ -141,6 +143,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const popRoutes = getPopularRoutes();
+  const [emblaRef] = useEmblaCarousel({ loop: true, align: 'start' }, [Autoplay({ delay: 3500, stopOnInteraction: true })]);
 
   const revealRefs = useRef<(HTMLElement | null)[]>([]);
   const addToRefs = useCallback((el: HTMLElement | null) => {
@@ -405,13 +408,14 @@ export default function Home() {
             <p>Meticulously maintained, fully air-conditioned cabs driven by highway specialists.</p>
           </div>
 
-          <div className={styles.fleetGrid}>
-            {loading ? (
-              <div className={styles.loadingText}>Loading fleet...</div>
-            ) : fleet.map((v) => {
-              const details = getFleetDetails(v.category);
-              return (
-                <div key={v.id} className={styles.fleetCardV2}>
+          <div className={styles.embla} ref={emblaRef}>
+            <div className={styles.embla__container}>
+              {loading ? (
+                <div className={styles.loadingText}>Loading fleet...</div>
+              ) : fleet.map((v) => {
+                const details = getFleetDetails(v.category);
+                return (
+                  <div key={v.id} className={`${styles.fleetCardV2} ${styles.embla__slide}`}>
                   <div className={styles.fleetImgWrap}>
                     <Image 
                       src={v.image_url} 
@@ -453,6 +457,7 @@ export default function Home() {
                 </div>
               );
             })}
+            </div>
           </div>
 
           <div className={styles.fleetMore}>

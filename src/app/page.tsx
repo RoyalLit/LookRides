@@ -40,56 +40,56 @@ const popularDestinations = [
     name: "Delhi",
     desc: "Capital connection to historical landmarks, commercial hubs, and IGI terminal 3.",
     time: "4.5 hours",
-    image: "https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=600&q=80",
+    image: "/destinations/delhi.jpg",
     route: "/routes/chandigarh-to-delhi"
   },
   {
     name: "Shimla",
     desc: "The serene Queen of Hills, featuring pine-filled trails and colonial ridge vistas.",
     time: "3 hours",
-    image: "https://images.unsplash.com/photo-1616421376885-c54d7ea519c8?auto=format&fit=crop&w=600&q=80",
+    image: "/destinations/shimla.jpg",
     route: "/routes/chandigarh-to-shimla"
   },
   {
     name: "Manali",
     desc: "Breathtaking mountain slopes, Aut tunnel highway runs, and Solang snow adventures.",
     time: "7 hours",
-    image: "https://images.unsplash.com/photo-1593181629936-11c602b700bb?auto=format&fit=crop&w=600&q=80",
+    image: "/destinations/manali.jpg",
     route: "/routes/chandigarh-to-manali"
   },
   {
     name: "Dharamshala",
     desc: "Nestled in Dhauladhars, offering rich spiritual vibes and scenic tea garden paths.",
     time: "5.5 hours",
-    image: "https://images.unsplash.com/photo-1626697556752-658f8448ebcd?auto=format&fit=crop&w=600&q=80",
+    image: "/destinations/dharamshala.jpg",
     route: "/routes/chandigarh-to-dharamshala"
   },
   {
     name: "Mussoorie",
     desc: "Gateway to Mist, highlighting beautiful cascades and walking paths above clouds.",
     time: "5.5 hours",
-    image: "https://images.unsplash.com/photo-1595815771614-ade9d6527653?auto=format&fit=crop&w=600&q=80",
+    image: "/destinations/mussoorie.jpg",
     route: "/routes/chandigarh-to-dehradun"
   },
   {
     name: "Dehradun",
     desc: "Sprawling valley beauty bounded by Ganges and Yamuna, lush forest trails.",
     time: "4.5 hours",
-    image: "https://images.unsplash.com/photo-1632731885449-7561cf2b926f?auto=format&fit=crop&w=600&q=80",
+    image: "/destinations/dehradun.jpg",
     route: "/routes/chandigarh-to-dehradun"
   },
   {
     name: "Jammu",
     desc: "Holy city of Temples and the primary baseline for the Vaishno Devi pilgrimage.",
     time: "6.5 hours",
-    image: "https://images.unsplash.com/photo-1697695763102-8ce54d8fc7d6?auto=format&fit=crop&w=600&q=80",
+    image: "/destinations/jammu.jpg",
     route: "/routes/chandigarh-to-jammu"
   },
   {
     name: "Amritsar",
     desc: "Home to the spectacular Golden Temple, rich Wagah history, and vibrant local cuisine.",
     time: "4 hours",
-    image: "https://images.unsplash.com/photo-1514222134-b57cbb8ce073?auto=format&fit=crop&w=600&q=80",
+    image: "/destinations/amritsar.jpg",
     route: "/routes/chandigarh-to-amritsar"
   }
 ];
@@ -104,10 +104,10 @@ const reviewerAvatars = [
 ];
 
 const routeImages: Record<string, string> = {
-  'chandigarh-to-delhi': 'https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=600&q=80',
-  'chandigarh-to-manali': 'https://images.unsplash.com/photo-1593181629936-11c602b700bb?auto=format&fit=crop&w=600&q=80',
-  'chandigarh-to-shimla': 'https://images.unsplash.com/photo-1616421376885-c54d7ea519c8?auto=format&fit=crop&w=600&q=80',
-  'chandigarh-to-amritsar': 'https://images.unsplash.com/photo-1514222134-b57cbb8ce073?auto=format&fit=crop&w=600&q=80',
+  'chandigarh-to-delhi': '/destinations/delhi.jpg',
+  'chandigarh-to-manali': '/destinations/manali.jpg',
+  'chandigarh-to-shimla': '/destinations/shimla.jpg',
+  'chandigarh-to-amritsar': '/destinations/amritsar.jpg',
 };
 
 const getFleetDetails = (category: string) => {

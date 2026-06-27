@@ -145,6 +145,7 @@ export default function Home() {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const popRoutes = getPopularRoutes();
   const [emblaRef] = useEmblaCarousel({ loop: true, align: 'start' }, [Autoplay({ delay: 3500, stopOnInteraction: false })]);
+  const [reviewsRef] = useEmblaCarousel({ loop: true, align: 'start' }, [Autoplay({ delay: 4500, stopOnInteraction: false })]);
 
   const revealRefs = useRef<(HTMLElement | null)[]>([]);
   const addToRefs = useCallback((el: HTMLElement | null) => {
@@ -501,42 +502,44 @@ export default function Home() {
             <div className={styles.loadingText}>No reviews found.</div>
           ) : (
             <>
-              <div className={styles.testimonialsGrid}>
-                {reviews.slice(0, 3).map((t, idx) => (
-                  <div key={t.id} className={styles.testimonialCardV2}>
-                    <div className={styles.tCardHeader}>
-                      <div className={styles.tCardAvatarWrap}>
-                        <div className={styles.tCardInitialAvatar}>
-                          {t.author ? t.author[0].toUpperCase() : 'G'}
+              <div className={styles.embla} ref={reviewsRef}>
+                <div className={styles.embla__container}>
+                  {reviews.map((t, idx) => (
+                    <div key={t.id} className={`${styles.embla__slide} ${styles.revealUp}`} style={{ transitionDelay: `${idx * 0.1}s` }}>
+                      <div className={styles.testimonialCardV2} style={{ height: '100%' }}>
+                        <div className={styles.tCardHeader}>
+                          <div className={styles.tCardAvatarWrap}>
+                            <div className={styles.tCardInitialAvatar}>
+                              {t.author ? t.author[0].toUpperCase() : 'G'}
+                            </div>
+                            <span className={styles.tCardBadgeWrap}><Check size={10} style={{ color: 'white' }} /></span>
+                          </div>
+                          <div className={styles.tCardMetaInfo}>
+                            <h4>{t.author}</h4>
+                            <span className={styles.tCardRouteText}>{t.city || 'Verified Trip'} Route</span>
+                          </div>
                         </div>
-                        <span className={styles.tCardBadgeWrap}><Check size={10} style={{ color: 'white' }} /></span>
-                      </div>
-                      <div className={styles.tCardMetaInfo}>
-                        <h4>{t.author}</h4>
-                        <span className={styles.tCardRouteText}>{t.city || 'Verified Trip'} Route</span>
-                      </div>
-                    </div>
 
-                    <div className={styles.tCardStars}>
-                      {"★".repeat(t.rating)}
-                      <span className={styles.tCardRatingVal}>5.0</span>
-                    </div>
+                        <div className={styles.tCardStars}>
+                          {"★".repeat(t.rating)}
+                          <span className={styles.tCardRatingVal}>5.0</span>
+                        </div>
 
-                    <p className={styles.tCardText}>&ldquo;{t.text}&rdquo;</p>
-                    
-                    <div className={styles.tCardFooter}>
-                      <span className={styles.tCardVerifiedBadge}>✓ Verified Customer Review</span>
-                      <span className={styles.tCardDate}>Mar 2026</span>
+                        <p className={styles.tCardText}>&ldquo;{t.text}&rdquo;</p>
+                        
+                        <div className={styles.tCardFooter}>
+                          <span className={styles.tCardVerifiedBadge}>✓ Verified Customer Review</span>
+                          <span className={styles.tCardDate}>Mar 2026</span>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
               
-              {reviews.length > 3 && (
-                <div className={styles.reviewsMore}>
-                  <Link href="/contact" className="btn btn-outline">Read All Google Reviews <ArrowRight size={15} /></Link>
-                </div>
-              )}
+              <div className={styles.reviewsMore}>
+                <Link href="/contact" className="btn btn-outline">Read All Google Reviews <ArrowRight size={15} /></Link>
+              </div>
             </>
           )}
         </div>

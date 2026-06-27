@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { sendContactNotification } from '@/lib/email';
+import { rateLimit } from '@/lib/rate-limit';
 
 const ALLOWED_ORIGINS = ['https://lookrides.com', 'https://www.lookrides.com', 'https://lookrides.in', 'https://www.lookrides.in', 'http://localhost:3000'];
 
@@ -23,6 +24,19 @@ export async function POST(request: Request) {
   try {
     if (!isAllowedOrigin(request)) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
+    const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
+    const { allowed, retryAfter } = rateLimit({
+      key: `contact:${ip}`,
+      limit: 3,
+      windowMs: 15 * 60 * 1000,
+    });
+    if (!allowed) {
+      return NextResponse.json(
+        { error: `Too many requests. Try again in ${retryAfter} seconds.` },
+        { status: 429, headers: { 'Retry-After': String(retryAfter) } }
+      );
     }
 
     const body = await request.json();

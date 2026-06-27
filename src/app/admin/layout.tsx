@@ -86,7 +86,12 @@ export default function AdminLayout({
     <div className={styles.adminLayout}>
       <aside className={styles.sidebar}>
         <div className={styles.sidebarBrand}>
-          <Logo variant="dark" height={40} />
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+            <Logo variant="dark" height={40} />
+            <button onClick={handleSignOut} className={styles.mobileSignOutBtn} aria-label="Sign Out">
+              <LogOut size={20} />
+            </button>
+          </div>
           <span className={styles.adminBadge}>ADMIN PANEL</span>
         </div>
         <nav className={styles.sidebarNav}>

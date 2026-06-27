@@ -118,6 +118,13 @@ export async function proxy(request: NextRequest) {
       return NextResponse.redirect(redirectUrl);
     }
 
+    // Verify the user has admin privileges
+    if (user.user_metadata?.is_admin !== true) {
+      const redirectUrl = request.nextUrl.clone();
+      redirectUrl.pathname = '/admin/login';
+      return NextResponse.redirect(redirectUrl);
+    }
+
     return supabaseResponse;
   }
 

@@ -1737,9 +1737,23 @@
   .servicesGrid, .fleetGrid { grid-template-columns: 1fr; }
   .safetyGrid { grid-template-columns: 1fr; }
   .testimonialsGrid { grid-template-columns: 1fr; }
-  .destinationsGrid { grid-template-columns: 1fr; }
-  .destinationCard { height: auto; min-height: 320px; }
-  .destHeader { flex-wrap: wrap; gap: 0.4rem; }
+  
+  .destinationsGrid { 
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+  .destinationCard { 
+    height: 220px;
+    min-height: auto; 
+  }
+  .destText { padding: 0.75rem; }
+  .destHeader h3 { font-size: 1rem; }
+  .destDuration { font-size: 0.6rem; padding: 0.15rem 0.35rem; }
+  .destText p { font-size: 0.7rem; -webkit-line-clamp: 2; margin-bottom: 0.2rem; }
+  .destExploreLink { font-size: 0.75rem; margin-top: 0; }
+  
+  .destHeader { flex-wrap: wrap; gap: 0.25rem; }
   .ctaActions { flex-direction: column; align-items: center; }
   .ctaActions :global(.btn) { width: 100%; justify-content: center; }
   .sectionHead { margin-bottom: 2.5rem; }

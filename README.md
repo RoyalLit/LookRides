@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LookRides 🚖 | Premium Intercity Taxi Platform
 
-## Getting Started
+![LookRides Hero](public/screenshots/hero.png)
 
-First, run the development server:
+> **LookRides** is a highly optimized, full-stack Next.js web application built for a premium intercity taxi and airport transfer service operating across North India (Chandigarh, Mohali, Zirakpur, Delhi, Himachal Pradesh). 
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+This repository showcases an enterprise-grade booking platform featuring real-time Telegram notifications, a secure Supabase backend for rate-limiting and contact persistence, and a heavily optimized, programmatic SEO architecture designed to dominate local and regional search results.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🚀 Key Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 1. High-Performance Front-End
+- **Framework:** Built on **Next.js (App Router)** for lightning-fast server-side rendering (SSR) and static site generation (SSG).
+- **Core Web Vitals:** Achieves near-perfect Lighthouse scores. All heavy image assets (like destination banners) are bulk-compressed to WebP format, and the LCP (Largest Contentful Paint) is heavily optimized.
+- **Responsive Design:** 100% mobile-responsive layout built with modern CSS Modules, featuring beautiful glassmorphism effects, dynamic carousels, and smooth micro-animations.
 
-## Learn More
+### 2. Programmatic SEO Architecture
+- **Dynamic Semantic Routes:** Automatically generates localized textual content for dozens of dynamic routes (e.g., `routes/[slug]`) to prevent Google "Thin Content" penalties.
+- **Rich JSON-LD Schemas:** Implements deep `WebSite`, `LocalBusiness`, `Service`, and `Article` Schemas, injecting them directly into the layouts and dynamic pages.
+- **Markdown Blog Engine:** Custom-built static blog architecture using `gray-matter` and `remark` to capture long-tail, high-intent informational search queries.
+- **Internal Linking Engine:** Safely clusters and links related routes, guaranteeing clean Googlebot crawl paths.
 
-To learn more about Next.js, take a look at the following resources:
+### 3. Secure Backend & Integrations
+- **Supabase PostgreSQL:** Powers the secure backend architecture for storing contact form submissions and rate-limiting data.
+- **Telegram Bot API:** Instant, real-time push notifications sent directly to the dispatch team whenever a new booking is requested.
+- **Edge Security:** Implements strict CORS headers, robust API validation, and table-based rate limiting designed to survive Vercel cold starts.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📸 Interface Showcase
 
-## Deploy on Vercel
+### The Booking Experience
+The primary call-to-action is a frictionless booking widget designed to convert. It seamlessly passes parameters and triggers a real-time Telegram notification upon submission.
+<img src="public/screenshots/cta.png" width="800" alt="Booking Widget">
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Dynamic Route & Destination Showcases
+Programmatic rendering of popular travel routes out of the Tricity area (Chandigarh to Shimla, Manali, Delhi).
+<img src="public/screenshots/routes.png" width="800" alt="Popular Routes">
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Premium Fleet Display
+Interactive Embla-powered carousel showcasing the luxury fleet (Innova Crysta, Etios, Urbania).
+<img src="public/screenshots/fleet.png" width="800" alt="Fleet Carousel">
+
+---
+
+## 🛠️ Tech Stack
+
+- **Core:** React, Next.js (App Router), TypeScript
+- **Styling:** CSS Modules, Custom Design Tokens
+- **Database / Auth:** Supabase (PostgreSQL), Row Level Security (RLS)
+- **Content:** `gray-matter`, `remark` (Markdown processing)
+- **Deployment & Edge:** Vercel
+
+---
+
+## 🔒 License & Copyright
+
+**All Rights Reserved.**
+
+This repository contains proprietary source code created as a freelance project for **LookRides**. It is made public strictly for **portfolio showcase purposes**. 
+
+You are **NOT** permitted to use, copy, modify, merge, publish, distribute, sublicense, or sell copies of this software, its design assets, or its proprietary components under any circumstances. 
+
+---
+*Developed with ❤️ by Pahul.*

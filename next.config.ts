@@ -48,16 +48,6 @@ const nextConfig: NextConfig = {
     ];
   },
 
-  // Redirect old WordPress-style URLs to new pages
-  async redirects() {
-    return [
-      { source: "/home", destination: "/", permanent: true },
-      { source: "/index", destination: "/", permanent: true },
-      { source: "/about-us", destination: "/about", permanent: true },
-      { source: "/our-fleet", destination: "/fleet", permanent: true },
-      { source: "/contact-us", destination: "/contact", permanent: true },
-    ];
-  },
 };
 
 export default nextConfig;

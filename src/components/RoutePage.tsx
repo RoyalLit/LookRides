@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ArrowRight, Clock, Shield, CheckCircle, Star } from 'lucide-react';
 import type { RouteData } from '@/lib/routes-data';
+import { allRoutes } from '@/lib/routes-data';
 
 const siteUrl = 'https://lookrides.com';
 
@@ -58,6 +59,7 @@ export default function RoutePage({ route }: { route: RouteData }) {
       <RouteHighlights route={route} />
       {route.stops.length > 1 && <RouteOverview route={route} />}
       <RouteFaqs route={route} />
+      <RouteRelated currentRoute={route} />
       <RouteCta route={route} />
     </>
   );
@@ -319,6 +321,55 @@ function RouteCta({ route }: { route: RouteData }) {
           <a href="tel:+919780426567" className="btn btn-outline-white btn-lg">
             Call +91 97804 26567
           </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function RouteRelated({ currentRoute }: { currentRoute: RouteData }) {
+  const otherRoutes = allRoutes
+    .filter(r => r.slug !== currentRoute.slug && (r.category === currentRoute.category || r.from === currentRoute.from))
+    .slice(0, 3);
+
+  if (otherRoutes.length < 3) {
+    const popular = allRoutes.filter(r => r.slug !== currentRoute.slug && !otherRoutes.some(o => o.slug === r.slug)).slice(0, 3 - otherRoutes.length);
+    otherRoutes.push(...popular);
+  }
+
+  return (
+    <section style={{ padding: '4rem 0', background: 'white' }}>
+      <style>{`
+        .rr-inner { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+        .rr-inner h2 { font-size: 1.75rem; text-align: center; margin-bottom: 0.5rem; color: #0B132B; font-family: Outfit, sans-serif; }
+        .rr-sub { text-align: center; color: #64748B; margin-bottom: 3rem; }
+        .rr-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+        .rr-card { background: #F8F9FA; border: 1px solid #E2E8F0; border-radius: 1rem; padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s; }
+        .rr-card:hover { border-color: #FCA311; transform: translateY(-3px); box-shadow: 0 8px 24px rgba(252,163,17,0.08); }
+        .rr-card h3 { font-size: 1.25rem; margin-bottom: 0.5rem; color: #0B132B; font-family: Outfit, sans-serif; }
+        .rr-details { font-size: 0.9rem; color: #64748B; margin-bottom: 1.5rem; }
+        .rr-price-wrap { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+        .rr-price { font-size: 1.1rem; font-weight: 700; color: #0B132B; }
+      `}</style>
+      <div className="rr-inner">
+        <h2>Other Popular Routes</h2>
+        <p className="rr-sub">Explore other taxi routes we serve with fixed, transparent pricing.</p>
+        
+        <div className="rr-grid">
+          {otherRoutes.map((r) => (
+            <div key={r.slug} className="rr-card">
+              <div>
+                <h3>{r.from} to {r.to}</h3>
+                <p className="rr-details">Distance: {r.distance} | Duration: {r.duration}</p>
+              </div>
+              <div className="rr-price-wrap">
+                <span className="rr-price">Starts at {r.sedanPrice}</span>
+                <Link href={`/routes/${r.slug}`} style={{ color: '#FCA311', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.25rem', fontWeight: '600', fontSize: '0.9rem' }}>
+                  View Route <ArrowRight size={14} />
+                </Link>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

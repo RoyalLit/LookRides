@@ -54,7 +54,6 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_IN",
-    url: siteUrl,
     siteName: "LookRides",
     title: "LookRides — Premium Intercity Cab Service in Chandigarh, Derabassi & Zirakpur",
     description: "North India's premium intercity cab service. Book outstation taxis & airport transfers. Fixed pricing, verified drivers, 24/7 support.",
@@ -74,8 +73,7 @@ export const metadata: Metadata = {
     apple: "/logo.png",
   },
   alternates: {
-    canonical: siteUrl,
-    languages: { 'en-in': siteUrl, 'en': siteUrl },
+    languages: { 'en-in': '/', 'en': '/' },
   },
   verification: {
     ...(process.env.GOOGLE_SITE_VERIFICATION ? { google: process.env.GOOGLE_SITE_VERIFICATION } : {}),

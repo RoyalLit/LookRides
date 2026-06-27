@@ -264,7 +264,7 @@ export default function Home() {
           </div>
 
           <div className={styles.heroFormWrap}>
-            <div className={styles.bookingWidget}>
+            <div className={styles.bookingWidget} id="booking-widget">
               <div className={styles.widgetHead}>
                 <div className={styles.widgetHeadTop}>
                   <h2>Secure Booking Request</h2>
@@ -446,9 +446,9 @@ export default function Home() {
                     <div className={styles.fleetFooterV2}>
                       <span className={styles.acDetailsText}>{details.ac}</span>
                       <Link 
-                        href={`/?pickup=Chandigarh&drop=${v.category === 'Sedan' ? 'Delhi' : 'Manali'}`} 
+                        href={`/?pickup=Chandigarh&drop=${v.category === 'Sedan' ? 'Delhi' : 'Manali'}#booking-widget`} 
                         className="btn btn-primary btn-sm"
-                        scroll={false}
+                        scroll={true}
                       >
                         Book Now
                       </Link>

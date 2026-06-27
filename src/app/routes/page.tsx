@@ -1,56 +1,131 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { ArrowRight, MapPin, Navigation, Clock, Activity, Plane } from 'lucide-react';
 import { allRoutes } from '@/lib/routes-data';
+import styles from './routes.module.css';
+import { supabase } from '@/lib/supabase';
 
 export const metadata: Metadata = {
   title: 'All Popular Routes | LookRides',
   description: 'Explore all premium intercity outstation routes and airport transfer routes served by LookRides.',
 };
 
-export default function RoutesIndexPage() {
-  const outstationRoutes = allRoutes.filter(r => r.category === 'outstation');
-  const airportRoutes = allRoutes.filter(r => r.category === 'airport');
+export const revalidate = 0; // Disable static caching so it always fetches live prices
+
+export default async function RoutesIndexPage() {
+  // Fetch live pricing from Supabase
+  const { data: dbRoutes } = await supabase.from('pricing_routes').select('*');
+  
+  // Merge static route data with live DB pricing
+  const mergedRoutes = allRoutes.map(staticRoute => {
+    const livePricing = dbRoutes?.find(r => r.from_city === staticRoute.fromCity && r.to_city === staticRoute.toCity);
+    return {
+      ...staticRoute,
+      sedanPrice: livePricing?.sedan_price || staticRoute.sedanPrice,
+      suvPrice: livePricing?.suv_price || staticRoute.suvPrice,
+    };
+  });
+
+  const outstationRoutes = mergedRoutes.filter(r => r.category === 'outstation');
+  const airportRoutes = mergedRoutes.filter(r => r.category === 'airport');
 
   return (
-    <div style={{ paddingTop: '100px', paddingBottom: '60px', maxWidth: '1200px', margin: '0 auto', paddingLeft: '20px', paddingRight: '20px' }}>
-      <h1 style={{ fontSize: '32px', marginBottom: '10px', color: '#0b132b' }}>Our Popular Routes</h1>
-      <p style={{ color: '#555', marginBottom: '30px' }}>
-        Select your route to view detailed pricing, duration, highlights, and book a premium cab.
-      </p>
-
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '40px', marginTop: '20px' }}>
-        <div>
-          <h2 style={{ fontSize: '22px', borderBottom: '2px solid #0b132b', paddingBottom: '8px', marginBottom: '15px' }}>Outstation Cabs</h2>
-          <ul style={{ display: 'flex', flexDirection: 'column', gap: '12px', listStyle: 'none', padding: 0 }}>
-            {outstationRoutes.map((r) => (
-              <li key={r.slug}>
-                <Link 
-                  href={`/routes/${r.slug}`} 
-                  style={{ color: 'var(--primary-color, #0070f3)', textDecoration: 'none', fontWeight: '500' }}
-                >
-                  {r.from} &rarr; {r.to} <span style={{ color: '#888', fontWeight: 'normal', fontSize: '14px' }}>({r.distance})</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
+    <div className={styles.page}>
+      
+      {/* HEADER SECTION */}
+      <section className={styles.pageHeader}>
+        <div className={styles.headerGlow} />
+        <div className="container">
+          <span className={styles.headerLabel}>Directory</span>
+          <h1 className={styles.pageTitle}>Explore Our Routes</h1>
+          <p className={styles.headerSubtitle}>
+            Whether it's a scenic hill station getaway or a reliable airport transfer, 
+            experience stress-free travel across North India with our fixed-price premium cabs.
+          </p>
         </div>
+      </section>
 
-        <div>
-          <h2 style={{ fontSize: '22px', borderBottom: '2px solid #0b132b', paddingBottom: '8px', marginBottom: '15px' }}>Airport Transfers</h2>
-          <ul style={{ display: 'flex', flexDirection: 'column', gap: '12px', listStyle: 'none', padding: 0 }}>
-            {airportRoutes.map((r) => (
-              <li key={r.slug}>
-                <Link 
-                  href={`/routes/${r.slug}`} 
-                  style={{ color: 'var(--primary-color, #0070f3)', textDecoration: 'none', fontWeight: '500' }}
-                >
-                  {r.from} &rarr; {r.to} <span style={{ color: '#888', fontWeight: 'normal', fontSize: '14px' }}>({r.distance})</span>
+      {/* ROUTES SECTIONS */}
+      <section className={styles.routesSection}>
+        <div className="container">
+          
+          {/* OUTSTATION CABS */}
+          <div style={{ marginBottom: '5rem' }}>
+            <h2 className={styles.sectionTitle}>Outstation Journeys</h2>
+            <p className={styles.sectionSubtitle}>Premium intercity travel to the most popular destinations in North India.</p>
+            
+            <div className={styles.routesGrid}>
+              {outstationRoutes.map((r) => (
+                <Link key={r.slug} href={`/routes/${r.slug}`} className={styles.routeCard}>
+                  
+                  <div className={styles.routePath}>
+                    <div className={styles.cityNode}>
+                      <span className={styles.cityName}>{r.from}</span>
+                    </div>
+                    <ArrowRight size={20} className={styles.pathArrow} />
+                    <div className={styles.cityNode}>
+                      <span className={styles.cityName}>{r.to}</span>
+                    </div>
+                  </div>
+
+                  <div className={styles.routeBadges}>
+                    <span className={styles.badge}><Activity size={14} /> {r.distance}</span>
+                    <span className={styles.badge}><Clock size={14} /> {r.duration}</span>
+                  </div>
+
+                  <div className={styles.routeFooter}>
+                    <div>
+                      <div className={styles.priceLabel}>Starting at</div>
+                      <div className={styles.priceValue}>{r.sedanPrice}</div>
+                    </div>
+                    <span className={styles.exploreLink}>Explore <ArrowRight size={16} /></span>
+                  </div>
+
                 </Link>
-              </li>
-            ))}
-          </ul>
+              ))}
+            </div>
+          </div>
+
+          {/* AIRPORT TRANSFERS */}
+          <div>
+            <h2 className={styles.sectionTitle}>Direct Airport Transfers</h2>
+            <p className={styles.sectionSubtitle}>Timely and reliable rides to and from major regional airports.</p>
+            
+            <div className={styles.routesGrid}>
+              {airportRoutes.map((r) => (
+                <Link key={r.slug} href={`/routes/${r.slug}`} className={styles.routeCard}>
+                  
+                  <div className={styles.routePath}>
+                    <div className={styles.cityNode}>
+                      <span className={styles.cityName}>{r.from}</span>
+                    </div>
+                    <ArrowRight size={20} className={styles.pathArrow} />
+                    <div className={styles.cityNode}>
+                      <span className={styles.cityName}>{r.to}</span>
+                    </div>
+                  </div>
+
+                  <div className={styles.routeBadges}>
+                    <span className={styles.badge}><Plane size={14} /> {r.distance}</span>
+                    <span className={styles.badge}><Clock size={14} /> {r.duration}</span>
+                  </div>
+
+                  <div className={styles.routeFooter}>
+                    <div>
+                      <div className={styles.priceLabel}>Starting at</div>
+                      <div className={styles.priceValue}>{r.sedanPrice}</div>
+                    </div>
+                    <span className={styles.exploreLink}>Explore <ArrowRight size={16} /></span>
+                  </div>
+
+                </Link>
+              ))}
+            </div>
+          </div>
+
         </div>
-      </div>
+      </section>
+
     </div>
   );
 }

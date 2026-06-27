@@ -1,0 +1,192 @@
+.page {
+  background-color: var(--background);
+  min-height: 100vh;
+}
+
+.pageHeader {
+  background: var(--primary-navy);
+  padding: 8rem 0 5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle glow effects for the header */
+.headerGlow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(252, 163, 17, 0.15) 0%, rgba(11, 19, 43, 0) 70%);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.headerLabel {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.pageTitle {
+  font-size: 3.5rem;
+  color: #ffffff;
+  margin-bottom: 1.25rem;
+  position: relative;
+  z-index: 1;
+}
+
+.headerSubtitle {
+  font-size: 1.15rem;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 650px;
+  margin: 0 auto;
+  line-height: 1.7;
+  position: relative;
+  z-index: 1;
+}
+
+.routesSection {
+  padding: 5rem 0;
+}
+
+.sectionTitle {
+  font-size: 2rem;
+  color: var(--primary-navy);
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.sectionSubtitle {
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin-bottom: 3rem;
+}
+
+.routesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 2rem;
+  margin-bottom: 5rem;
+}
+
+.routeCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  transition: all var(--transition-normal);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.routeCard:hover {
+  border-color: var(--accent-gold);
+  box-shadow: 0 16px 40px rgba(252, 163, 17, 0.12);
+  transform: translateY(-5px);
+}
+
+.routePath {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.cityNode {
+  display: flex;
+  flex-direction: column;
+}
+
+.cityName {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--primary-navy);
+  line-height: 1.2;
+}
+
+.pathArrow {
+  color: var(--accent-gold);
+  flex-shrink: 0;
+}
+
+.routeBadges {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.75rem;
+  background: #f1f5f9;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 0.03em;
+}
+
+.routeFooter {
+  margin-top: auto;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.priceLabel {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.2rem;
+}
+
+.priceValue {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--primary-navy);
+  font-family: var(--font-outfit);
+}
+
+.exploreLink {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--accent-gold);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: gap var(--transition-fast);
+}
+
+.routeCard:hover .exploreLink {
+  gap: 0.75rem;
+}
+
+@media (max-width: 768px) {
+  .pageHeader {
+    padding: 6rem 1rem 4rem;
+  }
+  .pageTitle {
+    font-size: 2.5rem;
+  }
+  .routesGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}

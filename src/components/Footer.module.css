@@ -88,6 +88,26 @@ a.contactItem:hover {
   color: var(--accent-gold);
 }
 
+.whyList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.whyList li {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.75);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.whyIcon {
+  color: var(--accent-teal);
+  flex-shrink: 0;
+}
+
 .footerBottom {
   padding: 1.5rem 0;
 }

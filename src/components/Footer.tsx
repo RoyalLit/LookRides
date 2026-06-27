@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Phone, Mail, MapPin, Star, Shield } from 'lucide-react';
+import { Phone, Mail, MapPin, Star, Shield, ExternalLink } from 'lucide-react';
 import Logo from './Logo';
 import styles from './Footer.module.css';
 
@@ -8,16 +8,24 @@ const routeLinks = [
   { href: '/routes/chandigarh-to-manali', label: 'Chandigarh to Manali' },
   { href: '/routes/chandigarh-to-shimla', label: 'Chandigarh to Shimla' },
   { href: '/routes/chandigarh-to-amritsar', label: 'Chandigarh to Amritsar' },
-  { href: '/routes/chandigarh-to-delhi-airport', label: 'Chandigarh to Delhi Airport' },
   { href: '/routes/chandigarh-to-dharamshala', label: 'Chandigarh to Dharamshala' },
   { href: '/routes/chandigarh-to-dehradun', label: 'Chandigarh to Dehradun' },
-  { href: '/routes/one-way-cab-chandigarh', label: 'One Way Cab Chandigarh' },
+  { href: '/routes/chandigarh-to-jammu', label: 'Chandigarh to Jammu' },
+];
+
+const destinationLinks = [
+  { href: '/routes/chandigarh-to-delhi', label: 'Delhi NCR' },
+  { href: '/routes/chandigarh-to-shimla', label: 'Shimla Hills' },
+  { href: '/routes/chandigarh-to-manali', label: 'Manali Valley' },
+  { href: '/routes/chandigarh-to-dharamshala', label: 'Dharamshala' },
+  { href: '/routes/chandigarh-to-dehradun', label: 'Dehradun & Mussoorie' },
+  { href: '/routes/chandigarh-to-amritsar', label: 'Amritsar City' },
 ];
 
 const airportLinks = [
-  { href: '/routes/derabassi-to-chandigarh-airport', label: 'Derabassi to Airport' },
-  { href: '/routes/mohali-to-chandigarh-airport', label: 'Mohali to Airport' },
-  { href: '/routes/panchkula-to-chandigarh-airport', label: 'Panchkula to Airport' },
+  { href: '/routes/derabassi-to-chandigarh-airport', label: 'Derabassi to IXC Airport' },
+  { href: '/routes/mohali-to-chandigarh-airport', label: 'Mohali to IXC Airport' },
+  { href: '/routes/panchkula-to-chandigarh-airport', label: 'Panchkula to IXC Airport' },
   { href: '/routes/chandigarh-to-delhi-airport', label: 'Chandigarh to IGI Delhi' },
 ];
 
@@ -31,9 +39,8 @@ export default function Footer() {
             <Logo variant="light" height={55} />
           </Link>
           <p className={styles.tagline}>
-            North India&apos;s premium intercity cab service. Professional drivers, 
-            transparent pricing, and 24/7 support across Chandigarh, Punjab, 
-            Haryana, Himachal & Delhi.
+            North India&apos;s premium intercity travel platform. Professional highway chauffeurs, 
+            guaranteed fixed pricing, and 24/7 support across Punjab, Haryana, Himachal & Delhi.
           </p>
           <div className={styles.rating}>
             <Star size={14} fill="currentColor" /> 4.8 ★ on Google
@@ -48,7 +55,7 @@ export default function Footer() {
               <Mail size={14} /> info@lookride.in
             </a>
             <span className={styles.contactItem}>
-              <MapPin size={14} /> Derabassi, Punjab — Serving Tricity & North India
+              <MapPin size={14} /> Tricity Dispatch — Serving North India
             </span>
           </div>
         </div>
@@ -63,30 +70,36 @@ export default function Footer() {
         </div>
 
         <div className={styles.linksGroup}>
-          <h4>Airport Transfers</h4>
+          <h4>Destinations</h4>
+          <ul>
+            {destinationLinks.map((d) => (
+              <li key={d.href}><Link href={d.href}>{d.label}</Link></li>
+            ))}
+          </ul>
+          <h4 style={{ marginTop: '2rem' }}>Airport Transfers</h4>
           <ul>
             {airportLinks.map((r) => (
               <li key={r.href}><Link href={r.href}>{r.label}</Link></li>
             ))}
           </ul>
-          <h4 style={{ marginTop: '2rem' }}>Services</h4>
-          <ul>
-            <li><Link href="/services">All Services</Link></li>
-            <li><Link href="/fleet">Our Fleet</Link></li>
-            <li><Link href="/about">About Us</Link></li>
-            <li><Link href="/contact">Contact</Link></li>
-          </ul>
         </div>
 
         <div className={styles.linksGroup}>
-          <h4>Why LookRides</h4>
+          <h4>Company</h4>
           <ul>
-            <li><Shield size={12} style={{ display: 'inline', marginRight: '0.25rem', opacity: 0.5 }} /> Verified Drivers</li>
-            <li><Shield size={12} style={{ display: 'inline', marginRight: '0.25rem', opacity: 0.5 }} /> Fixed Pricing</li>
-            <li><Shield size={12} style={{ display: 'inline', marginRight: '0.25rem', opacity: 0.5 }} /> GPS Tracked Rides</li>
-            <li><Shield size={12} style={{ display: 'inline', marginRight: '0.25rem', opacity: 0.5 }} /> 24/7 Support</li>
-            <li><Shield size={12} style={{ display: 'inline', marginRight: '0.25rem', opacity: 0.5 }} /> Sanitized Vehicles</li>
-            <li><Shield size={12} style={{ display: 'inline', marginRight: '0.25rem', opacity: 0.5 }} /> Flight Tracking</li>
+            <li><Link href="/about">About Our Mission</Link></li>
+            <li><Link href="/services">Travel Services</Link></li>
+            <li><Link href="/fleet">Our Premium Fleet</Link></li>
+            <li><Link href="/blog">Travel Guides & Blog</Link></li>
+            <li><Link href="/contact">Get in Touch</Link></li>
+          </ul>
+
+          <h4 style={{ marginTop: '2rem' }}>Why LookRides</h4>
+          <ul className={styles.whyList}>
+            <li><Shield size={12} className={styles.whyIcon} /> Verified Chauffeurs</li>
+            <li><Shield size={12} className={styles.whyIcon} /> Fixed Upfront Prices</li>
+            <li><Shield size={12} className={styles.whyIcon} /> Sanitized AC Fleet</li>
+            <li><Shield size={12} className={styles.whyIcon} /> Real-time Flight Monitoring</li>
           </ul>
         </div>
 
@@ -94,8 +107,8 @@ export default function Footer() {
 
       <div className={styles.footerBottom}>
         <div className="container">
-          <p>© {new Date().getFullYear()} LookRides. All rights reserved. Premium intercity taxi service in North India.</p>
-          <p>Serving Chandigarh · Mohali · Panchkula · Derabassi · Zirakpur · Punjab</p>
+          <p>© {new Date().getFullYear()} LookRides. All rights reserved. Premium intercity travel platform.</p>
+          <p>Serving Chandigarh · Mohali · Panchkula · Zirakpur · Derabassi · Punjab · Delhi NCR</p>
         </div>
       </div>
     </footer>

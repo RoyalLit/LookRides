@@ -1000,6 +1000,619 @@
   color: var(--text-muted);
 }
 
+/* ══ V2 UPGRADES ════════════════════════════════════════════ */
+.heroBadgeStar {
+  color: var(--accent-gold);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+.heroStatsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  animation: fadeUp 0.7s 0.4s both;
+  width: 100%;
+}
+
+.heroStatItem {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0.5rem 0;
+}
+
+.heroStatNum {
+  font-family: var(--font-outfit);
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: var(--accent-gold);
+  line-height: 1.1;
+}
+
+.heroStatSuffix {
+  color: var(--accent-gold);
+}
+
+.heroStatLabel {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.65);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.25rem;
+}
+
+/* Route Card V2 (Image-Backed) */
+.routeCardV2 {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all var(--ease-normal);
+  position: relative;
+  height: 100%;
+}
+
+.routeCardV2:hover {
+  border-color: var(--accent-gold);
+  box-shadow: 0 16px 36px rgba(252,163,17,0.1);
+  transform: translateY(-4px);
+}
+
+.routeCardImgWrap {
+  height: 160px;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--primary-navy);
+}
+
+.routeCardImgWrap img {
+  transition: transform 0.6s var(--ease-out);
+}
+
+.routeCardV2:hover .routeCardImgWrap img {
+  transform: scale(1.08);
+}
+
+.routeImgOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 40%, rgba(11,19,43,0.7) 100%);
+  z-index: 1;
+}
+
+.routePopularBadge {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  background: rgba(252,163,17,0.9);
+  color: var(--primary-navy);
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
+  z-index: 2;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.routeCardBody {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.routeCardDirections h3 {
+  font-size: 1.15rem;
+  color: var(--primary-navy);
+  margin-bottom: 0.25rem;
+  font-family: var(--font-outfit);
+}
+
+.routeMetrics {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.routeMetricsDot {
+  color: var(--border-strong);
+}
+
+.routeCardPriceBlock {
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.priceLabel {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.priceTag {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--accent-gold-hover);
+  font-family: var(--font-outfit);
+}
+
+.priceSuffix {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.routeCardActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  border-top: 1px solid var(--border);
+  padding-top: 0.75rem;
+}
+
+.exploreRouteLink {
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  transition: all var(--ease-fast);
+}
+
+.exploreRouteLink:hover {
+  color: var(--accent-gold-hover);
+  gap: 0.45rem;
+}
+
+/* Explore Popular Destinations */
+.destinationsSection {
+  padding: 6rem 0;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+
+.destinationsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.destinationCard {
+  position: relative;
+  height: 280px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: block;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--ease-normal);
+}
+
+.destinationCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 32px rgba(0,0,0,0.15);
+}
+
+.destCardImgWrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.destImage {
+  transition: transform 0.6s var(--ease-out);
+}
+
+.destinationCard:hover .destImage {
+  transform: scale(1.08);
+}
+
+.destOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 30%, rgba(11,19,43,0.85) 90%);
+  z-index: 1;
+}
+
+.destText {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem;
+  color: #fff;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.destHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.destHeader h3 {
+  font-size: 1.25rem;
+  color: #fff;
+  font-family: var(--font-outfit);
+  margin-bottom: 0;
+}
+
+.destDuration {
+  font-size: 0.725rem;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(4px);
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-full);
+  font-weight: 500;
+  color: rgba(255,255,255,0.9);
+}
+
+.destText p {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.4;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.destExploreLink {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 0.25rem;
+  transition: gap var(--ease-fast);
+}
+
+.destinationCard:hover .destExploreLink {
+  gap: 0.45rem;
+}
+
+/* Fleet Card V2 */
+.fleetCardV2 {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all var(--ease-normal);
+  position: relative;
+  height: 100%;
+}
+
+.fleetCardV2:hover {
+  border-color: var(--accent-gold);
+  box-shadow: 0 16px 36px rgba(252,163,17,0.1);
+  transform: translateY(-4px);
+}
+
+.fleetImgWrap {
+  height: 180px;
+  position: relative;
+  background: linear-gradient(160deg, #e8eef6 0%, #f1f5f9 100%);
+  overflow: hidden;
+}
+
+.fleetImgFloat {
+  animation: floatCar 4s ease-in-out infinite;
+}
+
+.fleetCardV2:nth-child(2) .fleetImgFloat { animation-delay: 0.8s; }
+.fleetCardV2:nth-child(3) .fleetImgFloat { animation-delay: 1.6s; }
+
+.fleetTypeBadge {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 0.75rem;
+  z-index: 1;
+  font-size: 0.65rem;
+  background: var(--primary-navy);
+  color: #fff;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
+}
+
+.fleetBodyV2 {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 0.75rem;
+}
+
+.fleetHeaderV2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fleetHeaderV2 h3 {
+  font-size: 1.15rem;
+  color: var(--primary-navy);
+  margin-bottom: 0;
+  font-family: var(--font-outfit);
+}
+
+.acBadge {
+  font-size: 0.65rem;
+  background: var(--accent-teal-light);
+  color: var(--accent-teal);
+  font-weight: 700;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.fleetIdealTrip {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin: 0;
+}
+
+.fleetSpecsV2 {
+  display: flex;
+  gap: 1rem;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 0.6rem 0;
+}
+
+.fleetSpecsV2 span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.fleetComfortText {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin: 0;
+  font-style: italic;
+}
+
+.fleetFooterV2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
+.acDetailsText {
+  font-size: 0.725rem;
+  color: var(--accent-teal);
+  font-weight: 600;
+}
+
+/* Storytelling Section */
+.aboutExperience {
+  padding: 7rem 0;
+  background: var(--background);
+}
+
+.aboutStoryGrid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.aboutStoryContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.aboutStoryContent h2 {
+  font-size: 2.25rem;
+  color: var(--primary-navy);
+  line-height: 1.15;
+}
+
+.aboutStoryContent p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+.aboutPillarsList {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.aboutPillarsList li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.checkWrap {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--accent-teal-light);
+  color: var(--accent-teal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.aboutStoryVisual {
+  display: flex;
+  justify-content: center;
+}
+
+.aboutVisualBorderWrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/3;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border);
+}
+
+.aboutVisualImage {
+  filter: brightness(0.95);
+  transition: transform 0.5s;
+}
+
+.aboutVisualBorderWrap:hover .aboutVisualImage {
+  transform: scale(1.03);
+}
+
+/* Testimonial Card V2 */
+.testimonialCardV2 {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--ease-normal);
+  height: 100%;
+  position: relative;
+}
+
+.testimonialCardV2:hover {
+  border-color: rgba(252,163,17,0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(0,0,0,0.06);
+}
+
+.tCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.tCardAvatarWrap {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+}
+
+.tCardAvatar {
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--border);
+}
+
+.tCardBadgeWrap {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent-teal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--surface);
+}
+
+.tCardMetaInfo h4 {
+  font-size: 0.95rem;
+  color: var(--primary-navy);
+  margin-bottom: 0.1rem;
+  font-weight: 700;
+}
+
+.tCardRouteText {
+  font-size: 0.725rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.tCardStars {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--accent-gold);
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+}
+
+.tCardRatingVal {
+  color: var(--primary-navy);
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-left: 0.25rem;
+}
+
+.tCardText {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0;
+  font-style: italic;
+  flex: 1;
+}
+
+.tCardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border);
+  padding-top: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.tCardVerifiedBadge {
+  font-size: 0.7rem;
+  color: var(--accent-teal);
+  font-weight: 600;
+}
+
+.tCardDate {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
 /* ══ RESPONSIVE (Desktop-first) ══════════════════════════════ */
 @media (max-width: 1100px) {
   .heroInner { grid-template-columns: 1fr; gap: 3rem; }
@@ -1013,6 +1626,9 @@
   .routesGrid { grid-template-columns: repeat(2, 1fr); }
   .trustedGrid { grid-template-columns: repeat(2, 1fr); }
   .safetyGrid { grid-template-columns: repeat(2, 1fr); }
+  .destinationsGrid { grid-template-columns: repeat(2, 1fr); }
+  .aboutStoryGrid { grid-template-columns: 1fr; gap: 3rem; }
+  .aboutStoryVisual { order: -1; max-width: 500px; margin: 0 auto; width: 100%; }
 }
 
 @media (max-width: 900px) {
@@ -1031,23 +1647,20 @@
   .heroSubtitle { font-size: 0.95rem; }
   .heroActions { flex-direction: column; align-items: stretch; }
   .heroActions :global(.btn) { width: 100%; }
-  .heroStats { flex-wrap: wrap; gap: 1rem; justify-content: center; }
-  .stat { padding-right: 1.25rem; margin-right: 1.25rem; }
-  .statVal { font-size: 1.35rem; }
-  .heroQuickRoutes { flex-direction: column; align-items: flex-start; }
-  .quickRoutesList { justify-content: flex-start; }
+  .heroStatsGrid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
   .trustedGrid { grid-template-columns: 1fr; gap: 0.5rem; }
   .trustedCard { padding: 0.75rem 0; }
   .routesGrid { grid-template-columns: 1fr; }
   .servicesGrid, .fleetGrid { grid-template-columns: 1fr; }
   .safetyGrid { grid-template-columns: 1fr; }
   .testimonialsGrid { grid-template-columns: 1fr; }
+  .destinationsGrid { grid-template-columns: 1fr; }
   .ctaActions { flex-direction: column; align-items: center; }
   .ctaActions :global(.btn) { width: 100%; }
   .sectionHead { margin-bottom: 2.5rem; }
   .servicesSection, .fleetSection, .safetySection,
   .pricingSection, .testimonialsSection, .faqSection,
-  .routesPreview, .processSection { padding: 4rem 0; }
+  .routesPreview, .processSection, .destinationsSection, .aboutExperience { padding: 4rem 0; }
   .processStep { padding: 1.5rem; }
   .processCta { flex-direction: column; }
   .processCta :global(.btn) { width: 100%; }
@@ -1061,8 +1674,7 @@
   .heroQuickRoutes { align-items: center; }
   .widgetHead { padding: 1rem 1.25rem; }
   .widgetHead h2 { font-size: 1rem; }
-  .stat { padding-right: 0.75rem; margin-right: 0.75rem; }
-  .statVal { font-size: 1.1rem; }
-  .statLabel { font-size: 0.65rem; }
+  .heroStatsGrid { grid-template-columns: 1fr; text-align: center; }
+  .heroStatItem { align-items: center; }
   .quickRoute { font-size: 0.7rem; }
 }

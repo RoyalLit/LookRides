@@ -1,4 +1,4 @@
-.page { overflow: hidden; }
+.page { overflow: hidden; position: relative; z-index: 2; }
 
 /* ══ HERO ════════════════════════════════════════════════════ */
 .hero {
@@ -1302,26 +1302,27 @@
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  transition: all var(--ease-normal);
+  transition: border-color var(--ease-normal), box-shadow var(--ease-normal), top var(--ease-normal);
   position: relative;
+  top: 0;
   height: 100%;
 }
 
 .fleetCardV2:hover {
   border-color: var(--accent-gold);
   box-shadow: 0 16px 36px rgba(252,163,17,0.1);
-  transform: translateY(-4px);
+  top: -4px;
 }
 
 .fleetImgWrap {
   height: 180px;
   position: relative;
-  background: linear-gradient(160deg, #e8eef6 0%, #f1f5f9 100%);
   overflow: hidden;
 }
 
 .fleetImgFloat {
   animation: floatCar 4s ease-in-out infinite;
+  mix-blend-mode: multiply;
 }
 
 .fleetCardV2:nth-child(2) .fleetImgFloat { animation-delay: 0.8s; }
@@ -1693,22 +1694,20 @@
   overflow: hidden;
   margin-bottom: 2.5rem;
   padding: 1rem 0;
-  /* Add blur/fade effect to edges so it looks like a carousel */
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 92%, transparent 100%);
-  mask-image: linear-gradient(to right, transparent 0%, black 5%, black 92%, transparent 100%);
 }
 .embla__container {
   display: flex;
-  gap: 1.75rem;
+  margin-left: -1.75rem;
 }
 .embla__slide {
-  /* Use 31% so the 4th card peeks in slightly to indicate more content */
-  flex: 0 0 calc(31% - 1.166rem);
+  /* 31% of the container (which is 1.75rem wider due to negative margin) */
+  flex: 0 0 31%;
+  padding-left: 1.75rem;
   min-width: 0;
 }
 @media (max-width: 1024px) {
   .embla__slide {
-    flex: 0 0 calc(45% - 0.875rem);
+    flex: 0 0 45%;
   }
 }
 @media (max-width: 768px) {

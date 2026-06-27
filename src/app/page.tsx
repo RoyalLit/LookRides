@@ -207,11 +207,12 @@ export default function Home() {
   };
 
   return (
-    <div className={styles.page}>
+    <>
+      <div className={styles.page}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       
       {/* 1. HERO SECTION */}
-      <section className={styles.hero}>
+      <section className={styles.hero} data-journey="hero">
         <div className={styles.heroBg}>
           <div className={styles.heroGlow1} />
           <div className={styles.heroGlow2} />
@@ -285,7 +286,7 @@ export default function Home() {
       </section>
 
       {/* 2. TRUST METRICS SECTION */}
-      <section className={`${styles.trustedSection} reveal-on-scroll`} ref={addToRefs}>
+      <section className={`${styles.trustedSection} reveal-on-scroll`} ref={addToRefs} data-journey="trust">
         <div className="container">
           <div className={styles.trustedGrid}>
             {trustFeatures.map(({ Icon, title, desc }) => (
@@ -302,7 +303,7 @@ export default function Home() {
       </section>
 
       {/* 3. POPULAR ROUTES UPGRADE */}
-      <section className={`${styles.routesPreview} reveal-on-scroll`} ref={addToRefs}>
+      <section className={`${styles.routesPreview} reveal-on-scroll`} ref={addToRefs} data-journey="routes" data-journey-label="Popular Routes">
         <div className="container">
           <div className={styles.sectionHead}>
             <span className="section-label">Popular Routes</span>
@@ -362,7 +363,7 @@ export default function Home() {
       </section>
 
       {/* 4. EXPLORE POPULAR DESTINATIONS */}
-      <section className={`${styles.destinationsSection} reveal-on-scroll`} ref={addToRefs}>
+      <section className={`${styles.destinationsSection} reveal-on-scroll`} ref={addToRefs} data-journey="destinations" data-journey-label="Explore Destinations">
         <div className="container">
           <div className={styles.sectionHead}>
             <span className="section-label">Explore Destinations</span>
@@ -401,7 +402,7 @@ export default function Home() {
       </section>
 
       {/* 5. PREMIUM FLEET PREVIEW */}
-      <section className={`${styles.fleetSection} reveal-on-scroll`} ref={addToRefs}>
+      <section className={`${styles.fleetSection} reveal-on-scroll`} ref={addToRefs} data-journey="fleet" data-journey-label="Premium Fleet">
         <div className="container">
           <div className={styles.sectionHead}>
             <span className="section-label">Our Fleet</span>
@@ -416,46 +417,48 @@ export default function Home() {
               ) : fleet.map((v) => {
                 const details = getFleetDetails(v.category);
                 return (
-                  <div key={v.id} className={`${styles.fleetCardV2} ${styles.embla__slide}`}>
-                  <div className={styles.fleetImgWrap}>
-                    <Image 
-                      src={v.image_url} 
-                      alt={v.name} 
-                      fill 
-                      style={{ objectFit: "contain", padding: "1.5rem" }} 
-                      sizes="(max-width: 768px) 100vw, 33vw" 
-                      className={styles.fleetImgFloat}
-                    />
-                    <span className={`badge badge-navy ${styles.fleetTypeBadge}`}>{v.category} Class</span>
+                  <div key={v.id} className={styles.embla__slide}>
+                    <div className={styles.fleetCardV2}>
+                      <div className={styles.fleetImgWrap}>
+                        <Image 
+                          src={v.image_url} 
+                          alt={v.name} 
+                          fill 
+                          style={{ objectFit: "contain", padding: "1.5rem" }} 
+                          sizes="(max-width: 768px) 100vw, 33vw" 
+                          className={styles.fleetImgFloat}
+                        />
+                        <span className={`badge badge-navy ${styles.fleetTypeBadge}`}>{v.category} Class</span>
+                      </div>
+
+                      <div className={styles.fleetBodyV2}>
+                        <div className={styles.fleetHeaderV2}>
+                          <h3>{v.name}</h3>
+                          <span className={styles.acBadge}>AC</span>
+                        </div>
+                        
+                        <p className={styles.fleetIdealTrip}>{details.idealTrip}</p>
+
+                        <div className={styles.fleetSpecsV2}>
+                          <span><Users size={14} /> {v.seats} Passengers</span>
+                          <span><Luggage size={14} /> {v.bags} Bags Max</span>
+                        </div>
+
+                        <p className={styles.fleetComfortText}>{details.comfortLevel}</p>
+
+                        <div className={styles.fleetFooterV2}>
+                          <span className={styles.acDetailsText}>{details.ac}</span>
+                          <Link 
+                            href={`/?pickup=Chandigarh&drop=${v.category === 'Sedan' ? 'Delhi' : 'Manali'}#booking-widget`} 
+                            className="btn btn-primary btn-sm"
+                            scroll={true}
+                          >
+                            Book Now
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-
-                  <div className={styles.fleetBodyV2}>
-                    <div className={styles.fleetHeaderV2}>
-                      <h3>{v.name}</h3>
-                      <span className={styles.acBadge}>AC</span>
-                    </div>
-                    
-                    <p className={styles.fleetIdealTrip}>{details.idealTrip}</p>
-
-                    <div className={styles.fleetSpecsV2}>
-                      <span><Users size={14} /> {v.seats} Passengers</span>
-                      <span><Luggage size={14} /> {v.bags} Bags Max</span>
-                    </div>
-
-                    <p className={styles.fleetComfortText}>{details.comfortLevel}</p>
-
-                    <div className={styles.fleetFooterV2}>
-                      <span className={styles.acDetailsText}>{details.ac}</span>
-                      <Link 
-                        href={`/?pickup=Chandigarh&drop=${v.category === 'Sedan' ? 'Delhi' : 'Manali'}#booking-widget`} 
-                        className="btn btn-primary btn-sm"
-                        scroll={true}
-                      >
-                        Book Now
-                      </Link>
-                    </div>
-                  </div>
-                </div>
               );
             })}
             </div>
@@ -468,7 +471,7 @@ export default function Home() {
       </section>
 
       {/* 6. BRAND STORYTELLING SECTION */}
-      <section className={`${styles.aboutExperience} reveal-on-scroll`} ref={addToRefs}>
+      <section className={`${styles.aboutExperience} reveal-on-scroll`} ref={addToRefs} data-journey="story">
         <div className="container">
           <div className={styles.aboutStoryGrid}>
             <div className={styles.aboutStoryContent}>
@@ -517,7 +520,7 @@ export default function Home() {
       </section>
 
       {/* 7. SAFETY SECTION */}
-      <section className={`${styles.safetySection} reveal-on-scroll`} ref={addToRefs}>
+      <section className={`${styles.safetySection} reveal-on-scroll`} ref={addToRefs} data-journey="safety">
         <div className="container">
           <div className={styles.sectionHead}>
             <span className="section-label">Your Safety Matters</span>
@@ -537,7 +540,7 @@ export default function Home() {
       </section>
 
       {/* 8. TESTIMONIALS UPGRADE */}
-      <section className={`${styles.testimonialsSection} reveal-on-scroll`} ref={addToRefs}>
+      <section className={`${styles.testimonialsSection} reveal-on-scroll`} ref={addToRefs} data-journey="testimonials" data-journey-label="Customer Stories">
         <div className="container">
           <div className={styles.sectionHead}>
             <span className="section-label">Verified Testimonials</span>
@@ -595,7 +598,7 @@ export default function Home() {
       </section>
 
       {/* 9. FAQS */}
-      <section className={`${styles.faqSection} reveal-on-scroll`} ref={addToRefs}>
+      <section className={`${styles.faqSection} reveal-on-scroll`} ref={addToRefs} data-journey="faq">
         <div className="container">
           <div className={styles.sectionHead}>
             <span className="section-label">Got Questions?</span>
@@ -626,7 +629,7 @@ export default function Home() {
       </section>
 
       {/* 10. FINAL CTA */}
-      <section className={`${styles.ctaSection} reveal-on-scroll`} ref={addToRefs}>
+      <section className={`${styles.ctaSection} reveal-on-scroll`} ref={addToRefs} data-journey="cta">
         <div className="container">
           <div className={styles.ctaBox}>
             <div className={styles.ctaContent}>
@@ -642,6 +645,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-    </div>
+    </div></>
   );
 }

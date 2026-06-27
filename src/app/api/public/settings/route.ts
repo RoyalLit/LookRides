@@ -17,7 +17,9 @@ export async function GET() {
     const result: Record<string, unknown> = {};
     (data || []).forEach((s) => { result[s.key] = s.value; });
 
-    return NextResponse.json(result);
+    return NextResponse.json(result, {
+      headers: { 'Cache-Control': 'public, max-age=60, s-maxage=120' },
+    });
   } catch {
     return NextResponse.json({ error: 'Failed to fetch settings' }, { status: 500 });
   }

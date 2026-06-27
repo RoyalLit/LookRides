@@ -16,7 +16,6 @@ export default function AdminLayout({
 }) {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
-  const [authError, setAuthError] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -54,17 +53,6 @@ export default function AdminLayout({
     return (
       <div className={styles.loadingContainer}>
         <div className={styles.spinner}></div>
-      </div>
-    );
-  }
-
-  if (authError) {
-    return (
-      <div className={styles.loadingContainer}>
-        <p>Failed to verify session. Please try logging in again.</p>
-        <button onClick={() => router.push('/admin/login')} className="btn btn-primary btn-sm">
-          Go to Login
-        </button>
       </div>
     );
   }

@@ -3,7 +3,7 @@ import Image from 'next/image';
 type BlendMode = 'screen' | 'multiply';
 
 export default function Logo({ variant = 'dark', height = 80 }: { variant?: 'dark' | 'light', height?: number }) {
-  const src = variant === 'light' ? '/logo-light.png' : '/logo-dark.png';
+  const src = variant === 'light' ? '/logo-light.webp' : '/logo-dark.png';
   const alt = "LookRides Logo";
   const width = height * 4.5; 
   const blendMode: BlendMode = variant === 'light' ? 'screen' : 'multiply';

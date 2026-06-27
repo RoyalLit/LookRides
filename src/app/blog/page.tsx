@@ -1,15 +1,48 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
+import { getSortedPostsData } from '@/lib/markdown';
+
+const title = 'Blog | LookRides — Travel Tips & Destination Guides';
+const description = 'Read the latest travel tips, destination guides, and updates from LookRides. Discover the best routes, hidden gems, and travel hacks for the Tricity region and beyond.';
 
 export const metadata: Metadata = {
-  title: 'Blog | LookRides',
-  description: 'Read the latest updates, travel tips, and stories from LookRides.',
+  title,
+  description,
+  openGraph: { title, description, images: '/og-image.png' },
+  twitter: { card: 'summary_large_image', title, description },
+  alternates: { canonical: 'https://lookrides.com/blog' },
 };
 
 export default function BlogPage() {
+  const allPostsData = getSortedPostsData();
+
   return (
-    <div style={{ paddingTop: '100px', paddingBottom: '60px', maxWidth: '1200px', margin: '0 auto', paddingLeft: '20px', paddingRight: '20px' }}>
-      <h1>Blog</h1>
-      <p>Welcome to our blog. Stay tuned for travel tips, destination guides, and more!</p>
+    <div style={{ paddingTop: '120px', paddingBottom: '80px', maxWidth: '1000px', margin: '0 auto', paddingLeft: '20px', paddingRight: '20px' }}>
+      <h1 style={{ fontSize: '3rem', fontWeight: '800', marginBottom: '1rem', color: 'var(--primary-navy)' }}>Travel Guides & Tips</h1>
+      <p style={{ fontSize: '1.1rem', color: '#4b5563', marginBottom: '3rem' }}>
+        Discover the best routes, hidden gems, and travel hacks for the North Indian region and beyond.
+      </p>
+
+      {allPostsData.length === 0 ? (
+        <p>No blog posts found. Check back soon!</p>
+      ) : (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '2rem' }}>
+          {allPostsData.map(({ slug, date, title, excerpt }) => (
+            <div key={slug} style={{ background: '#f8fafc', padding: '1.5rem', borderRadius: '12px', border: '1px solid #e2e8f0', display: 'flex', flexDirection: 'column' }}>
+              <div style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: '0.5rem' }}>{date}</div>
+              <h2 style={{ fontSize: '1.4rem', color: 'var(--primary-navy)', marginBottom: '1rem', lineHeight: '1.4' }}>
+                <Link href={`/blog/${slug}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+                  {title}
+                </Link>
+              </h2>
+              <p style={{ fontSize: '0.95rem', color: '#4b5563', marginBottom: '1.5rem', flexGrow: 1 }}>{excerpt}</p>
+              <Link href={`/blog/${slug}`} style={{ color: 'var(--accent-gold)', fontWeight: '700', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '0.25rem' }}>
+                Read Article &rarr;
+              </Link>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

@@ -43,14 +43,19 @@ export default function ReviewsManagement() {
   }, []);
 
   const handleSave = useCallback(async () => {
-    if (editingId === 'new') {
-      const { error } = await supabase.from('reviews').insert([formData]);
-      if (!error) fetchReviews();
-    } else {
-      const { error } = await supabase.from('reviews').update(formData).eq('id', editingId);
-      if (!error) fetchReviews();
+    try {
+      if (editingId === 'new') {
+        const { error } = await supabase.from('reviews').insert([formData]);
+        if (error) throw error;
+      } else {
+        const { error } = await supabase.from('reviews').update(formData).eq('id', editingId);
+        if (error) throw error;
+      }
+      fetchReviews();
+      setEditingId(null);
+    } catch (err: unknown) {
+      console.error('Failed to save review:', err);
     }
-    setEditingId(null);
   }, []);
 
   const handleEdit = useCallback((review: GoogleReview) => {

@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
+import { supabaseAdmin } from '@/lib/supabase-admin';
 import { sendContactNotification } from '@/lib/email';
 import { rateLimit } from '@/lib/rate-limit';
-
-const ALLOWED_ORIGINS = ['https://lookrides.com', 'https://www.lookrides.com', 'https://lookrides.in', 'https://www.lookrides.in', 'http://localhost:3000'];
+import { isAllowedOrigin } from '@/lib/origin-check';
 
 const contactSchema = z.object({
   name: z.string().min(1, 'Name is required').max(100),
@@ -12,14 +12,6 @@ const contactSchema = z.object({
   message: z.string().min(1, 'Message is required').max(5000),
 });
 
-function isAllowedOrigin(request: Request): boolean {
-  const origin = request.headers.get('origin');
-  const referer = request.headers.get('referer');
-  if (!origin && !referer) return false;
-  const check = origin || referer || '';
-  return ALLOWED_ORIGINS.some((allowed) => check.startsWith(allowed));
-}
-
 export async function POST(request: Request) {
   try {
     if (!isAllowedOrigin(request)) {
@@ -27,7 +19,7 @@ export async function POST(request: Request) {
     }
 
     const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
-    const { allowed, retryAfter } = rateLimit({
+    const { allowed, retryAfter } = await rateLimit({
       key: `contact:${ip}`,
       limit: 3,
       windowMs: 15 * 60 * 1000,
@@ -50,9 +42,24 @@ export async function POST(request: Request) {
 
     const { name, email, phone, message } = parsed.data;
 
-    await sendContactNotification({ name, email, phone, message });
+    // Persist to DB first so messages are never lost
+    const { error: dbError } = await supabaseAdmin
+      .from('contact_messages')
+      .insert([{ name, email, phone: phone || null, message }]);
 
-    return NextResponse.json({ success: true }, { status: 200 });
+    if (dbError) {
+      console.error('Contact DB Error:', dbError);
+      return NextResponse.json({ error: 'Failed to send message.' }, { status: 500 });
+    }
+
+    // Send notification (best-effort, don't block on failure)
+    try {
+      await sendContactNotification({ name, email, phone, message });
+    } catch (notifErr) {
+      console.error('Contact notification failed (message saved):', notifErr);
+    }
+
+    return NextResponse.json({ success: true }, { status: 200, headers: { 'Cache-Control': 'no-store' } });
   } catch (error) {
     console.error('Contact form error:', error);
     return NextResponse.json({ error: 'Failed to send message.' }, { status: 500 });

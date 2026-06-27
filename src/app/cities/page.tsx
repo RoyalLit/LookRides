@@ -1,9 +1,16 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
+const title = 'Service Cities | LookRides — Chandigarh, Mohali & Zirakpur';
+const description = 'LookRides provides premium taxi services in Chandigarh, Mohali, and Zirakpur. Local rides, airport transfers, and outstation trips with fixed transparent pricing.';
+
 export const metadata: Metadata = {
-  title: 'Service Cities | LookRides',
-  description: 'Taxi services available in Chandigarh, Mohali, and Zirakpur.',
+  title,
+  description,
+  keywords: 'Chandigarh taxi, Mohali cab, Zirakpur taxi service, Tricity taxi, LookRides service cities',
+  openGraph: { title, description, images: '/og-image.png' },
+  twitter: { card: 'summary_large_image', title, description },
+  alternates: { canonical: 'https://lookrides.com/cities' },
 };
 
 export default function CitiesPage() {

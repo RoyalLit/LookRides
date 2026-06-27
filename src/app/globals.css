@@ -206,7 +206,7 @@ img, svg { display: block; max-width: 100%; }
 }
 
 .btn:focus-visible {
-  outline: 2px solid var(--accent-gold);
+  outline: 2px solid var(--primary-navy);
   outline-offset: 3px;
 }
 
@@ -442,14 +442,37 @@ img, svg { display: block; max-width: 100%; }
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent-gold);
+  outline: 2px solid var(--primary-navy);
   outline-offset: 2px;
   border-radius: var(--radius-sm);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--primary-navy);
+  outline-offset: 2px;
 }
 
 ::selection {
   background: rgba(252, 163, 17, 0.25);
   color: var(--primary-navy);
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 9999;
+  padding: 0.75rem 1.5rem;
+  background: #0B132B;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 0 0 4px 0;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  left: 0;
 }
 
 @media (max-width: 768px) {

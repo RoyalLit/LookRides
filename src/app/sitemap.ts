@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { allRoutes } from '@/lib/routes-data';
+import { getAllPostSlugs } from '@/lib/markdown';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://lookrides.com';
@@ -27,5 +28,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: topRoutes.includes(r.slug) ? 0.95 : 0.9,
   }));
 
-  return [...staticPages, ...routePages];
+  const blogPages = getAllPostSlugs().map((post) => ({
+    url: `${baseUrl}/blog/${post.slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.7,
+  }));
+
+  return [...staticPages, ...routePages, ...blogPages];
 }

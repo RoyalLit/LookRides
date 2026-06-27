@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ArrowRight, Clock, Shield, CheckCircle, Star } from 'lucide-react';
 import type { RouteData } from '@/lib/routes-data';
 import { allRoutes } from '@/lib/routes-data';
+import styles from './RoutePage.module.css';
 
 const siteUrl = 'https://lookrides.com';
 
@@ -123,6 +124,15 @@ function RouteHero({ route }: { route: RouteData }) {
               <span className="routeStatLabel">Via</span>
             </div>
           )}
+        </div>
+
+        <div style={{ marginTop: '2.5rem', background: 'rgba(255,255,255,0.05)', padding: '1.5rem', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', maxWidth: '800px' }}>
+          <p style={{ color: 'rgba(255,255,255,0.9)', lineHeight: '1.6', fontSize: '0.95rem' }}>
+            The total driving distance for the <strong>{route.from} to {route.to} taxi route</strong> is approximately <strong>{route.distance}</strong>. 
+            When booking with LookRides, your journey typically takes <strong>{route.duration}</strong> under normal traffic conditions{route.via ? ` via ${route.via}` : ''}. 
+            We provide a premium, fully-sanitized fleet of Sedans and SUVs for this route, with fixed fares starting at just <strong>{route.sedanPrice}</strong>. 
+            Our pricing is 100% transparent and inclusive of all toll taxes, state entries, and driver allowances.
+          </p>
         </div>
       </div>
     </section>
@@ -275,24 +285,14 @@ function RouteOverview({ route }: { route: RouteData }) {
 
 function RouteFaqs({ route }: { route: RouteData }) {
   return (
-    <section style={{ padding: '4rem 0', background: '#F8F9FA' }}>
-      <style>{`
-        .rfq-inner { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
-        .rfq-inner h2 { font-size: 1.5rem; text-align: center; margin-bottom: 2.5rem; color: #0B132B; font-family: Outfit, sans-serif; }
-        .rfq-list { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 0.75rem; }
-        .rfq-item { border: 1px solid #E2E8F0; border-radius: 0.625rem; background: white; overflow: hidden; }
-        .rfq-q { display: block; width: 100%; padding: 1.25rem 1.5rem; font-size: 0.95rem; font-weight: 600; color: #0B132B; background: none; border: none; cursor: pointer; text-align: left; position: relative; font-family: Inter, sans-serif; }
-        .rfq-q::after { content: '+'; position: absolute; right: 1.5rem; top: 50%; transform: translateY(-50%); font-size: 1.25rem; color: #64748B; transition: transform 0.2s; }
-        .rfq-item[open] .rfq-q::after { content: '−'; }
-        .rfq-answer { padding: 0 1.5rem 1.25rem; font-size: 0.9rem; color: #64748B; line-height: 1.8; }
-      `}</style>
-      <div className="rfq-inner">
+    <section className={styles.faqSection}>
+      <div className={styles.inner}>
         <h2>Frequently Asked Questions</h2>
-        <div className="rfq-list">
+        <div className={styles.faqList}>
           {route.faqs.map((faq, i) => (
-            <details key={i} className="rfq-item">
-              <summary className="rfq-q">{faq.q}</summary>
-              <div className="rfq-answer">{faq.a}</div>
+            <details key={i} className={styles.faqItem}>
+              <summary className={styles.faqQ}>{faq.q}</summary>
+              <div className={styles.faqAnswer}>{faq.a}</div>
             </details>
           ))}
         </div>
@@ -303,18 +303,11 @@ function RouteFaqs({ route }: { route: RouteData }) {
 
 function RouteCta({ route }: { route: RouteData }) {
   return (
-    <section style={{ padding: '4rem 0', background: 'linear-gradient(135deg, #0B132B 0%, #1a2744 100%)' }}>
-      <style>{`
-        .rc-inner { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; text-align: center; color: white; }
-        .rc-inner h2 { font-size: 1.75rem; margin-bottom: 0.5rem; color: white; font-family: Outfit, sans-serif; }
-        .rc-inner p { opacity: 0.85; margin-bottom: 2rem; }
-        .rc-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-        @media (max-width: 768px) { .rc-actions { flex-direction: column; align-items: center; } .rc-actions :global(.btn) { width: 100%; } }
-      `}</style>
-      <div className="rc-inner">
+    <section className={styles.ctaSection}>
+      <div className={styles.ctaInner}>
         <h2>Ready to travel {route.from} to {route.to}?</h2>
         <p>Book now and get instant confirmation via WhatsApp or phone call.</p>
-        <div className="rc-actions">
+        <div className={styles.ctaActions}>
           <Link href={`/?pickup=${fid(route.from)}&drop=${fid(route.to)}`} className="btn btn-primary btn-lg">
             Book Now <ArrowRight size={18} />
           </Link>
@@ -338,32 +331,20 @@ function RouteRelated({ currentRoute }: { currentRoute: RouteData }) {
   }
 
   return (
-    <section style={{ padding: '4rem 0', background: 'white' }}>
-      <style>{`
-        .rr-inner { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
-        .rr-inner h2 { font-size: 1.75rem; text-align: center; margin-bottom: 0.5rem; color: #0B132B; font-family: Outfit, sans-serif; }
-        .rr-sub { text-align: center; color: #64748B; margin-bottom: 3rem; }
-        .rr-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
-        .rr-card { background: #F8F9FA; border: 1px solid #E2E8F0; border-radius: 1rem; padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s; }
-        .rr-card:hover { border-color: #FCA311; transform: translateY(-3px); box-shadow: 0 8px 24px rgba(252,163,17,0.08); }
-        .rr-card h3 { font-size: 1.25rem; margin-bottom: 0.5rem; color: #0B132B; font-family: Outfit, sans-serif; }
-        .rr-details { font-size: 0.9rem; color: #64748B; margin-bottom: 1.5rem; }
-        .rr-price-wrap { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
-        .rr-price { font-size: 1.1rem; font-weight: 700; color: #0B132B; }
-      `}</style>
-      <div className="rr-inner">
+    <section className={styles.relatedSection}>
+      <div className={styles.relatedInner}>
         <h2>Other Popular Routes</h2>
-        <p className="rr-sub">Explore other taxi routes we serve with fixed, transparent pricing.</p>
+        <p className={styles.relatedSub}>Explore other taxi routes we serve with fixed, transparent pricing.</p>
         
-        <div className="rr-grid">
+        <div className={styles.relatedGrid}>
           {otherRoutes.map((r) => (
-            <div key={r.slug} className="rr-card">
+            <div key={r.slug} className={styles.relatedCard}>
               <div>
                 <h3>{r.from} to {r.to}</h3>
-                <p className="rr-details">Distance: {r.distance} | Duration: {r.duration}</p>
+                <p className={styles.relatedDetails}>Distance: {r.distance} | Duration: {r.duration}</p>
               </div>
-              <div className="rr-price-wrap">
-                <span className="rr-price">Starts at {r.sedanPrice}</span>
+              <div className={styles.relatedPriceWrap}>
+                <span className={styles.relatedPrice}>Starts at {r.sedanPrice}</span>
                 <Link href={`/routes/${r.slug}`} style={{ color: '#FCA311', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.25rem', fontWeight: '600', fontSize: '0.9rem' }}>
                   View Route <ArrowRight size={14} />
                 </Link>

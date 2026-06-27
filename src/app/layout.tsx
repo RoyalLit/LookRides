@@ -67,10 +67,15 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/favicon.ico", type: "image/x-icon", sizes: "any" },
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon-96x96.png', sizes: '96x96', type: 'image/png' },
     ],
-    apple: "/logo.png",
+    apple: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
   },
   alternates: {
     languages: { 'en-in': '/', 'en': '/' },
@@ -102,6 +107,21 @@ const breadcrumbData = {
 const structuredData = {
   "@context": "https://schema.org",
   "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      "url": siteUrl,
+      "name": "LookRides",
+      "description": "Premium intercity cab service in North India.",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": `${siteUrl}/routes/{search_term_string}`
+        },
+        "query-input": "required name=search_term_string"
+      }
+    },
     breadcrumbData,
     {
       "@type": ["LocalBusiness", "TaxiService"],
@@ -191,8 +211,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         />
       </head>
       <body>
+        <a href="#main-content" className="skip-link">Skip to content</a>
         <Header />
-        <main>{children}</main>
+        <main id="main-content">{children}</main>
         <Footer />
         <WhatsAppButton />
         <ScrollAnimations />

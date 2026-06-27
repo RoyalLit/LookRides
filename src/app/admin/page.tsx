@@ -59,6 +59,7 @@ export default function AdminDashboard() {
           <table className={styles.table}>
             <thead>
               <tr>
+                <th>Customer</th>
                 <th>Date Submitted</th>
                 <th>Pickup</th>
                 <th>Drop</th>
@@ -70,13 +71,17 @@ export default function AdminDashboard() {
             <tbody>
               {bookings.length === 0 ? (
                 <tr>
-                  <td colSpan={6} style={{ textAlign: 'center', padding: '2rem' }}>
+                  <td colSpan={7} style={{ textAlign: 'center', padding: '2rem' }}>
                     No bookings found.
                   </td>
                 </tr>
               ) : (
                 bookings.map((booking, idx) => (
                   <tr key={booking.id || idx}>
+                    <td style={{ fontWeight: 600 }}>
+                      {booking.passenger_name || 'Anonymous'}
+                      {booking.phone && <div style={{ fontSize: '0.75rem', fontWeight: 400, color: 'var(--text-muted)' }}>{booking.phone}</div>}
+                    </td>
                     <td>{booking.created_at ? new Date(booking.created_at).toLocaleDateString() : 'N/A'}</td>
                     <td>{booking.pickup_location}</td>
                     <td>{booking.drop_location}</td>

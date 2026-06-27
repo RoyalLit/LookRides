@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Contact LookRides Taxi Service',
-    description: 'Book your ride: +91-9780426567. 24/7 customer support for bookings & inquiries.',
+    description: 'Book your ride: +919780426567. 24/7 customer support for bookings & inquiries.',
   },
 };
 

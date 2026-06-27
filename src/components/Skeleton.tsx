@@ -1,5 +1,3 @@
-'use client';
-
 import styles from './Skeleton.module.css';
 
 interface SkeletonBlockProps {

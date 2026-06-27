@@ -143,6 +143,10 @@
   cursor: pointer;
   transition: all 150ms ease;
   margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 .submitBtn:hover:not(:disabled) {

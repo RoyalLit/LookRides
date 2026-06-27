@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   description: 'Explore all premium intercity outstation routes and airport transfer routes served by LookRides.',
 };
 
-export const revalidate = 0; // Disable static caching so it always fetches live prices
+export const revalidate = 60;
 
 export default async function RoutesIndexPage() {
   // Fetch live pricing from Supabase

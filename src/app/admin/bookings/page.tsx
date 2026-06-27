@@ -22,18 +22,20 @@ export default function BookingsManagement() {
   }, []);
 
   const updateStatus = useCallback(async (id: string, status: string) => {
+    const label = status === 'confirmed' ? 'confirm' : status === 'completed' ? 'complete' : 'cancel';
+    if (!confirm(`Are you sure you want to ${label} this booking?`)) return;
     try {
       const { error } = await supabase
         .from('booking_requests')
         .update({ status })
         .eq('id', id);
       if (error) {
-        alert('Failed to update booking status: ' + error.message);
+        console.error('Failed to update booking status:', error.message);
         return;
       }
       fetchBookings();
     } catch (err: unknown) {
-      alert('An unexpected error occurred: ' + (err instanceof Error ? err.message : 'Unknown error'));
+      console.error('Failed to update booking status:', err);
     }
   }, []);
 

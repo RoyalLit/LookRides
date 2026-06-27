@@ -1,0 +1,186 @@
+.faqSection {
+  padding: 4rem 0;
+  background: #F8F9FA;
+}
+
+.inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.inner h2 {
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  color: #0B132B;
+  font-family: Outfit, sans-serif;
+}
+
+.faqList {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.faqItem {
+  border: 1px solid #E2E8F0;
+  border-radius: 0.625rem;
+  background: white;
+  overflow: hidden;
+}
+
+.faqQ {
+  display: block;
+  width: 100%;
+  padding: 1.25rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #0B132B;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  position: relative;
+  font-family: Inter, sans-serif;
+  list-style: none;
+}
+
+.faqQ::-webkit-details-marker { display: none; }
+
+.faqQ::after {
+  content: '+';
+  position: absolute;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.25rem;
+  color: #64748B;
+}
+
+.faqItem[open] .faqQ::after { content: '−'; }
+
+.faqAnswer {
+  padding: 0 1.5rem 1.25rem;
+  font-size: 0.9rem;
+  color: #64748B;
+  line-height: 1.8;
+}
+
+.ctaSection {
+  padding: 4rem 0;
+  background: linear-gradient(135deg, #0B132B 0%, #1a2744 100%);
+}
+
+.ctaInner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  text-align: center;
+  color: white;
+}
+
+.ctaInner h2 {
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+  color: white;
+  font-family: Outfit, sans-serif;
+}
+
+.ctaInner p {
+  opacity: 0.85;
+  margin-bottom: 2rem;
+}
+
+.ctaActions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .ctaActions {
+    flex-direction: column;
+    align-items: center;
+  }
+  .ctaActions :global(.btn) {
+    width: 100%;
+  }
+}
+
+.relatedSection {
+  padding: 4rem 0;
+  background: white;
+}
+
+.relatedInner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.relatedInner h2 {
+  font-size: 1.75rem;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  color: #0B132B;
+  font-family: Outfit, sans-serif;
+}
+
+.relatedSub {
+  text-align: center;
+  color: #64748B;
+  margin-bottom: 3rem;
+}
+
+.relatedGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.relatedCard {
+  background: #F8F9FA;
+  border: 1px solid #E2E8F0;
+  border-radius: 1rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.3s;
+}
+
+.relatedCard:hover {
+  border-color: #FCA311;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(252,163,17,0.08);
+}
+
+.relatedCard h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: #0B132B;
+  font-family: Outfit, sans-serif;
+}
+
+.relatedDetails {
+  font-size: 0.9rem;
+  color: #64748B;
+  margin-bottom: 1.5rem;
+}
+
+.relatedPriceWrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.relatedPrice {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0B132B;
+}

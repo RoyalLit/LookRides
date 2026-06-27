@@ -1,32 +1,52 @@
-const rateMap = new Map<string, { count: number; resetAt: number }>();
+import { supabaseAdmin } from './supabase-admin';
 
-const CLEANUP_INTERVAL = 60_000;
-
-setInterval(() => {
-  const now = Date.now();
-  for (const [key, entry] of rateMap) {
-    if (entry.resetAt <= now) rateMap.delete(key);
-  }
-}, CLEANUP_INTERVAL);
-
-export function rateLimit(opts: {
+export async function rateLimit(opts: {
   key: string;
   limit: number;
   windowMs: number;
-}): { allowed: boolean; retryAfter: number } {
-  const now = Date.now();
-  const existing = rateMap.get(opts.key);
+}): Promise<{ allowed: boolean; retryAfter: number }> {
+  try {
+    const now = Date.now();
+    const windowStart = new Date(now).toISOString();
+    const [ip, endpoint] = opts.key.split(':');
 
-  if (!existing || existing.resetAt <= now) {
-    rateMap.set(opts.key, { count: 1, resetAt: now + opts.windowMs });
+    const { data: existing } = await supabaseAdmin
+      .from('rate_limits')
+      .select('request_count, window_start')
+      .eq('ip_address', ip)
+      .eq('endpoint', endpoint)
+      .maybeSingle();
+
+    if (!existing) {
+      await supabaseAdmin
+        .from('rate_limits')
+        .insert({ ip_address: ip, endpoint, request_count: 1, window_start: windowStart });
+      return { allowed: true, retryAfter: 0 };
+    }
+
+    const existingStart = new Date(existing.window_start).getTime();
+    if (now - existingStart > opts.windowMs) {
+      await supabaseAdmin
+        .from('rate_limits')
+        .update({ request_count: 1, window_start: windowStart })
+        .eq('ip_address', ip)
+        .eq('endpoint', endpoint);
+      return { allowed: true, retryAfter: 0 };
+    }
+
+    if (existing.request_count >= opts.limit) {
+      const retryAfter = Math.ceil((existingStart + opts.windowMs - now) / 1000);
+      return { allowed: false, retryAfter };
+    }
+
+    await supabaseAdmin
+      .from('rate_limits')
+      .update({ request_count: existing.request_count + 1 })
+      .eq('ip_address', ip)
+      .eq('endpoint', endpoint);
+    return { allowed: true, retryAfter: 0 };
+  } catch {
+    // If rate limit DB fails, allow the request (fail open)
     return { allowed: true, retryAfter: 0 };
   }
-
-  if (existing.count >= opts.limit) {
-    const retryAfter = Math.ceil((existing.resetAt - now) / 1000);
-    return { allowed: false, retryAfter };
-  }
-
-  existing.count++;
-  return { allowed: true, retryAfter: 0 };
 }

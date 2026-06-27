@@ -3,8 +3,7 @@ import { z } from 'zod';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 import { sendBookingNotification } from '@/lib/email';
 import { rateLimit } from '@/lib/rate-limit';
-
-const ALLOWED_ORIGINS = ['https://lookrides.com', 'https://www.lookrides.com', 'https://lookrides.in', 'https://www.lookrides.in', 'http://localhost:3000'];
+import { isAllowedOrigin } from '@/lib/origin-check';
 
 const bookingSchema = z.object({
   pickup_location: z.string().min(1, 'Pickup location is required').max(200),
@@ -17,14 +16,6 @@ const bookingSchema = z.object({
   phone: z.string().max(20).optional(),
 });
 
-function isAllowedOrigin(request: Request): boolean {
-  const origin = request.headers.get('origin');
-  const referer = request.headers.get('referer');
-  if (!origin && !referer) return false;
-  const check = origin || referer || '';
-  return ALLOWED_ORIGINS.some((allowed) => check.startsWith(allowed));
-}
-
 export async function POST(request: Request) {
   try {
     if (!isAllowedOrigin(request)) {
@@ -32,7 +23,7 @@ export async function POST(request: Request) {
     }
 
     const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
-    const { allowed, retryAfter } = rateLimit({
+    const { allowed, retryAfter } = await rateLimit({
       key: `booking:${ip}`,
       limit: 5,
       windowMs: 15 * 60 * 1000,
@@ -89,7 +80,7 @@ export async function POST(request: Request) {
       console.error('Email notification failed (booking saved):', emailErr);
     }
 
-    return NextResponse.json({ success: true }, { status: 201 });
+    return NextResponse.json({ success: true }, { status: 201, headers: { 'Cache-Control': 'no-store' } });
   } catch (error) {
     console.error('Booking API Error:', error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });

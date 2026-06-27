@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Phone, Mail, MapPin, Star, Shield, ExternalLink } from 'lucide-react';
+import { Phone, Mail, MapPin, Star, Shield } from 'lucide-react';
 import Logo from './Logo';
 import styles from './Footer.module.css';
 

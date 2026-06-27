@@ -65,7 +65,7 @@ export async function PUT(request: Request) {
     }
 
     const ip = request.headers.get('x-forwarded-for') || 'unknown';
-    const { allowed, retryAfter } = rateLimit({
+    const { allowed, retryAfter } = await rateLimit({
       key: `admin-settings:${ip}`,
       limit: 30,
       windowMs: 60_000,

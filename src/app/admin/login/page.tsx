@@ -1,11 +1,13 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import styles from './login.module.css';
 import { Spinner } from '@/components/Skeleton';
 import { supabaseBrowser as supabase } from '@/lib/supabase-browser';
 
 export default function AdminLogin() {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -28,7 +30,7 @@ export default function AdminLogin() {
         throw new Error('Authentication failed');
       }
 
-      window.location.href = '/admin';
+      router.push('/admin');
     } catch {
       setError('Invalid email or password');
     } finally {

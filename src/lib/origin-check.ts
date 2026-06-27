@@ -1,0 +1,9 @@
+const ALLOWED_ORIGINS = ['https://lookrides.com', 'https://www.lookrides.com', 'https://lookrides.in', 'https://www.lookrides.in', 'http://localhost:3000'];
+
+export function isAllowedOrigin(request: Request): boolean {
+  const origin = request.headers.get('origin');
+  const referer = request.headers.get('referer');
+  if (!origin && !referer) return false;
+  const check = origin || referer || '';
+  return ALLOWED_ORIGINS.some((allowed) => check.startsWith(allowed));
+}

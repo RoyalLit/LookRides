@@ -9,7 +9,7 @@ export default function SettingsManagement() {
   const [settings, setSettings] = useState<{key: string, value: string}[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [syncing, setSyncing] = useState(false);
+  const [message, setMessage] = useState('');
 
   const fetchSettings = useCallback(async () => {
     setLoading(true);
@@ -38,37 +38,32 @@ export default function SettingsManagement() {
 
   const handleSave = useCallback(async () => {
     setSaving(true);
+    setMessage('');
     try {
-      for (const setting of settings) {
-        const res = await fetch('/api/admin/settings', {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ key: setting.key, value: setting.value }),
-        });
-        if (!res.ok) {
-          const err = await res.json();
-          alert('Failed to save "' + setting.key + '": ' + (err.error || 'Unknown error'));
-          return;
-        }
+      const results = await Promise.allSettled(
+        settings.map(setting =>
+          fetch('/api/admin/settings', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ key: setting.key, value: setting.value }),
+          }).then(async res => {
+            if (!res.ok) throw new Error((await res.json()).error || 'Unknown error');
+          })
+        )
+      );
+
+      const failed = results.filter(r => r.status === 'rejected');
+      if (failed.length > 0) {
+        setMessage(`Saved ${settings.length - failed.length}/${settings.length} settings. Some failed.`);
+      } else {
+        setMessage('All settings saved successfully!');
       }
-      alert('Settings updated successfully!');
     } catch (err: unknown) {
-      alert('Failed to save settings: ' + (err instanceof Error ? err.message : 'Network error'));
+      setMessage('Failed to save settings: ' + (err instanceof Error ? err.message : 'Network error'));
     }
     setSaving(false);
+    setTimeout(() => setMessage(''), 4000);
   }, [settings]);
-
-  const handleSyncReviews = useCallback(async () => {
-    setSyncing(true);
-    try {
-      // Simulate API sync delay
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      alert('Successfully synced latest 5-star reviews from Google My Business!');
-    } catch (err: unknown) {
-      alert('Failed to sync reviews: ' + (err instanceof Error ? err.message : 'Network error'));
-    }
-    setSyncing(false);
-  }, []);
 
   return (
     <div className={styles.dashboardContainer}>
@@ -78,6 +73,16 @@ export default function SettingsManagement() {
           {saving ? <Spinner size={16} light /> : <Save size={16} />} {saving ? '' : 'Save All Settings'}
         </button>
       </header>
+      {message && (
+        <div style={{
+          padding: '0.75rem 1rem', marginBottom: '1rem', borderRadius: '6px',
+          background: message.includes('failed') ? '#fef2f2' : '#f0fdf4',
+          color: message.includes('failed') ? '#991b1b' : '#166534',
+          fontSize: '0.875rem', border: `1px solid ${message.includes('failed') ? '#fecaca' : '#bbf7d0'}`
+        }}>
+          {message}
+        </div>
+      )}
 
       {loading ? (
         <SkeletonTable rows={4} />
@@ -111,20 +116,6 @@ export default function SettingsManagement() {
             <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Total review count displayed on site.</p>
           </div>
 
-          <div style={{ marginTop: '2rem', borderTop: '1px solid var(--border)', paddingTop: '1.5rem' }}>
-            <button 
-              className="btn btn-outline btn-sm" 
-              onClick={handleSyncReviews} 
-              disabled={syncing} 
-              style={{ width: '100%', justifyContent: 'center' }}
-            >
-              {syncing ? <Spinner size={14} /> : <Star size={14} fill="currentColor" />} 
-              {syncing ? 'Syncing with Google...' : 'Sync Google Reviews'}
-            </button>
-            <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.75rem', textAlign: 'center' }}>
-              Pulls the latest 5-star reviews directly from your Google Business Profile.
-            </p>
-          </div>
         </div>
 
         <div className={`glass-panel ${styles.tableContainer}`} style={{ gridColumn: 'span 1' }}>

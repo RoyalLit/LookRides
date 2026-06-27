@@ -1693,22 +1693,26 @@
   overflow: hidden;
   margin-bottom: 2.5rem;
   padding: 1rem 0;
+  /* Add blur/fade effect to edges so it looks like a carousel */
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 92%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 5%, black 92%, transparent 100%);
 }
 .embla__container {
   display: flex;
   gap: 1.75rem;
 }
 .embla__slide {
-  flex: 0 0 calc(33.333% - 1.166rem);
+  /* Use 31% so the 4th card peeks in slightly to indicate more content */
+  flex: 0 0 calc(31% - 1.166rem);
   min-width: 0;
 }
 @media (max-width: 1024px) {
   .embla__slide {
-    flex: 0 0 calc(50% - 0.875rem);
+    flex: 0 0 calc(45% - 0.875rem);
   }
 }
 @media (max-width: 768px) {
   .embla__slide {
-    flex: 0 0 100%;
+    flex: 0 0 85%;
   }
 }

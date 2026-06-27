@@ -283,8 +283,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 2. TRUST METRICS SECTION */}
+      {/* 2. TRUST MARKERS */}
       <section className={`${styles.trustedSection} reveal-on-scroll`} ref={addToRefs} data-journey="trust">
+        <div className={styles.blobGold} style={{ top: '-150px', right: '-150px' }} />
         <div className="container">
           <div className={styles.trustedGrid}>
             {trustFeatures.map(({ Icon, title, desc }) => (
@@ -300,78 +301,19 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 3. POPULAR ROUTES UPGRADE */}
-      <section className={`${styles.routesPreview} reveal-on-scroll`} ref={addToRefs} data-journey="routes" data-journey-label="Popular Routes">
-        <div className="container">
-          <div className={styles.sectionHead}>
-            <span className="section-label">Popular Routes</span>
-            <h2>Most Booked Highway Connections</h2>
-            <p>Direct door-to-door luxury taxi services on our most highly requested travel lines.</p>
-          </div>
-          
-          <div className={styles.routesGrid}>
-            {popRoutes.map(r => (
-              <div key={r.slug} className={styles.routeCardV2}>
-                <div className={styles.routeCardImgWrap}>
-                  <Image 
-                    src={routeImages[r.slug] || "https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=600&q=80"} 
-                    alt={`${r.from} to ${r.to}`} 
-                    fill 
-                    style={{ objectFit: "cover" }} 
-                    sizes="(max-width: 768px) 100vw, 25vw"
-                  />
-                  <div className={styles.routeImgOverlay} />
-                  <span className={styles.routePopularBadge}>
-                    {r.slug === 'chandigarh-to-delhi' ? '★ Most Popular' : '★ Verified Driver'}
-                  </span>
-                </div>
-                
-                <div className={styles.routeCardBody}>
-                  <div className={styles.routeCardDirections}>
-                    <h3>{r.from} to {r.to}</h3>
-                    <p className={styles.routeMetrics}>
-                      <span>{r.distance}</span>
-                      <span className={styles.routeMetricsDot}>·</span>
-                      <span>{r.duration}</span>
-                    </p>
-                  </div>
-                  
-                  <div className={styles.routeCardPriceBlock}>
-                    <span className={styles.priceLabel}>Fares starting from</span>
-                    <span className={styles.priceTag}>{r.sedanPrice} <span className={styles.priceSuffix}>onwards</span></span>
-                  </div>
-
-                  <div className={styles.routeCardActions}>
-                    <Link href={`/?pickup=${encodeURIComponent(r.from)}&drop=${encodeURIComponent(r.to)}`} className="btn btn-primary btn-sm">
-                      Book Now
-                    </Link>
-                    <Link href={`/routes/${r.slug}`} className={styles.exploreRouteLink}>
-                      Details <ArrowRight size={13} />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          
-          <div className={styles.routesMore}>
-            <Link href="/routes" className="btn btn-outline">Explore All Intercity Routes <ArrowRight size={15} /></Link>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. EXPLORE POPULAR DESTINATIONS */}
+      {/* 5. EXPLORE POPULAR DESTINATIONS */}
       <section className={`${styles.destinationsSection} reveal-on-scroll`} ref={addToRefs} data-journey="destinations" data-journey-label="Explore Destinations">
+        <div className={styles.blobBlue} style={{ top: '-200px', left: '-150px' }} />
         <div className="container">
-          <div className={styles.sectionHead}>
+          <div className={`${styles.sectionHead} ${styles.revealUp}`}>
             <span className="section-label">Explore Destinations</span>
             <h2>Where to Next? Discover North India</h2>
             <p>Inspiring travel ideas for your next road trip. Click a destination to view customized routing details.</p>
           </div>
 
           <div className={styles.destinationsGrid}>
-            {popularDestinations.map((d) => (
-              <Link key={d.name} href={d.route} className={styles.destinationCard}>
+            {popularDestinations.map((d, i) => (
+              <Link key={d.name} href={d.route} className={`${styles.destinationCard} ${styles.revealUp}`} style={{ transitionDelay: `${i * 0.05}s` }}>
                 <div className={styles.destCardImgWrap}>
                   <Image 
                     src={d.image} 
@@ -399,10 +341,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 5. PREMIUM FLEET PREVIEW */}
+      {/* 4. PREMIUM FLEET PREVIEW */}
       <section className={`${styles.fleetSection} reveal-on-scroll`} ref={addToRefs} data-journey="fleet" data-journey-label="Premium Fleet">
+        <div className={styles.blobGold} style={{ top: '10%', left: '-200px' }} />
+        <div className={styles.blobBlue} style={{ bottom: '20%', right: '-150px' }} />
         <div className="container">
-          <div className={styles.sectionHead}>
+          <div className={`${styles.sectionHead} ${styles.revealUp}`}>
             <span className="section-label">Our Fleet</span>
             <h2>Select Your Comfort Level</h2>
             <p>Meticulously maintained, fully air-conditioned cabs driven by highway specialists.</p>
@@ -412,10 +356,10 @@ export default function Home() {
             <div className={styles.embla__container}>
               {loading ? (
                 <SkeletonSlide count={3} />
-              ) : fleet.map((v) => {
+              ) : fleet.map((v, i) => {
                 const details = getFleetDetails(v.category);
                 return (
-                  <div key={v.id} className={styles.embla__slide}>
+                  <div key={v.id} className={`${styles.embla__slide} ${styles.revealUp}`} style={{ transitionDelay: `${i * 0.1}s` }}>
                     <div className={styles.fleetCardV2}>
                       <div className={styles.fleetImgWrap}>
                         <Image 
@@ -431,8 +375,8 @@ export default function Home() {
 
                       <div className={styles.fleetBodyV2}>
                         <div className={styles.fleetHeaderV2}>
-                          <h3>{v.name}</h3>
-                          <span className={styles.acBadge}>AC</span>
+                           <h3>{v.name}</h3>
+                           <span className={styles.acBadge}>AC</span>
                         </div>
                         
                         <p className={styles.fleetIdealTrip}>{details.idealTrip}</p>
@@ -470,6 +414,7 @@ export default function Home() {
 
       {/* 6. BRAND STORYTELLING SECTION */}
       <section className={`${styles.aboutExperience} reveal-on-scroll`} ref={addToRefs} data-journey="story">
+        <div className={styles.blobGold} style={{ bottom: '-150px', left: '-150px' }} />
         <div className="container">
           <div className={styles.aboutStoryGrid}>
             <div className={styles.aboutStoryContent}>
@@ -519,6 +464,7 @@ export default function Home() {
 
       {/* 7. SAFETY SECTION */}
       <section className={`${styles.safetySection} reveal-on-scroll`} ref={addToRefs} data-journey="safety">
+        <div className={styles.blobBlue} style={{ top: '10%', right: '-100px' }} />
         <div className="container">
           <div className={styles.sectionHead}>
             <span className="section-label">Your Safety Matters</span>
@@ -539,6 +485,7 @@ export default function Home() {
 
       {/* 8. TESTIMONIALS UPGRADE */}
       <section className={`${styles.testimonialsSection} reveal-on-scroll`} ref={addToRefs} data-journey="testimonials" data-journey-label="Customer Stories">
+        <div className={styles.blobGold} style={{ top: '-150px', right: '-150px' }} />
         <div className="container">
           <div className={styles.sectionHead}>
             <span className="section-label">Verified Testimonials</span>
@@ -597,6 +544,7 @@ export default function Home() {
 
       {/* 9. FAQS */}
       <section className={`${styles.faqSection} reveal-on-scroll`} ref={addToRefs} data-journey="faq">
+        <div className={styles.blobBlue} style={{ bottom: '-100px', left: '-100px' }} />
         <div className="container">
           <div className={styles.sectionHead}>
             <span className="section-label">Got Questions?</span>

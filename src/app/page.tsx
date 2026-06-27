@@ -40,56 +40,56 @@ const popularDestinations = [
     name: "Delhi",
     desc: "Capital connection to historical landmarks, commercial hubs, and IGI terminal 3.",
     time: "4.5 hours",
-    image: "https://images.unsplash.com/photo-1761480458272-4b2f06cda520?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=600&q=80",
     route: "/routes/chandigarh-to-delhi"
   },
   {
     name: "Shimla",
     desc: "The serene Queen of Hills, featuring pine-filled trails and colonial ridge vistas.",
     time: "3 hours",
-    image: "https://images.unsplash.com/photo-1619417889956-c701044fed86?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1616421376885-c54d7ea519c8?auto=format&fit=crop&w=600&q=80",
     route: "/routes/chandigarh-to-shimla"
   },
   {
     name: "Manali",
     desc: "Breathtaking mountain slopes, Aut tunnel highway runs, and Solang snow adventures.",
     time: "7 hours",
-    image: "https://images.unsplash.com/photo-1652543393130-e30a1aad2959?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1593181629936-11c602b700bb?auto=format&fit=crop&w=600&q=80",
     route: "/routes/chandigarh-to-manali"
   },
   {
     name: "Dharamshala",
     desc: "Nestled in Dhauladhars, offering rich spiritual vibes and scenic tea garden paths.",
     time: "5.5 hours",
-    image: "https://images.unsplash.com/photo-1701153760841-f329753e88a2?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1626697556752-658f8448ebcd?auto=format&fit=crop&w=600&q=80",
     route: "/routes/chandigarh-to-dharamshala"
   },
   {
     name: "Mussoorie",
     desc: "Gateway to Mist, highlighting beautiful cascades and walking paths above clouds.",
     time: "5.5 hours",
-    image: "https://images.unsplash.com/photo-1591420327964-83a732b70ee2?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1595815771614-ade9d6527653?auto=format&fit=crop&w=600&q=80",
     route: "/routes/chandigarh-to-dehradun"
   },
   {
     name: "Dehradun",
     desc: "Sprawling valley beauty bounded by Ganges and Yamuna, lush forest trails.",
     time: "4.5 hours",
-    image: "https://images.unsplash.com/photo-1721975178671-726ee3e22456?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1632731885449-7561cf2b926f?auto=format&fit=crop&w=600&q=80",
     route: "/routes/chandigarh-to-dehradun"
   },
   {
     name: "Jammu",
     desc: "Holy city of Temples and the primary baseline for the Vaishno Devi pilgrimage.",
     time: "6.5 hours",
-    image: "https://images.unsplash.com/photo-1763297066872-257ea7e91cd7?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1697695763102-8ce54d8fc7d6?auto=format&fit=crop&w=600&q=80",
     route: "/routes/chandigarh-to-jammu"
   },
   {
     name: "Amritsar",
     desc: "Home to the spectacular Golden Temple, rich Wagah history, and vibrant local cuisine.",
     time: "4 hours",
-    image: "https://images.unsplash.com/photo-1629887424001-c1442e96b73d?auto=format&fit=crop&w=600&q=80",
+    image: "https://images.unsplash.com/photo-1514222134-b57cbb8ce073?auto=format&fit=crop&w=600&q=80",
     route: "/routes/chandigarh-to-amritsar"
   }
 ];
@@ -104,10 +104,10 @@ const reviewerAvatars = [
 ];
 
 const routeImages: Record<string, string> = {
-  'chandigarh-to-delhi': 'https://images.unsplash.com/photo-1761480458272-4b2f06cda520?auto=format&fit=crop&w=600&q=80',
-  'chandigarh-to-manali': 'https://images.unsplash.com/photo-1652543393130-e30a1aad2959?auto=format&fit=crop&w=600&q=80',
-  'chandigarh-to-shimla': 'https://images.unsplash.com/photo-1619417889956-c701044fed86?auto=format&fit=crop&w=600&q=80',
-  'chandigarh-to-amritsar': 'https://images.unsplash.com/photo-1629887424001-c1442e96b73d?auto=format&fit=crop&w=600&q=80',
+  'chandigarh-to-delhi': 'https://images.unsplash.com/photo-1587474260584-136574528ed5?auto=format&fit=crop&w=600&q=80',
+  'chandigarh-to-manali': 'https://images.unsplash.com/photo-1593181629936-11c602b700bb?auto=format&fit=crop&w=600&q=80',
+  'chandigarh-to-shimla': 'https://images.unsplash.com/photo-1616421376885-c54d7ea519c8?auto=format&fit=crop&w=600&q=80',
+  'chandigarh-to-amritsar': 'https://images.unsplash.com/photo-1514222134-b57cbb8ce073?auto=format&fit=crop&w=600&q=80',
 };
 
 const getFleetDetails = (category: string) => {
@@ -550,13 +550,9 @@ export default function Home() {
                   <div key={t.id} className={styles.testimonialCardV2}>
                     <div className={styles.tCardHeader}>
                       <div className={styles.tCardAvatarWrap}>
-                        <Image 
-                          src={reviewerAvatars[idx % reviewerAvatars.length]} 
-                          alt={t.author} 
-                          width={48} 
-                          height={48} 
-                          className={styles.tCardAvatar}
-                        />
+                        <div className={styles.tCardInitialAvatar}>
+                          {t.author ? t.author[0].toUpperCase() : 'G'}
+                        </div>
                         <span className={styles.tCardBadgeWrap}><Check size={10} style={{ color: 'white' }} /></span>
                       </div>
                       <div className={styles.tCardMetaInfo}>

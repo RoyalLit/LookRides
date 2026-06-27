@@ -1535,10 +1535,20 @@
   flex-shrink: 0;
 }
 
-.tCardAvatar {
+.tCardInitialAvatar {
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid var(--border);
+  background: var(--primary-navy);
+  color: var(--accent-gold);
+  font-family: var(--font-outfit);
+  font-weight: 700;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--accent-gold);
+  text-transform: uppercase;
 }
 
 .tCardBadgeWrap {

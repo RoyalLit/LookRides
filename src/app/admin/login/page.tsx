@@ -25,14 +25,12 @@ export default function AdminLogin() {
       if (error) throw error;
 
       if (!data.session) {
-        throw new Error('No session returned. Please try again.');
+        throw new Error('Authentication failed');
       }
 
-      // Hard redirect forces a fresh layout mount
-      // getSession() in layout reads from cookie where signInWithPassword persisted the session
       window.location.href = '/admin';
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Failed to authenticate');
+    } catch {
+      setError('Invalid email or password');
     } finally {
       setLoading(false);
     }

@@ -1,8 +1,10 @@
 import { Resend } from 'resend';
-import { supabase } from './supabase';
+import { supabaseAdmin } from './supabase-admin';
 
 const resendApiKey = process.env.RESEND_API_KEY || '';
 export const resend = new Resend(resendApiKey);
+
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '';
 
 function htmlEscape(str: string | null | undefined): string {
   if (!str) return '';
@@ -16,9 +18,6 @@ function htmlEscape(str: string | null | undefined): string {
 
 const fromEmail = process.env.RESEND_FROM_EMAIL || 'LookRides <onboarding@resend.dev>';
 
-/**
- * Fetches notification settings from Supabase and sends alerts via Email and Telegram
- */
 export const sendBookingNotification = async (bookingDetails: {
   pickup_location?: string;
   drop_location?: string;
@@ -29,26 +28,12 @@ export const sendBookingNotification = async (bookingDetails: {
   notes?: string;
 }) => {
   try {
-    const { data: settings } = await supabase.from('site_settings').select('*');
+    const { data: settings } = await supabaseAdmin.from('site_settings').select('*');
 
     const targetEmail = settings?.find(s => s.key === 'notification_email')?.value || 'info@lookride.in';
-    const tgToken = settings?.find(s => s.key === 'telegram_bot_token')?.value;
     const tgChatId = settings?.find(s => s.key === 'telegram_chat_id')?.value;
 
-    const emailSubject = `🚕 New Booking: ${bookingDetails.pickup_location} to ${bookingDetails.drop_location}`;
-    const messageBody = `
-      New Booking Request Received:
-      ---------------------------
-      Customer: ${bookingDetails.passenger_name || 'N/A'}
-      Phone: ${bookingDetails.phone || 'N/A'}
-      Pickup: ${bookingDetails.pickup_location}
-      Drop: ${bookingDetails.drop_location}
-      Date: ${bookingDetails.date}
-      Time: ${bookingDetails.time}
-      Notes: ${bookingDetails.notes || 'N/A'}
-
-      Manage lead: https://lookrides.in/admin/bookings
-    `;
+    const emailSubject = `New Booking: ${bookingDetails.pickup_location} to ${bookingDetails.drop_location}`;
 
     const pn = htmlEscape(bookingDetails.passenger_name);
     const ph = htmlEscape(bookingDetails.phone);
@@ -62,10 +47,9 @@ export const sendBookingNotification = async (bookingDetails: {
       from: fromEmail,
       to: [targetEmail],
       subject: emailSubject,
-      text: messageBody,
       html: `
         <div style="font-family: sans-serif; padding: 20px; color: #0B132B;">
-          <h2 style="color: #FCA311;">&#x1F69C; New Booking Request</h2>
+          <h2 style="color: #FCA311;">New Booking Request</h2>
           <p><strong>Customer:</strong> ${pn}</p>
           <p><strong>Phone:</strong> ${ph}</p>
           <p><strong>Pickup:</strong> ${pu}</p>
@@ -80,16 +64,15 @@ export const sendBookingNotification = async (bookingDetails: {
     });
 
     let telegramPromise: Promise<unknown> = Promise.resolve();
-    if (tgToken && tgChatId) {
-      const tgUrl = `https://api.telegram.org/bot${tgToken}/sendMessage`;
+    if (TELEGRAM_BOT_TOKEN && tgChatId) {
+      const tgUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
       telegramPromise = fetch(tgUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           chat_id: tgChatId,
-          text: `🚕 *New Booking Request*\n\n👤 *${bookingDetails.passenger_name || 'N/A'}*\n📞 ${bookingDetails.phone || 'N/A'}\n📍 From: ${bookingDetails.pickup_location}\n🏁 To: ${bookingDetails.drop_location}\n📅 ${bookingDetails.date} at ${bookingDetails.time}`,
-          parse_mode: 'Markdown'
-        })
+          text: `New Booking Request\n\nName: ${bookingDetails.passenger_name || 'N/A'}\nPhone: ${bookingDetails.phone || 'N/A'}\nFrom: ${bookingDetails.pickup_location}\nTo: ${bookingDetails.drop_location}\nDate: ${bookingDetails.date} at ${bookingDetails.time}`,
+        }),
       });
     }
 
@@ -108,10 +91,9 @@ export const sendContactNotification = async (contactDetails: {
   message: string;
 }) => {
   try {
-    const { data: settings } = await supabase.from('site_settings').select('*');
+    const { data: settings } = await supabaseAdmin.from('site_settings').select('*');
 
     const targetEmail = settings?.find(s => s.key === 'notification_email')?.value || 'info@lookride.in';
-    const tgToken = settings?.find(s => s.key === 'telegram_bot_token')?.value;
     const tgChatId = settings?.find(s => s.key === 'telegram_chat_id')?.value;
 
     const n = htmlEscape(contactDetails.name);
@@ -119,24 +101,15 @@ export const sendContactNotification = async (contactDetails: {
     const p = htmlEscape(contactDetails.phone);
     const m = htmlEscape(contactDetails.message);
 
-    const emailSubject = `📬 Contact Form: ${contactDetails.name}`;
-    const textBody = `
-      Contact Form Submission:
-      -----------------------
-      Name: ${contactDetails.name}
-      Email: ${contactDetails.email}
-      Phone: ${contactDetails.phone || 'N/A'}
-      Message: ${contactDetails.message}
-    `;
+    const emailSubject = `Contact Form: ${contactDetails.name}`;
 
     const emailPromise = resend.emails.send({
       from: fromEmail,
       to: [targetEmail],
       subject: emailSubject,
-      text: textBody,
       html: `
         <div style="font-family: sans-serif; padding: 20px; color: #0B132B;">
-          <h2 style="color: #FCA311;">&#x1F4EC; New Contact Message</h2>
+          <h2 style="color: #FCA311;">New Contact Message</h2>
           <p><strong>Name:</strong> ${n}</p>
           <p><strong>Email:</strong> ${e}</p>
           ${p ? `<p><strong>Phone:</strong> ${p}</p>` : ''}
@@ -147,16 +120,15 @@ export const sendContactNotification = async (contactDetails: {
     });
 
     let telegramPromise: Promise<unknown> = Promise.resolve();
-    if (tgToken && tgChatId) {
-      const tgUrl = `https://api.telegram.org/bot${tgToken}/sendMessage`;
+    if (TELEGRAM_BOT_TOKEN && tgChatId) {
+      const tgUrl = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
       telegramPromise = fetch(tgUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           chat_id: tgChatId,
-          text: `📬 *Contact Form*\n\n👤 ${contactDetails.name}\n📧 ${contactDetails.email}\n💬 ${contactDetails.message}`,
-          parse_mode: 'Markdown'
-        })
+          text: `Contact Form\n\nName: ${contactDetails.name}\nEmail: ${contactDetails.email}\nMessage: ${contactDetails.message}`,
+        }),
       });
     }
 

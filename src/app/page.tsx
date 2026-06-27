@@ -178,15 +178,13 @@ export default function Home() {
         q(supabase.from('fleet').select('*').eq('is_active', true).order('order_index')),
         q(supabase.from('pricing_routes').select('*').order('order_index')),
         q(supabase.from('reviews').select('*').eq('is_visible', true).order('created_at', { ascending: false }).limit(6)),
-        q(supabase.from('site_settings').select('*'))
+        fetch('/api/public/settings').then(r => r.json()).catch(() => ({}))
       ]);
       if (fleetRes.data) setFleet(fleetRes.data);
       if (pricingRes.data) setPricing(pricingRes.data);
       if (reviewRes.data) setReviews(reviewRes.data);
-      if (settingsRes.data && Array.isArray(settingsRes.data)) {
-        const r = settingsRes.data.find(s => s.key === 'google_rating')?.value;
-        const c = settingsRes.data.find(s => s.key === 'review_count')?.value;
-        setSettings({ rating: r || '4.8', reviews: c || '54' });
+      if (settingsRes) {
+        setSettings({ rating: settingsRes.google_rating || '4.8', reviews: settingsRes.review_count || '54' });
       }
       setLoading(false);
     }

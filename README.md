@@ -2,7 +2,7 @@
 
 > **LookRides** is a highly optimized, full-stack Next.js web application built for a premium intercity taxi and airport transfer service operating across North India (Chandigarh, Mohali, Zirakpur, Delhi, Himachal Pradesh). 
 
-This repository showcases an enterprise-grade booking platform featuring real-time Telegram notifications, a secure Supabase backend for rate-limiting and contact persistence, and a heavily optimized, programmatic SEO architecture designed to dominate local and regional search results.
+This repository showcases an enterprise-grade booking platform featuring real-time Telegram and Email notifications, a secure Supabase backend for rate-limiting and contact persistence, and a heavily optimized, programmatic SEO architecture designed to dominate local and regional search results.
 
 ---
 

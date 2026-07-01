@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { BUSINESS_PHONE } from '@/lib/config';
 
 const title = 'Taxi Services in Mohali | LookRides';
 const description = 'Premium cab and taxi services in Mohali for local rides, airport transfers, and outstation trips to Himachal, Delhi, and more. Book online for fixed pricing and instant confirmation.';
@@ -19,7 +20,7 @@ const citySchema = {
       "@type": "LocalBusiness",
       "name": "LookRides Mohali",
       "image": "https://lookrides.com/logo.png",
-      "telephone": "+919780426567",
+      "telephone": BUSINESS_PHONE,
       "url": "https://lookrides.com/cities/mohali",
       "address": {
         "@type": "PostalAddress",

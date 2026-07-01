@@ -1,31 +1,13 @@
-import { createServerClient } from '@supabase/ssr';
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
 import { z } from 'zod';
+import { supabaseAdmin } from '@/lib/supabase-admin';
+import { getAdminUser } from '@/lib/admin-auth';
 import { rateLimit } from '@/lib/rate-limit';
 
 const settingsSchema = z.object({
   key: z.string().min(1, 'Key is required').max(100),
   value: z.union([z.string(), z.number()]).transform(v => String(v)),
 });
-
-async function getAdminUser() {
-  const cookieStore = await cookies();
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() { return cookieStore.getAll(); },
-        setAll() {},
-      },
-    }
-  );
-
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user || user.user_metadata?.is_admin !== true) return null;
-  return user;
-}
 
 export async function GET() {
   try {
@@ -34,19 +16,7 @@ export async function GET() {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const cookieStore = await cookies();
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      {
-        cookies: {
-          getAll() { return cookieStore.getAll(); },
-          setAll() {},
-        },
-      }
-    );
-
-    const { data, error } = await supabase.from('site_settings').select('*');
+    const { data, error } = await supabaseAdmin.from('site_settings').select('*');
     if (error) {
       return NextResponse.json({ error: 'Failed to fetch settings' }, { status: 500 });
     }
@@ -86,21 +56,9 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: firstError }, { status: 400 });
     }
 
-    const cookieStore = await cookies();
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      {
-        cookies: {
-          getAll() { return cookieStore.getAll(); },
-          setAll() {},
-        },
-      }
-    );
-
     const { key, value } = parsed.data;
 
-    const { error } = await supabase
+    const { error } = await supabaseAdmin
       .from('site_settings')
       .upsert({ key, value }, { onConflict: 'key' });
 

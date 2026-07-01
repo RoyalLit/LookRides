@@ -1,10 +1,21 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { supabaseBrowser as supabase, FleetVehicle } from '@/lib/supabase-browser';
 import { Plus, Edit2, Trash2, Save, X, Car } from 'lucide-react';
 import { SkeletonTable } from '@/components/Skeleton';
 import styles from '../admin.module.css';
+
+interface FleetVehicle {
+  id: string;
+  name: string;
+  category: string;
+  seats: number;
+  bags: number;
+  price_desc: string;
+  image_url: string;
+  is_active: boolean;
+  order_index: number;
+}
 
 export default function FleetManagement() {
   const [vehicles, setVehicles] = useState<FleetVehicle[]>([]);
@@ -14,12 +25,12 @@ export default function FleetManagement() {
 
   const fetchFleet = useCallback(async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from('fleet')
-      .select('*')
-      .order('order_index', { ascending: true });
-    
-    if (!error && data) setVehicles(data);
+    try {
+      const res = await fetch('/api/admin/fleet');
+      if (res.ok) setVehicles(await res.json());
+    } catch {
+      console.error('Failed to fetch fleet');
+    }
     setLoading(false);
   }, []);
 
@@ -54,12 +65,21 @@ export default function FleetManagement() {
     if (!formData.image_url?.trim()) { alert('Image URL is required.'); return; }
 
     try {
+      const url = '/api/admin/fleet';
       if (editingId === 'new') {
-        const { error } = await supabase.from('fleet').insert([formData]);
-        if (error) { alert('Failed to add vehicle: ' + error.message); return; }
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+        });
+        if (!res.ok) { const err = await res.json(); alert('Failed to add vehicle: ' + (err.error || 'Unknown error')); return; }
       } else {
-        const { error } = await supabase.from('fleet').update(formData).eq('id', editingId);
-        if (error) { alert('Failed to update vehicle: ' + error.message); return; }
+        const res = await fetch(url, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: editingId, ...formData }),
+        });
+        if (!res.ok) { const err = await res.json(); alert('Failed to update vehicle: ' + (err.error || 'Unknown error')); return; }
       }
       fetchFleet();
       setEditingId(null);
@@ -71,8 +91,8 @@ export default function FleetManagement() {
   const handleDelete = useCallback(async (id: string) => {
     if (!confirm('Are you sure you want to remove this vehicle?')) return;
     try {
-      const { error } = await supabase.from('fleet').delete().eq('id', id);
-      if (error) { alert('Failed to delete vehicle: ' + error.message); return; }
+      const res = await fetch(`/api/admin/fleet?id=${id}`, { method: 'DELETE' });
+      if (!res.ok) { const err = await res.json(); alert('Failed to delete vehicle: ' + (err.error || 'Unknown error')); return; }
       fetchFleet();
     } catch (err: unknown) {
       alert('An unexpected error occurred: ' + (err instanceof Error ? err.message : 'Unknown error'));

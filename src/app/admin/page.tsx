@@ -1,9 +1,20 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { supabaseBrowser as supabase, BookingRequest } from '@/lib/supabase-browser';
 import { SkeletonTable } from '@/components/Skeleton';
 import styles from './admin.module.css';
+
+interface BookingRequest {
+  id: string;
+  pickup_location: string;
+  drop_location: string;
+  passenger_name: string | null;
+  phone: string | null;
+  date: string;
+  time: string;
+  status: string;
+  created_at: string;
+}
 
 export default function AdminDashboard() {
   const [bookings, setBookings] = useState<BookingRequest[]>([]);
@@ -11,14 +22,14 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     const fetchBookings = async () => {
-      const { data, error } = await supabase
-        .from('booking_requests')
-        .select('*')
-        .order('created_at', { ascending: false })
-        .limit(20);
-
-      if (!error && data) {
-        setBookings(data);
+      try {
+        const res = await fetch('/api/admin/bookings');
+        if (res.ok) {
+          const data = await res.json();
+          setBookings(data.slice(0, 20));
+        }
+      } catch {
+        console.error('Failed to fetch bookings');
       }
       setLoading(false);
     };

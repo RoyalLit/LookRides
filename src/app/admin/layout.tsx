@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { supabaseBrowser as supabase } from '@/lib/supabase-browser';
-import { LayoutDashboard, Car, Map, Star, Settings, LogOut, CalendarCheck } from 'lucide-react';
+import { LayoutDashboard, Car, Map, Star, Settings, LogOut, CalendarCheck, Mail, FileText, Users } from 'lucide-react';
 import Logo from '@/components/Logo';
 import styles from './admin.module.css';
 import type { Session } from '@supabase/supabase-js';
@@ -64,9 +64,12 @@ export default function AdminLayout({
   const navItems = [
     { label: 'Dashboard', href: '/admin', icon: LayoutDashboard },
     { label: 'Bookings', href: '/admin/bookings', icon: CalendarCheck },
+    { label: 'Messages', href: '/admin/messages', icon: Mail },
+    { label: 'Blog', href: '/admin/blog', icon: FileText },
     { label: 'Fleet', href: '/admin/fleet', icon: Car },
     { label: 'Pricing', href: '/admin/pricing', icon: Map },
     { label: 'Reviews', href: '/admin/reviews', icon: Star },
+    { label: 'Users', href: '/admin/users', icon: Users },
     { label: 'Settings', href: '/admin/settings', icon: Settings },
   ];
 

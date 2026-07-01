@@ -1,0 +1,85 @@
+.article {
+  padding-top: 120px;
+  padding-bottom: 80px;
+  max-width: 800px;
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.backLink {
+  color: var(--accent-gold);
+  text-decoration: none;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  display: inline-block;
+}
+
+.header {
+  margin-bottom: 3rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  color: var(--primary-navy);
+  line-height: 1.2;
+}
+
+.date {
+  color: #64748b;
+  font-size: 1rem;
+}
+
+.markdownContent {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #334155;
+}
+
+.markdownContent h2 {
+  font-size: 2rem;
+  color: var(--primary-navy);
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+}
+
+.markdownContent h3 {
+  font-size: 1.5rem;
+  color: var(--primary-navy);
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.markdownContent p {
+  margin-bottom: 1.5rem;
+}
+
+.markdownContent ul,
+.markdownContent ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+.markdownContent li {
+  margin-bottom: 0.5rem;
+}
+
+.markdownContent a {
+  color: var(--accent-gold);
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.markdownContent strong {
+  color: var(--primary-navy);
+}
+
+.markdownContent blockquote {
+  border-left: 4px solid var(--accent-gold);
+  padding-left: 1rem;
+  margin-left: 0;
+  font-style: italic;
+  color: #64748b;
+}

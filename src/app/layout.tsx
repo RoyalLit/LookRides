@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ScrollAnimations from "@/components/ScrollAnimations";
 import MobileStickyCta from "@/components/MobileStickyCta";
+import { BUSINESS_PHONE } from "@/lib/config";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"], display: "swap" });
 const outfit = Outfit({ variable: "--font-outfit", subsets: ["latin"], display: "swap" });
@@ -130,7 +131,7 @@ const structuredData = {
       alternateName: ["LookRide", "Look Ride"],
       description: "Premium intercity cab service, outstation taxi, and airport transfer service in Chandigarh, Derabassi, Zirakpur, and across North India.",
       url: siteUrl,
-      telephone: "+919780426567",
+      telephone: BUSINESS_PHONE,
       email: "info@lookride.in",
       priceRange: "₹₹",
       currenciesAccepted: "INR",

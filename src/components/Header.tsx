@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Phone, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import Logo from './Logo';
+import { BUSINESS_PHONE, BUSINESS_PHONE_DISPLAY } from '@/lib/config';
 import styles from './Header.module.css';
 
 const navLinks = [
@@ -73,9 +74,9 @@ export default function Header() {
         </nav>
 
         <div className={styles.actions}>
-          <a href="tel:+919780426567" className={styles.phone}>
+          <a href={`tel:${BUSINESS_PHONE}`} className={styles.phone}>
             <Phone size={15} />
-            +91 97804 26567
+            {BUSINESS_PHONE_DISPLAY}
           </a>
           <Link href="/" className="btn btn-primary btn-sm" scroll={false}>Book Now</Link>
         </div>
@@ -105,8 +106,8 @@ export default function Header() {
             ))}
           </nav>
           <div className={styles.mobileCta}>
-            <a href="tel:+919780426567" className={styles.mobilePhone}>
-              <Phone size={15} /> +91 97804 26567
+            <a href={`tel:${BUSINESS_PHONE}`} className={styles.mobilePhone}>
+              <Phone size={15} /> {BUSINESS_PHONE_DISPLAY}
             </a>
             <Link href="/" className="btn btn-primary" onClick={() => setMobileOpen(false)}>Book Now</Link>
           </div>

@@ -3,6 +3,7 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { BUSINESS_PHONE, BUSINESS_PHONE_DISPLAY } from '@/lib/config';
 import {
   Users, Star, ArrowRight, CheckCircle, Phone,
   Luggage, Shield, Clock,
@@ -199,7 +200,7 @@ export default function HomeClient({ fleet, pricing, reviews, settings, loading 
             </p>
 
             <div className={styles.heroActions}>
-              <a href="tel:+919780426567" className={`btn btn-primary btn-lg ${styles.callBtn}`}>
+              <a href={`tel:${BUSINESS_PHONE}`} className={`btn btn-primary btn-lg ${styles.callBtn}`}>
                 <Phone size={18} />
                 Call Helpline (24/7)
               </a>
@@ -544,7 +545,7 @@ export default function HomeClient({ fleet, pricing, reviews, settings, loading 
               <p>Book your outstation ride in under 30 seconds. No advance payments required.</p>
               <div className={styles.ctaActions}>
                 <Link href="/" className={`btn btn-primary btn-lg`} scroll={false}>Book Your Ride Now</Link>
-                <a href="tel:+919780426567" className={`btn btn-outline-white btn-lg ${styles.ctaPhone}`}>
+                <a href={`tel:${BUSINESS_PHONE}`} className={`btn btn-outline-white btn-lg ${styles.ctaPhone}`}>
                   <Phone size={18} /> Call Helpline: +91 97804 26567
                 </a>
               </div>

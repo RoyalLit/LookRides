@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Phone, Mail, MapPin, Star, Shield } from 'lucide-react';
 import Logo from './Logo';
+import { BUSINESS_PHONE, BUSINESS_PHONE_DISPLAY } from '@/lib/config';
 import styles from './Footer.module.css';
 
 const routeLinks = [
@@ -48,8 +49,8 @@ export default function Footer() {
             54 Verified Reviews
           </div>
           <div className={styles.contacts}>
-            <a href="tel:+919780426567" className={styles.contactItem}>
-              <Phone size={14} /> +91 97804 26567
+            <a href={`tel:${BUSINESS_PHONE}`} className={styles.contactItem}>
+              <Phone size={14} /> {BUSINESS_PHONE_DISPLAY}
             </a>
             <a href="mailto:info@lookride.in" className={styles.contactItem}>
               <Mail size={14} /> info@lookride.in
@@ -106,9 +107,18 @@ export default function Footer() {
       </div>
 
       <div className={styles.footerBottom}>
-        <div className="container">
-          <p>© {new Date().getFullYear()} LookRides. All rights reserved. Premium intercity travel platform.</p>
-          <p>Serving Chandigarh · Mohali · Panchkula · Zirakpur · Derabassi · Punjab · Delhi NCR</p>
+        <div className="container" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '1rem' }}>
+          <div>
+            <p>© {new Date().getFullYear()} LookRides. All rights reserved. Premium intercity travel platform.</p>
+            <p>Serving Chandigarh · Mohali · Panchkula · Zirakpur · Derabassi · Punjab · Delhi NCR</p>
+          </div>
+          <div className={styles.legalLinks}>
+            <Link href="/terms">Terms & Conditions</Link>
+            <span className={styles.dot}>·</span>
+            <Link href="/privacy">Privacy Policy</Link>
+            <span className={styles.dot}>·</span>
+            <Link href="/cancellation">Cancellation & Refunds</Link>
+          </div>
         </div>
       </div>
     </footer>

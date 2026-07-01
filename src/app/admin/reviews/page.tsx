@@ -1,25 +1,36 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { supabaseBrowser as supabase, GoogleReview } from '@/lib/supabase-browser';
-import { Plus, Edit2, Trash2, Save, X, Star, Eye, EyeOff } from 'lucide-react';
+import { Plus, Edit2, Trash2, Save, X, Star, Eye, EyeOff, RefreshCw } from 'lucide-react';
 import { SkeletonTable } from '@/components/Skeleton';
 import styles from '../admin.module.css';
+
+interface GoogleReview {
+  id: string;
+  author: string;
+  text: string;
+  rating: number;
+  city: string;
+  is_visible: boolean;
+  created_at: string;
+}
 
 export default function ReviewsManagement() {
   const [reviews, setReviews] = useState<GoogleReview[]>([]);
   const [loading, setLoading] = useState(true);
+  const [syncing, setSyncing] = useState(false);
+  const [syncMessage, setSyncMessage] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState<Partial<GoogleReview>>({});
 
   const fetchReviews = useCallback(async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from('reviews')
-      .select('*')
-      .order('created_at', { ascending: false });
-    
-    if (!error && data) setReviews(data);
+    try {
+      const res = await fetch('/api/admin/reviews');
+      if (res.ok) setReviews(await res.json());
+    } catch {
+      console.error('Failed to fetch reviews');
+    }
     setLoading(false);
   }, []);
 
@@ -27,29 +38,65 @@ export default function ReviewsManagement() {
     fetchReviews();
   }, []);
 
+  const handleSync = useCallback(async () => {
+    setSyncing(true);
+    setSyncMessage('');
+    try {
+      const res = await fetch('/api/admin/reviews/sync', { method: 'POST' });
+      const data = await res.json();
+      if (!res.ok) {
+        setSyncMessage('Sync failed: ' + (data.error || 'Unknown error'));
+        return;
+      }
+      setSyncMessage(`Sync complete! Rating: ${data.rating} ★, Total: ${data.total_reviews}, Imported: ${data.imported}, Skipped: ${data.skipped}`);
+      fetchReviews();
+    } catch (err: unknown) {
+      setSyncMessage('Sync failed: ' + (err instanceof Error ? err.message : 'Network error'));
+    }
+    setSyncing(false);
+    setTimeout(() => setSyncMessage(''), 6000);
+  }, []);
+
   const handleToggleVisibility = useCallback(async (review: GoogleReview) => {
-    const { error } = await supabase
-      .from('reviews')
-      .update({ is_visible: !review.is_visible })
-      .eq('id', review.id);
-    if (!error) fetchReviews();
+    try {
+      const res = await fetch('/api/admin/reviews', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: review.id, is_visible: !review.is_visible }),
+      });
+      if (res.ok) fetchReviews();
+    } catch {
+      console.error('Failed to toggle visibility');
+    }
   }, []);
 
   const handleDelete = useCallback(async (id: string) => {
-    if (confirm('Delete this review?')) {
-      const { error } = await supabase.from('reviews').delete().eq('id', id);
-      if (!error) fetchReviews();
+    if (!confirm('Delete this review?')) return;
+    try {
+      const res = await fetch(`/api/admin/reviews?id=${id}`, { method: 'DELETE' });
+      if (res.ok) fetchReviews();
+    } catch {
+      console.error('Failed to delete review');
     }
   }, []);
 
   const handleSave = useCallback(async () => {
     try {
+      const url = '/api/admin/reviews';
       if (editingId === 'new') {
-        const { error } = await supabase.from('reviews').insert([formData]);
-        if (error) throw error;
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+        });
+        if (!res.ok) throw new Error('Failed to save');
       } else {
-        const { error } = await supabase.from('reviews').update(formData).eq('id', editingId);
-        if (error) throw error;
+        const res = await fetch(url, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: editingId, ...formData }),
+        });
+        if (!res.ok) throw new Error('Failed to save');
       }
       fetchReviews();
       setEditingId(null);
@@ -67,10 +114,31 @@ export default function ReviewsManagement() {
     <div className={styles.dashboardContainer}>
       <header className={styles.pageHeader}>
         <h1>Customer Reviews</h1>
-        <button className="btn btn-outline btn-sm" onClick={() => { setEditingId('new'); setFormData({ author: '', text: '', rating: 5, city: '', is_visible: true }); }}>
-          <Plus size={16} /> Add Review
-        </button>
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <button
+            className="btn btn-outline btn-sm"
+            onClick={handleSync}
+            disabled={syncing}
+            title="Import latest reviews from Google Business Profile"
+          >
+            <RefreshCw size={16} style={syncing ? { animation: 'spin 1s linear infinite' } : undefined} /> {syncing ? 'Syncing...' : 'Sync from Google'}
+          </button>
+          <button className="btn btn-outline btn-sm" onClick={() => { setEditingId('new'); setFormData({ author: '', text: '', rating: 5, city: '', is_visible: true }); }}>
+            <Plus size={16} /> Add Review
+          </button>
+        </div>
       </header>
+
+      {syncMessage && (
+        <div style={{
+          padding: '0.75rem 1rem', marginBottom: '1rem', borderRadius: '6px',
+          background: syncMessage.includes('failed') ? '#fef2f2' : '#f0fdf4',
+          color: syncMessage.includes('failed') ? '#991b1b' : '#166534',
+          fontSize: '0.875rem', border: `1px solid ${syncMessage.includes('failed') ? '#fecaca' : '#bbf7d0'}`
+        }}>
+          {syncMessage}
+        </div>
+      )}
 
       {editingId && (
         <div className={`glass-panel ${styles.tableContainer}`} style={{ marginBottom: '2rem' }}>

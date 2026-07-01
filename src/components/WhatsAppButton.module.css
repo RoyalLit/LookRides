@@ -14,7 +14,7 @@
   font-weight: 700;
   font-size: 0.9rem;
   font-family: var(--font-inter);
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
   text-decoration: none;
 }
 
@@ -23,6 +23,12 @@
   transform: translateY(-3px);
   box-shadow: 0 8px 28px rgba(37, 211, 102, 0.55);
   color: #fff;
+}
+
+.overFooter {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 2rem;
 }
 
 .label {

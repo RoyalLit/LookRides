@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { ArrowRight, MapPin, Navigation, Clock, Activity, Plane } from 'lucide-react';
 import { allRoutes } from '@/lib/routes-data';
 import styles from './routes.module.css';
-import { supabase } from '@/lib/supabase';
+import { getPricingRoutes } from '@/lib/queries';
 
 export const metadata: Metadata = {
   title: 'All Popular Routes | LookRides',
@@ -13,8 +13,8 @@ export const metadata: Metadata = {
 export const revalidate = 60;
 
 export default async function RoutesIndexPage() {
-  // Fetch live pricing from Supabase
-  const { data: dbRoutes } = await supabase.from('pricing_routes').select('*');
+  // Fetch live pricing from Supabase via centralized queries
+  const dbRoutes = await getPricingRoutes();
   
   // Merge static route data with live DB pricing
   const mergedRoutes = allRoutes.map(staticRoute => {

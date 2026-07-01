@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { BUSINESS_PHONE } from '@/lib/config';
 
 const title = 'Taxi Services in Chandigarh | LookRides';
 const description = 'Premium cab and taxi services in Chandigarh for local rides, airport transfers to IXC/DEL, and outstation trips to Manali, Shimla, Delhi and more. Book online for fixed pricing.';
@@ -19,7 +20,7 @@ const citySchema = {
       "@type": "LocalBusiness",
       "name": "LookRides Chandigarh",
       "image": "https://lookrides.com/logo.png",
-      "telephone": "+919780426567",
+      "telephone": BUSINESS_PHONE,
       "url": "https://lookrides.com/cities/chandigarh",
       "address": {
         "@type": "PostalAddress",

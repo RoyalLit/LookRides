@@ -30,6 +30,14 @@ export default function AdminLogin() {
         throw new Error('Authentication failed');
       }
 
+      const isAdmin = data.session.user?.user_metadata?.is_admin === true;
+      if (!isAdmin) {
+        await supabase.auth.signOut();
+        setError('Access denied. Admin privileges required.');
+        setLoading(false);
+        return;
+      }
+
       router.push('/admin');
     } catch {
       setError('Invalid email or password');

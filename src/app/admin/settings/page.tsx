@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { Save, Globe, Star } from 'lucide-react';
+import { Save, Globe, Star, MapPin } from 'lucide-react';
 import { SkeletonTable, Spinner } from '@/components/Skeleton';
 import styles from '../admin.module.css';
 
@@ -29,7 +29,13 @@ export default function SettingsManagement() {
   }, []);
 
   const handleUpdate = useCallback((key: string, value: string) => {
-    setSettings(prev => prev.map(s => s.key === key ? { ...s, value } : s));
+    setSettings(prev => {
+      const exists = prev.find(s => s.key === key);
+      if (exists) {
+        return prev.map(s => s.key === key ? { ...s, value } : s);
+      }
+      return [...prev, { key, value }];
+    });
   }, []);
 
   useEffect(() => {
@@ -114,6 +120,36 @@ export default function SettingsManagement() {
               placeholder="e.g. 54"
             />
             <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Total review count displayed on site.</p>
+          </div>
+
+        </div>
+
+        <div className={`glass-panel ${styles.tableContainer}`} style={{ gridColumn: 'span 1' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
+            <MapPin size={24} color="#34d399" />
+            <h2 style={{ margin: 0 }}>Google Reviews Sync</h2>
+          </div>
+
+          <div className={styles.formField} style={{ marginBottom: '1.5rem' }}>
+            <label>Google Business Place ID</label>
+            <input
+              type="text"
+              value={settings.find(s => s.key === 'place_id')?.value || ''}
+              onChange={e => handleUpdate('place_id', e.target.value)}
+              placeholder="e.g. ChIJN1t_tDeuEmsRUsoyG83frY4"
+            />
+            <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+              Required for auto-sync. Find yours at{' '}
+              <a href="https://developers.google.com/maps/documentation/places/web-service/place-id" target="_blank" rel="noopener" style={{ color: 'var(--accent-gold)' }}>
+                Google Place ID Finder
+              </a>
+            </p>
+            <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.5rem' }}>
+              Also needs <code style={{ background: 'var(--surface)', padding: '0.1rem 0.3rem', borderRadius: '3px' }}>SERPAPI_API_KEY</code> in <code style={{ background: 'var(--surface)', padding: '0.1rem 0.3rem', borderRadius: '3px' }}>.env.local</code> —{' '}
+              <a href="https://serpapi.com" target="_blank" rel="noopener" style={{ color: 'var(--accent-gold)' }}>
+                sign up free
+              </a> (no credit card)
+            </p>
           </div>
 
         </div>

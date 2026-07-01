@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ArrowRight, Clock, Shield, CheckCircle, Star } from 'lucide-react';
 import type { RouteData } from '@/lib/routes-data';
 import { allRoutes } from '@/lib/routes-data';
+import { BUSINESS_PHONE, BUSINESS_PHONE_DISPLAY } from '@/lib/config';
 import styles from './RoutePage.module.css';
 
 const siteUrl = 'https://lookrides.com';
@@ -311,8 +312,8 @@ function RouteCta({ route }: { route: RouteData }) {
           <Link href={`/?pickup=${fid(route.from)}&drop=${fid(route.to)}`} className="btn btn-primary btn-lg">
             Book Now <ArrowRight size={18} />
           </Link>
-          <a href="tel:+919780426567" className="btn btn-outline-white btn-lg">
-            Call +91 97804 26567
+          <a href={`tel:${BUSINESS_PHONE}`} className="btn btn-outline-white btn-lg">
+            Call {BUSINESS_PHONE_DISPLAY}
           </a>
         </div>
       </div>

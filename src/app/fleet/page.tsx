@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Users, Luggage, ArrowRight } from 'lucide-react';
-import { supabase, FleetVehicle } from '@/lib/supabase';
+import type { FleetVehicle } from '@/lib/supabase';
+import { getActiveFleet } from '@/lib/queries';
 import { SkeletonCard } from '@/components/Skeleton';
 import styles from './fleet.module.css';
 
@@ -14,12 +15,8 @@ export default function FleetPage() {
 
   useEffect(() => {
     async function fetchFleet() {
-      const { data } = await supabase
-        .from('fleet')
-        .select('*')
-        .eq('is_active', true)
-        .order('order_index');
-      if (data) setFleet(data);
+      const data = await getActiveFleet();
+      if (data) setFleet(data as FleetVehicle[]);
       setLoading(false);
     }
     fetchFleet();

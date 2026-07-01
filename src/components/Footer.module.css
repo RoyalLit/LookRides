@@ -109,7 +109,33 @@ a.contactItem:hover {
 }
 
 .footerBottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   padding: 1.5rem 0;
+  text-align: left;
+  font-size: 0.8rem;
+  color: #6B7280;
+  background-color: #0A0F1A;
+}
+
+.footerBottom p {
+  margin: 0.25rem 0;
+}
+
+.legalLinks {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.legalLinks a {
+  color: #9CA3AF;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.legalLinks a:hover {
+  color: var(--accent-gold);
 }
 
 .footerBottom .container {

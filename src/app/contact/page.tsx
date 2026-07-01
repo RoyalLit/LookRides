@@ -1,19 +1,20 @@
 import type { Metadata } from 'next';
 import { Phone, Mail, MapPin, MessageSquare } from 'lucide-react';
 import ContactForm from './ContactForm';
+import { BUSINESS_PHONE, BUSINESS_PHONE_DISPLAY } from '@/lib/config';
 import styles from './contact.module.css';
 
 export const metadata: Metadata = {
   title: 'Contact LookRides | Taxi Booking in Derabassi & Chandigarh',
-  description: 'Contact LookRides for taxi bookings, corporate travel, and support. Call +91 97804 26567 or email info@lookride.in. Based in Derabassi, near Chandigarh.',
+  description: `Contact LookRides for taxi bookings, corporate travel, and support. Call ${BUSINESS_PHONE_DISPLAY} or email info@lookride.in. Based in Derabassi, near Chandigarh.`,
   openGraph: {
     title: 'Contact LookRides | 24/7 Taxi Booking Support',
-    description: 'Call +91 97804 26567 or email info@lookride.in. Available 24/7 for airport transfers, outstation trips & corporate travel across North India.',
+    description: `Call ${BUSINESS_PHONE_DISPLAY} or email info@lookride.in. Available 24/7 for airport transfers, outstation trips & corporate travel across North India.`,
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Contact LookRides Taxi Service',
-    description: 'Book your ride: +919780426567. 24/7 customer support for bookings & inquiries.',
+    description: `Book your ride: ${BUSINESS_PHONE}. 24/7 customer support for bookings & inquiries.`,
   },
 };
 
@@ -73,7 +74,7 @@ export default function ContactPage() {
                   <div className={styles.infoIcon}><Phone size={20} strokeWidth={1.5} /></div>
                   <div>
                     <h3>Phone</h3>
-                    <a href="tel:+919780426567">+91 97804 26567</a>
+                    <a href={`tel:${BUSINESS_PHONE}`}>{BUSINESS_PHONE_DISPLAY}</a>
                   </div>
                 </div>
                 <div className={styles.infoItem}>

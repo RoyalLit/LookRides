@@ -1,8 +1,26 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import styles from './WhatsAppButton.module.css';
 
 export default function WhatsAppButton() {
+  const [isOverFooter, setIsOverFooter] = useState(false);
+
+  useEffect(() => {
+    const footer = document.querySelector('footer');
+    if (!footer) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsOverFooter(entry.isIntersecting);
+      },
+      { rootMargin: '0px 0px -100px 0px' }
+    );
+
+    observer.observe(footer);
+    return () => observer.disconnect();
+  }, []);
+
   const phone = '919780426567';
   const message = encodeURIComponent('Hi! I want to book a cab with LookRides.');
   const url = `https://wa.me/${phone}?text=${message}`;
@@ -12,10 +30,9 @@ export default function WhatsAppButton() {
       href={url}
       target="_blank"
       rel="noopener noreferrer"
-      className={styles.btn}
+      className={`${styles.btn} ${isOverFooter ? styles.overFooter : ''}`}
       aria-label="Chat on WhatsApp"
     >
-      {/* WhatsApp SVG icon */}
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"

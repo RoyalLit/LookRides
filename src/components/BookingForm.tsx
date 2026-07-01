@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useCallback, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { MapPin, Navigation, Calendar, Clock, Phone, User, X, Send } from 'lucide-react';
 import { Spinner } from '@/components/Skeleton';
+import { BUSINESS_PHONE, BUSINESS_PHONE_DISPLAY } from '@/lib/config';
 import styles from './BookingForm.module.css';
 
 /* ── Location autocomplete via OpenStreetMap (free, no key) ── */
@@ -199,8 +200,18 @@ function FormInner() {
     // Validate only if there's a value or on blur. We don't want to yell at empty fields while typing.
     if (el.value || e.type === 'blur') {
       if (el.name === 'date_display') {
-        if (el.value.length === 10 && !/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/\d{4}$/.test(el.value)) {
-          msg = 'Invalid date (DD/MM/YYYY)';
+        if (el.value.length === 10) {
+          if (!/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/\d{4}$/.test(el.value)) {
+            msg = 'Invalid date (DD/MM/YYYY)';
+          } else {
+            const [d, m, y] = el.value.split('/');
+            const inputDate = new Date(Number(y), Number(m) - 1, Number(d));
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            if (inputDate < today) {
+              msg = 'Travel date cannot be in the past';
+            }
+          }
         } else if (e.type === 'blur' && el.value.length > 0 && el.value.length < 10) {
           msg = 'Incomplete date';
         } else if (e.type === 'blur' && !el.value) {
@@ -389,7 +400,7 @@ function FormInner() {
       </form>
 
       <p className={styles.orCall}>
-        Prefer to call? <a href="tel:+919780426567">+91 97804 26567</a>
+        Prefer to call? <a href={`tel:${BUSINESS_PHONE}`}>{BUSINESS_PHONE_DISPLAY}</a>
       </p>
     </div>
   );

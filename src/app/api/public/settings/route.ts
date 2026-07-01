@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase';
+import { supabaseAdmin } from '@/lib/supabase-admin';
 
 const PUBLIC_KEYS = ['google_rating', 'review_count'];
 
 export async function GET() {
   try {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('site_settings')
       .select('key, value')
       .in('key', PUBLIC_KEYS);

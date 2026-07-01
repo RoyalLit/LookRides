@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { BUSINESS_PHONE } from '@/lib/config';
 
 const title = 'Taxi Services in Zirakpur | LookRides';
 const description = 'Premium cab and taxi services in Zirakpur for local rides, airport transfers, and outstation trips. Conveniently located on the Chandigarh-Delhi highway. Book online for fixed pricing.';
@@ -19,7 +20,7 @@ const citySchema = {
       "@type": "LocalBusiness",
       "name": "LookRides Zirakpur",
       "image": "https://lookrides.com/logo.png",
-      "telephone": "+919780426567",
+      "telephone": BUSINESS_PHONE,
       "url": "https://lookrides.com/cities/zirakpur",
       "address": {
         "@type": "PostalAddress",

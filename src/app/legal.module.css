@@ -1,0 +1,119 @@
+.page { background-color: var(--background); min-height: 100vh; }
+
+.pageHeader {
+  background: var(--primary-navy);
+  padding: 7rem 0 5rem;
+  text-align: center;
+  color: #fff;
+}
+
+.headerLabel {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 1rem;
+}
+
+.pageTitle {
+  font-size: 3.5rem;
+  color: #fff;
+  margin-bottom: 1.25rem;
+}
+
+.headerSubtitle {
+  font-size: 1.15rem;
+  color: rgba(255,255,255,0.65);
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+.content {
+  padding: 5rem 0 7rem;
+}
+
+.inner {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.lastUpdated {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.section {
+  margin-bottom: 2.5rem;
+}
+
+.section h2 {
+  font-size: 1.35rem;
+  color: var(--primary-navy);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--accent-gold);
+  display: inline-block;
+}
+
+.section h3 {
+  font-size: 1.05rem;
+  color: var(--primary-navy);
+  margin: 1.5rem 0 0.75rem;
+}
+
+.section p {
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.8;
+  margin-bottom: 0.75rem;
+}
+
+.section ul {
+  margin: 0.5rem 0 1rem 1.5rem;
+  list-style: disc;
+}
+
+.section li {
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 0.35rem;
+}
+
+.section strong {
+  color: var(--primary-navy);
+}
+
+.highlight {
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.highlight p {
+  color: #15803d;
+  margin-bottom: 0;
+}
+
+.highlight strong {
+  color: #166534;
+}
+
+@media (max-width: 900px) {
+  .pageTitle { font-size: 2.5rem; }
+  .pageHeader { padding: 5rem 0 3.5rem; }
+  .content { padding: 3rem 0 5rem; }
+}
+
+@media (max-width: 600px) {
+  .pageTitle { font-size: 2rem; }
+  .section h2 { font-size: 1.15rem; }
+}

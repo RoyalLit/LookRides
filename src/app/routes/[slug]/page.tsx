@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import RoutePage from '@/components/RoutePage';
 import { getRouteBySlug, getAllRouteSlugs } from '@/lib/routes-data';
-import { supabase } from '@/lib/supabase';
+import { getPricingRouteByCities } from '@/lib/queries';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -32,13 +32,8 @@ export default async function Page({ params }: Props) {
   const staticRoute = getRouteBySlug(slug);
   if (!staticRoute) notFound();
 
-  // Fetch live pricing from Supabase
-  const { data: dbRoute } = await supabase
-    .from('pricing_routes')
-    .select('sedan_price, suv_price')
-    .eq('from_city', staticRoute.fromCity)
-    .eq('to_city', staticRoute.toCity)
-    .single();
+  // Fetch live pricing from Supabase via centralized query
+  const dbRoute = await getPricingRouteByCities(staticRoute.fromCity, staticRoute.toCity);
 
   const route = {
     ...staticRoute,

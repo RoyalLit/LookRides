@@ -16,6 +16,13 @@
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
 }
 
+.overFooter {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
 .visible {
   transform: translateY(0);
 }

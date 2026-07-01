@@ -46,7 +46,6 @@ export async function rateLimit(opts: {
       .eq('endpoint', endpoint);
     return { allowed: true, retryAfter: 0 };
   } catch {
-    // If rate limit DB fails, allow the request (fail open)
-    return { allowed: true, retryAfter: 0 };
+    return { allowed: false, retryAfter: 60 };
   }
 }

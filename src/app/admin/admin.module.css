@@ -301,7 +301,6 @@
   color: #334155;
 }
 
-/* Badges */
 .statusBadge {
   padding: 0.35rem 0.85rem;
   border-radius: 20px;
@@ -314,6 +313,172 @@
 .statusBadge.confirmed { background: #DCFCE7; color: #166534; }
 .statusBadge.completed { background: #E0F2FE; color: #075985; }
 .statusBadge.cancelled { background: #FEE2E2; color: #991B1B; }
+
+/* Premium Booking Cards */
+.bookingGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.bookingCard {
+  background: var(--admin-card);
+  border: 1px solid var(--admin-border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.bookingCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  border-color: #CBD5E1;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid #F1F5F9;
+  padding-bottom: 1rem;
+}
+
+.customerInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.customerName {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #0F172A;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.customerPhone {
+  font-size: 0.85rem;
+  color: var(--admin-accent);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 600;
+}
+
+.cardRoute {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+}
+
+.routePoint {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.routeIcon {
+  margin-top: 0.15rem;
+  color: #94A3B8;
+}
+
+.routeText {
+  font-size: 0.95rem;
+  color: #334155;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.routeLabel {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #94A3B8;
+  font-weight: 700;
+  margin-bottom: 0.1rem;
+}
+
+.cardSchedule {
+  display: flex;
+  justify-content: space-between;
+  background: #F8FAFC;
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid #F1F5F9;
+}
+
+.scheduleItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.scheduleLabel {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: #64748B;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.scheduleValue {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0F172A;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.cardActions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
+.btnConfirm, .btnCancel, .btnComplete {
+  flex: 1;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+}
+
+.btnConfirm {
+  background: #22C55E;
+  color: white;
+}
+.btnConfirm:hover { background: #16A34A; }
+
+.btnCancel {
+  background: #FEE2E2;
+  color: #EF4444;
+}
+.btnCancel:hover { background: #FECACA; }
+
+.btnComplete {
+  background: var(--admin-accent);
+  color: white;
+}
+.btnComplete:hover { background: var(--admin-accent-hover); }
 
 /* Management Styles */
 .formGrid {

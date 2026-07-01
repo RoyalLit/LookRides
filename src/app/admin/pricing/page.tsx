@@ -1,10 +1,19 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { supabaseBrowser as supabase, PricingRoute } from '@/lib/supabase-browser';
 import { Plus, Edit2, Trash2, Save, X, Map } from 'lucide-react';
 import { SkeletonTable } from '@/components/Skeleton';
 import styles from '../admin.module.css';
+
+interface PricingRoute {
+  id: string;
+  from_city: string;
+  to_city: string;
+  distance: string;
+  sedan_price: string;
+  suv_price: string;
+  order_index: number;
+}
 
 export default function PricingManagement() {
   const [routes, setRoutes] = useState<PricingRoute[]>([]);
@@ -14,12 +23,12 @@ export default function PricingManagement() {
 
   const fetchRoutes = useCallback(async () => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from('pricing_routes')
-      .select('*')
-      .order('order_index', { ascending: true });
-    
-    if (!error && data) setRoutes(data);
+    try {
+      const res = await fetch('/api/admin/pricing');
+      if (res.ok) setRoutes(await res.json());
+    } catch {
+      console.error('Failed to fetch pricing routes');
+    }
     setLoading(false);
   }, []);
 
@@ -51,12 +60,21 @@ export default function PricingManagement() {
     if (!formData.suv_price?.toString().trim()) { alert('SUV price is required.'); return; }
 
     try {
+      const url = '/api/admin/pricing';
       if (editingId === 'new') {
-        const { error } = await supabase.from('pricing_routes').insert([formData]);
-        if (error) { alert('Failed to add route: ' + error.message); return; }
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+        });
+        if (!res.ok) { const err = await res.json(); alert('Failed to add route: ' + (err.error || 'Unknown error')); return; }
       } else {
-        const { error } = await supabase.from('pricing_routes').update(formData).eq('id', editingId);
-        if (error) { alert('Failed to update route: ' + error.message); return; }
+        const res = await fetch(url, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: editingId, ...formData }),
+        });
+        if (!res.ok) { const err = await res.json(); alert('Failed to update route: ' + (err.error || 'Unknown error')); return; }
       }
       fetchRoutes();
       setEditingId(null);
@@ -68,8 +86,8 @@ export default function PricingManagement() {
   const handleDelete = useCallback(async (id: string) => {
     if (!confirm('Are you sure you want to delete this route?')) return;
     try {
-      const { error } = await supabase.from('pricing_routes').delete().eq('id', id);
-      if (error) { alert('Failed to delete route: ' + error.message); return; }
+      const res = await fetch(`/api/admin/pricing?id=${id}`, { method: 'DELETE' });
+      if (!res.ok) { const err = await res.json(); alert('Failed to delete route: ' + (err.error || 'Unknown error')); return; }
       fetchRoutes();
     } catch (err: unknown) {
       alert('An unexpected error occurred: ' + (err instanceof Error ? err.message : 'Unknown error'));

@@ -24,22 +24,37 @@ function useLocationSuggestions() {
     timerRef.current = setTimeout(async () => {
       setLoading(true);
       try {
-        const res = await fetch(
-          `https://photon.komoot.io/api/?q=${encodeURIComponent(query)}&limit=5&location_bias_scale=0.5&bbox=68.1,6.5,97.4,35.5`, // Bounding box for India
-          { headers: { 'Accept': 'application/json' } }
-        );
+        const res = await fetch(`/api/locations?q=${encodeURIComponent(query)}`, {
+          headers: { 'Accept': 'application/json' }
+        });
+        if (!res.ok) throw new Error("API Proxy failed");
         const data = await res.json();
         
         // Photon returns 'features' array
-        const results = data.features.map((f: { geometry: { coordinates: unknown[] }; properties: { name?: string; city?: string; state?: string } }) => {
-          const props = f.properties;
-          const parts = [props.name, props.city, props.state].filter(Boolean);
-          return {
-            place_id: f.geometry.coordinates.join(','),
-            display_name: parts.join(', '),
-          };
-        });
-        setSuggestions(results);
+        const results = data.features
+          .filter((f: any) => f.properties?.countrycode === 'IN')
+          .map((f: any) => {
+            const props = f.properties;
+            const rawParts = [props.name, props.city, props.state].filter(Boolean);
+            // Collapse duplicate parts (e.g. "Chandigarh, Chandigarh" -> "Chandigarh")
+            const parts = Array.from(new Set(rawParts));
+            return {
+              place_id: f.geometry.coordinates.join(','),
+              display_name: parts.join(', '),
+            };
+          });
+
+        // Deduplicate based on exact display_name
+        const uniqueResults: Suggestion[] = [];
+        const seen = new Set<string>();
+        for (const item of results) {
+          if (!seen.has(item.display_name)) {
+            seen.add(item.display_name);
+            uniqueResults.push(item);
+          }
+        }
+        
+        setSuggestions(uniqueResults);
       } catch { setSuggestions([]); }
       finally { setLoading(false); }
     }, 350);
@@ -136,9 +151,12 @@ function LocationField({
         )}
       </div>
 
-      {open && (loading || suggestions.length > 0) && (
+      {open && value.length >= 3 && (
         <ul className={styles.suggestions} role="listbox">
           {loading && <li className={styles.suggestLoading}>Searching…</li>}
+          {!loading && suggestions.length === 0 && (
+            <li className={styles.suggestLoading}>No results found for "{value}"</li>
+          )}
           {suggestions.map((s, idx) => (
             <li
               key={s.place_id}
@@ -172,6 +190,42 @@ function FormInner() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+
+  const validateInput = (e: React.ChangeEvent<HTMLInputElement> | React.FocusEvent<HTMLInputElement>) => {
+    const el = e.target;
+    let msg = '';
+    
+    // Validate only if there's a value or on blur. We don't want to yell at empty fields while typing.
+    if (el.value || e.type === 'blur') {
+      if (el.name === 'date_display') {
+        if (el.value.length === 10 && !/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/\d{4}$/.test(el.value)) {
+          msg = 'Invalid date (DD/MM/YYYY)';
+        } else if (e.type === 'blur' && el.value.length > 0 && el.value.length < 10) {
+          msg = 'Incomplete date';
+        } else if (e.type === 'blur' && !el.value) {
+          msg = 'Travel date is required';
+        }
+      } else if (!el.validity.valid) {
+        if (el.validity.patternMismatch) {
+          if (el.name === 'phone') msg = 'Mobile number must be exactly 10 digits';
+        } else if (el.validity.valueMissing) {
+          msg = 'This field is required';
+        } else {
+          msg = 'Invalid format';
+        }
+      }
+    }
+    
+    // Clear error immediately if typing and it becomes valid
+    if (e.type === 'change' && msg === '' && fieldErrors[el.name]) {
+      setFieldErrors(prev => ({ ...prev, [el.name]: '' }));
+    } 
+    // Set error on blur or if an error already exists and they are changing it but it's still wrong
+    else if (e.type === 'blur' || (e.type === 'change' && fieldErrors[el.name])) {
+      setFieldErrors(prev => ({ ...prev, [el.name]: msg }));
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -243,8 +297,23 @@ function FormInner() {
           <div className={styles.field}>
             <label htmlFor="phone"><Phone size={13} /> Mobile Number</label>
             <div className={styles.inputWrap}>
-              <input type="tel" id="phone" name="phone" placeholder="+91 98765 43210" required pattern="[0-9+\s\-]{7,15}" />
+              <input 
+                type="tel" 
+                id="phone" 
+                name="phone" 
+                placeholder="9876543210" 
+                required 
+                pattern="\d{10}"
+                maxLength={10}
+                className={fieldErrors.phone ? styles.inputError : ''}
+                onChange={(e) => {
+                  e.target.value = e.target.value.replace(/\D/g, '');
+                  validateInput(e);
+                }}
+                onBlur={validateInput}
+              />
             </div>
+            {fieldErrors.phone && <span className={styles.errorText}>{fieldErrors.phone}</span>}
           </div>
         </div>
 
@@ -278,25 +347,38 @@ function FormInner() {
                 id="date_display"
                 name="date_display"
                 placeholder="DD/MM/YYYY"
-                pattern="\d{2}/\d{2}/\d{4}"
+                pattern="(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])/\d{4}"
                 inputMode="numeric"
                 maxLength={10}
                 required
+                className={fieldErrors.date_display ? styles.inputError : ''}
+                onBlur={validateInput}
                 onChange={(e) => {
                   // Auto-insert slashes: 01/05/2025
                   let v = e.target.value.replace(/\D/g, '');
                   if (v.length >= 3) v = v.slice(0, 2) + '/' + v.slice(2);
                   if (v.length >= 6) v = v.slice(0, 5) + '/' + v.slice(5, 9);
                   e.target.value = v;
+                  validateInput(e);
                 }}
               />
             </div>
+            {fieldErrors.date_display && <span className={styles.errorText}>{fieldErrors.date_display}</span>}
           </div>
           <div className={styles.field}>
             <label htmlFor="time"><Clock size={13} /> Pickup Time</label>
             <div className={styles.inputWrap}>
-              <input type="time" id="time" name="time" required />
+              <input 
+                type="time" 
+                id="time" 
+                name="time" 
+                required
+                className={fieldErrors.time ? styles.inputError : ''}
+                onChange={validateInput}
+                onBlur={validateInput}
+              />
             </div>
+            {fieldErrors.time && <span className={styles.errorText}>{fieldErrors.time}</span>}
           </div>
         </div>
 

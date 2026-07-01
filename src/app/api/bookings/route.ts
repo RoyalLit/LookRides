@@ -8,7 +8,7 @@ import { isAllowedOrigin } from '@/lib/origin-check';
 const bookingSchema = z.object({
   pickup_location: z.string().min(1, 'Pickup location is required').max(200),
   drop_location: z.string().min(1, 'Drop location is required').max(200),
-  date: z.string().min(1, 'Date is required').max(20),
+  date: z.string().regex(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/, 'Please provide a valid date (DD/MM/YYYY)'),
   time: z.string().min(1, 'Time is required').max(20),
   passengers: z.string().max(10).optional(),
   notes: z.string().max(1000).optional(),

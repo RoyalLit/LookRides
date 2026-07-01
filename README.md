@@ -1,157 +1,87 @@
 # LookRides 🚖 | Premium Intercity Taxi Platform
 
-Full-stack Next.js booking platform for an intercity taxi and airport transfer service operating across North India (Chandigarh, Mohali, Zirakpur, Delhi, Himachal Pradesh).
+[![Next.js](https://img.shields.io/badge/Next.js-14-black?style=flat-square&logo=next.js)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react)](https://reactjs.org/)
+[![Supabase](https://img.shields.io/badge/Supabase-Database-3ECF8E?style=flat-square&logo=supabase)](https://supabase.com/)
+[![Status](https://img.shields.io/badge/Status-Production--Ready-blue?style=flat-square)](#)
+[![License](https://img.shields.io/badge/License-Proprietary-red?style=flat-square)](LICENSE)
+
+LookRides is a highly optimized, full-stack Next.js web application built for a premium intercity taxi and airport transfer service operating across North India (Chandigarh, Mohali, Zirakpur, Delhi, Himachal Pradesh). 
+
+It showcases an enterprise-grade booking platform featuring real-time Telegram notifications, a secure Supabase backend, and a heavily optimized programmatic SEO architecture designed to dominate regional search results.
 
 ---
 
-## Features
+## 🖼️ Product Showcase
 
-### Public Site
-- **Booking Form** — Frictionless widget with route/date/vehicle selection, submits to WhatsApp + Telegram notifications + email alerts
-- **Dynamic Route Pages** — SEO-optimized landing pages for 15+ intercity routes with JSON-LD schema, pricing tables, and FAQs
-- **Fleet Showcase** — Interactive carousel with vehicle details (Innova Crysta, Etios, Urbania, Tempo Traveller)
-- **Reviews Carousel** — Live Google Reviews and manual testimonials
-- **Blog** — Static markdown blog for long-tail SEO content
-- **Contact Page** — Form with Supabase persistence + Telegram/email notifications
-- **Legal Pages** — Privacy Policy, Terms & Conditions, Cancellation & Refund Policy
-
-### Admin Portal (`/admin`)
-- **Login** — Secure authentication via Supabase with `is_admin` claim check
-- **Dashboard** — Overview with total bookings, contacts, reviews, fleet count
-- **Bookings** — Full CRUD with search/filter (name, phone, route, status), status management (pending/confirmed/completed/cancelled), **CSV export**
-- **Fleet** — Manage vehicles with image, capacity, pricing, active status, order index
-- **Pricing** — CRUD for route pricing with city-to-city, vehicle types (sedan/SUV), and order index
-- **Reviews** — Approve/hide testimonials, mark as Google-synced, **Google Reviews Sync** via SerpAPI
-- **Messages** — View and manage contact form submissions with read/unread status
-- **Blog** — Full CRUD with markdown editor, auto-slug, publish/unpublish, excerpt, cover image
-- **Users** — Admin user management with invite and admin role toggle
-- **Settings** — Manage site settings (Google rating, review count, notification email, Telegram chat ID, Place ID)
-
-### Notifications
-- **Telegram** — Real-time alerts for new bookings and contact messages
-- **Email** — Booking/contact notifications via Resend
-- **WhatsApp** — Booking submissions sent to dispatch via WhatsApp deep links
-
-### Security
-- Admin API routes use server-side `supabaseAdmin` + cookie-based `is_admin` auth (never anon key)
-- Rate limiting on contact form and public API routes (fail-closed)
-- CSP headers, origin checks, XSS protection
-- RLS policies on all tables with `is_admin` JWT claim
-- Input validation with Zod on all endpoints
+| 1. Frictionless Booking Widget | 2. Dynamic SEO Route Pages |
+| :---: | :---: |
+| *(Screenshot Placeholder)* | *(Screenshot Placeholder)* |
+| **3. Premium Fleet Carousel** | **4. Live Google Reviews Sync** |
+| *(Screenshot Placeholder)* | *(Screenshot Placeholder)* |
+| **5. Full Administrative Dashboard** | **6. Pricing & Fleet Management** |
+| *(Screenshot Placeholder)* | *(Screenshot Placeholder)* |
 
 ---
 
-## Tech Stack
+## 🌟 Vision & Impact
 
-| Layer | Technology |
-| :--- | :--- |
-| **Framework** | Next.js 14 (App Router), TypeScript |
-| **Styling** | CSS Modules, Custom Design Tokens |
-| **Database** | Supabase PostgreSQL with RLS |
-| **Auth** | Supabase Auth with cookie-based sessions |
-| **Email** | Resend |
-| **Deployment** | Vercel |
-| **Content** | gray-matter, remark (blog) |
-| **SEO** | Dynamic JSON-LD, BreadcrumbList, LocalBusiness schema |
+LookRides replaces traditional call-and-haggle taxi bookings with a sleek, transparent, and instant digital experience. Built for scale, it handles thousands of visitors while seamlessly passing confirmed leads directly to the dispatch team's devices in real-time.
 
----
+### Core Value Proposition
+- **Frictionless Conversions:** Zero-upfront payment philosophy paired with a hyper-optimized booking widget.
+- **Programmatic SEO Dominance:** Dynamic, JSON-LD injected routes designed to capture long-tail regional search traffic without manual content creation.
+- **Instant Dispatch Operations:** Direct integration with WhatsApp and Telegram APIs to instantly notify drivers of new bookings.
+- **Edge Security & Performance:** Next.js App Router providing lightning-fast server-side rendering with strict Content Security Policies.
 
-## Getting Started
+### Booking Lifecycle Architecture
 
-### Prerequisites
-- Node.js 18+
-- Supabase project (free tier)
-- Resend API key (free tier: 100 emails/day)
-- Telegram bot token (optional, for notifications)
-- SerpAPI key (optional, for Google Reviews sync — free tier: 100 req/month, no credit card)
-
-### Environment Variables
-
-Copy `.env.example` to `.env.local`:
-
-```bash
-cp .env.example .env.local
-```
-
-| Variable | Required | Description |
-| :--- | :---: | :--- |
-| `NEXT_PUBLIC_SUPABASE_URL` | ✅ | Supabase project URL |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | ✅ | Supabase anon/public key |
-| `SUPABASE_SERVICE_ROLE_KEY` | ✅ | Supabase service role key (admin bypass) |
-| `RESEND_API_KEY` | ✅ | Resend API key for email notifications |
-| `NOTIFICATION_EMAIL` | ✅ | Where booking/contact emails are sent |
-| `TELEGRAM_BOT_TOKEN` | ❌ | Telegram bot token for push notifications |
-| `TELEGRAM_CHAT_ID` | ❌ | Telegram chat ID for notifications |
-| `SERPAPI_API_KEY` | ❌ | SerpAPI key for Google Reviews sync |
-| `GOOGLE_SITE_VERIFICATION` | ❌ | Google Search Console verification |
-
-### Install & Run
-
-```bash
-npm install
-npm run dev        # http://localhost:3000
-npm run build      # Production build
-npm run lint       # ESLint check
-npm run typecheck  # TypeScript check
-```
-
-### Database Migrations
-
-Run migrations against your Supabase project:
-
-```bash
-# Link your project
-npx supabase link --project-ref <project-id>
-
-# Apply migrations
-npx supabase db push
-```
-
-Key migrations:
-- `20260627150000_rls_admin_jwt.sql` — RLS hardening with `is_admin` JWT claim
-- `20260701000000_create_blog_posts.sql` — blog_posts table for admin CRUD
-- `20260701000001_add_google_review_id.sql` — google_review_id column for review dedup
-
-> **Important:** After applying the RLS migration, disable public signups in Supabase Dashboard > Authentication > Settings. Only invite specific admin users.
-
----
-
-## Project Structure
-
-```
-src/
-├── app/
-│   ├── admin/           # Admin portal pages
-│   │   ├── bookings/    # Booking management + CSV export
-│   │   ├── blog/        # Blog CRUD with markdown editor
-│   │   ├── fleet/       # Fleet management
-│   │   ├── login/       # Admin login
-│   │   ├── messages/    # Contact message inbox
-│   │   ├── pricing/     # Route pricing CRUD
-│   │   ├── reviews/     # Reviews + Google Sync
-│   │   ├── settings/    # Site settings
-│   │   └── users/       # User management
-│   ├── api/
-│   │   ├── admin/       # Server-side admin API routes
-│   │   └── public/      # Public API routes (contact, settings)
-│   ├── routes/          # Dynamic route pages (15+ routes)
-│   ├── cancellation/    # Cancellation & Refund policy
-│   ├── privacy/         # Privacy policy
-│   ├── terms/           # Terms & Conditions
-│   └── page.tsx         # Homepage
-├── components/          # Shared React components
-├── content/blog/        # Static markdown blog posts
-└── lib/
-    ├── admin-auth.ts    # Shared cookie-based admin auth
-    ├── config.ts        # Business config (phone, site name)
-    ├── queries.ts       # Server data fetching functions
-    ├── rate-limit.ts    # Fail-closed rate limiter
-    ├── routes-data.ts   # Central route data
-    └── supabase.ts      # Supabase client setup
+```mermaid
+graph TD
+    A[Customer] -->|Fills Booking Widget| B{Validation & Rate Limits}
+    B -->|Passed| C[Supabase Database]
+    B -->|Failed| H[Reject Request]
+    C -->|Store Request| D((Trigger Webhooks))
+    D -->|API| E[Telegram Notification]
+    D -->|Email| F[Resend Confirmation]
+    A -->|Optional| G[WhatsApp Deep Link]
+    E --> I[Dispatch Team]
+    G --> I
 ```
 
 ---
 
-## License
+## 🛠️ Architecture Highlights
 
-All Rights Reserved. Proprietary code — public for portfolio showcase only.
+- **Frontend**: Next.js 14 (App Router), React 18, CSS Modules, Lucide Icons.
+- **Backend**: Supabase (PostgreSQL), Edge API Routes, JWT Admin Authentication.
+- **Security**: PostgreSQL Row Level Security (RLS) with `is_admin` claims, strict CSP headers, fail-closed rate limiters.
+- **Integrations**: Telegram Bot API, Resend Email API, WhatsApp Click-to-Chat, SerpAPI (Google Reviews Sync).
+
+---
+
+## 📂 System Topography
+
+### Public Platform
+- **Booking Engine** — Widget with dynamic route, date, and vehicle selection.
+- **Dynamic Route Pages** — SEO-optimized landing pages for 15+ intercity routes (e.g., `routes/[slug]`) complete with pricing tables and LocalBusiness schema.
+- **Content Marketing** — Static markdown blog engine (`gray-matter` + `remark`) for capturing informational travel queries.
+
+### Administrative Portal (`/admin`)
+- **JWT Dashboard** — Secure overview of total bookings, contacts, reviews, and fleet status.
+- **Operations** — Full CRUD management for incoming bookings (with CSV export) and customer messages.
+- **Asset Management** — Live editing of fleet vehicles, dynamic route pricing, and site settings.
+- **Testimonial Sync** — Approve/hide manual testimonials or trigger automated Google Reviews synchronization.
+
+---
+
+## 📄 License & Copyright
+
+**All Rights Reserved.**
+
+This repository contains proprietary source code created as a freelance project for **LookRides**. It is made public strictly for **portfolio showcase purposes**. 
+
+You are **NOT** permitted to use, copy, modify, merge, publish, distribute, sublicense, or sell copies of this software, its design assets, or its proprietary components under any circumstances. 
+
+---
+*Developed with ❤️ by Pahul.*

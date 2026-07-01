@@ -10,17 +10,7 @@ LookRides is a highly optimized, full-stack Next.js web application built for a 
 
 It showcases an enterprise-grade booking platform featuring real-time Telegram notifications, a secure Supabase backend, and a heavily optimized programmatic SEO architecture designed to dominate regional search results.
 
----
 
-## 🖼️ Product Showcase
-
-| 1. Frictionless Booking Widget | 2. Dynamic SEO Route Pages |
-| :---: | :---: |
-| *(Screenshot Placeholder)* | *(Screenshot Placeholder)* |
-| **3. Premium Fleet Carousel** | **4. Live Google Reviews Sync** |
-| *(Screenshot Placeholder)* | *(Screenshot Placeholder)* |
-| **5. Full Administrative Dashboard** | **6. Pricing & Fleet Management** |
-| *(Screenshot Placeholder)* | *(Screenshot Placeholder)* |
 
 ---
 

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { Plus, Edit2, Trash2, Save, X, FileText, Eye, EyeOff, Image } from 'lucide-react';
+import { Plus, Edit2, Trash2, Save, X, FileText, Eye, EyeOff } from 'lucide-react';
 import { SkeletonTable } from '@/components/Skeleton';
 import styles from '../admin.module.css';
 
@@ -37,8 +37,9 @@ export default function BlogManagement() {
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchPosts();
-  }, []);
+  }, [fetchPosts]);
 
   const handleEdit = useCallback((post: BlogPost) => {
     setEditingId(post.id);

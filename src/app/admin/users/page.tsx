@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { Users, Shield, ShieldOff, Mail, Plus, X, Save, Calendar } from 'lucide-react';
+import { Users, Shield, ShieldOff, Mail, Plus, X, Calendar } from 'lucide-react';
 import { SkeletonTable } from '@/components/Skeleton';
 import styles from '../admin.module.css';
 
@@ -34,8 +34,9 @@ export default function UsersManagement() {
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchUsers();
-  }, []);
+  }, [fetchUsers]);
 
   const handleInvite = useCallback(async () => {
     if (!inviteEmail.trim()) { alert('Email is required.'); return; }

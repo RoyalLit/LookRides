@@ -1,12 +1,11 @@
 import HomeClient from '@/components/HomeClient';
-import { getActiveFleet, getPricingRoutes, getVisibleReviews, getSiteSettings } from '@/lib/queries';
+import { getActiveFleet, getVisibleReviews, getSiteSettings } from '@/lib/queries';
 
 export const revalidate = 60;
 
 async function fetchData() {
-  const [fleet, pricing, reviews, settingsRes] = await Promise.all([
+  const [fleet, reviews, settingsRes] = await Promise.all([
     getActiveFleet(),
-    getPricingRoutes(),
     getVisibleReviews(6),
     getSiteSettings(),
   ]);
@@ -20,7 +19,6 @@ async function fetchData() {
 
   return {
     fleet: fleet || [],
-    pricing: pricing || [],
     reviews: reviews || [],
     settings: {
       google_rating: settingsMap.google_rating || '4.8',
@@ -30,12 +28,11 @@ async function fetchData() {
 }
 
 export default async function Home() {
-  const { fleet, pricing, reviews, settings } = await fetchData();
+  const { fleet, reviews, settings } = await fetchData();
 
   return (
     <HomeClient
       fleet={fleet}
-      pricing={pricing}
       reviews={reviews}
       settings={settings}
       loading={false}

@@ -40,8 +40,9 @@ export default function FleetManagement() {
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchFleet();
-  }, []);
+  }, [fetchFleet]);
 
   const handleAddNew = useCallback(() => {
     setEditingId('new');
@@ -53,7 +54,7 @@ export default function FleetManagement() {
       price_desc: 'Fixed fare',
       image_url: '/etios.png',
       is_active: true,
-      order_index: vehicles.length,
+      order_index: 0,
     });
   }, []);
 
@@ -86,7 +87,7 @@ export default function FleetManagement() {
     } catch (err: unknown) {
       alert('An unexpected error occurred: ' + (err instanceof Error ? err.message : 'Unknown error'));
     }
-  }, []);
+  }, [formData, editingId, fetchFleet]);
 
   const handleDelete = useCallback(async (id: string) => {
     if (!confirm('Are you sure you want to remove this vehicle?')) return;
@@ -97,7 +98,7 @@ export default function FleetManagement() {
     } catch (err: unknown) {
       alert('An unexpected error occurred: ' + (err instanceof Error ? err.message : 'Unknown error'));
     }
-  }, []);
+  }, [fetchFleet]);
 
   return (
     <div className={styles.dashboardContainer}>

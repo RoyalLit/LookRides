@@ -1,26 +1,20 @@
 'use client';
 
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useRef, useCallback, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { BUSINESS_PHONE, BUSINESS_PHONE_DISPLAY } from '@/lib/config';
+import { BUSINESS_PHONE } from '@/lib/config';
 import {
   Users, Star, ArrowRight, CheckCircle, Phone,
   Luggage, Shield, Clock,
   BadgeCheck, HeadphonesIcon, Car, Navigation, Check,
 } from "lucide-react";
-import { FleetVehicle, PricingRoute, GoogleReview } from "@/lib/supabase";
+import { FleetVehicle, GoogleReview } from "@/lib/supabase";
 import BookingForm from "@/components/BookingForm";
 import { SkeletonSlide, SkeletonReviewCard } from "@/components/Skeleton";
 import styles from "@/app/page.module.css";
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
-
-const steps = [
-  { n: "01", title: "Fill the Booking Form", desc: "Enter your pickup, drop, date and time. Takes 30 seconds." },
-  { n: "02", title: "Get Instant Confirmation", desc: "We confirm via WhatsApp or call within minutes with driver details and exact fare." },
-  { n: "03", title: "Enjoy Your Ride", desc: "Your verified driver arrives on time. Relax in a clean, sanitized cab all the way." },
-];
 
 const trustFeatures = [
   { Icon: BadgeCheck, title: "Verified Drivers", desc: "Every chauffeur undergoes biometric & criminal background checks." },
@@ -120,15 +114,14 @@ const getFleetDetails = (category: string) => {
 
 interface HomeClientProps {
   fleet: FleetVehicle[];
-  pricing: PricingRoute[];
   reviews: GoogleReview[];
   settings: { google_rating: string; review_count: string };
   loading: boolean;
 }
 
-export default function HomeClient({ fleet, pricing, reviews, settings, loading }: HomeClientProps) {
-  const [emblaRef] = useEmblaCarousel({ loop: true, align: 'start' }, [Autoplay({ delay: 3500, stopOnInteraction: false })]);
-  const [reviewsRef] = useEmblaCarousel({ loop: true, align: 'start' }, [Autoplay({ delay: 4500, stopOnInteraction: false })]);
+export default function HomeClient({ fleet, reviews, settings, loading }: HomeClientProps) {
+  const [emblaRef] = useEmblaCarousel({ loop: true, align: 'start' }, [Autoplay({ delay: 3500, stopOnInteraction: true })]);
+  const [reviewsRef] = useEmblaCarousel({ loop: true, align: 'start' }, [Autoplay({ delay: 4500, stopOnInteraction: true })]);
 
   const revealRefs = useRef<(HTMLElement | null)[]>([]);
   const addToRefs = useCallback((el: HTMLElement | null) => {

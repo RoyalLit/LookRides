@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 
 const title = 'Airport Transfers | LookRides — Chandigarh & Delhi Airport Taxi';
 const description = 'Reliable airport transfers to and from Chandigarh International Airport (IXC) and Delhi IGI Airport. Book online for fixed pricing, 24/7 availability, and instant confirmation.';
@@ -63,9 +64,9 @@ export default function AirportTransfersPage() {
           </ul>
 
           <div style={{ marginTop: '3rem', textAlign: 'center' }}>
-            <a href="/#booking-widget" className="btn btn-primary btn-lg" style={{ display: 'inline-flex', padding: '1rem 2rem', background: 'var(--accent-gold)', color: 'var(--primary-navy)', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold' }}>
+            <Link href="/#booking-widget" className="btn btn-primary btn-lg" style={{ display: 'inline-flex', padding: '1rem 2rem', background: 'var(--accent-gold)', color: 'var(--primary-navy)', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold' }}>
               Book Your Airport Transfer
-            </a>
+            </Link>
           </div>
         </div>
       </div>

@@ -31,8 +31,9 @@ export default function MessagesManagement() {
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchMessages();
-  }, []);
+  }, [fetchMessages]);
 
   return (
     <div className={styles.dashboardContainer}>

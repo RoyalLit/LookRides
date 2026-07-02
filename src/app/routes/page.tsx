@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowRight, MapPin, Navigation, Clock, Activity, Plane } from 'lucide-react';
+import { ArrowRight, Clock, Activity, Plane } from 'lucide-react';
 import { allRoutes } from '@/lib/routes-data';
 import styles from './routes.module.css';
 import { getPricingRoutes } from '@/lib/queries';

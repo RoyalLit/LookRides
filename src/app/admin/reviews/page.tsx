@@ -35,8 +35,9 @@ export default function ReviewsManagement() {
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchReviews();
-  }, []);
+  }, [fetchReviews]);
 
   const handleSync = useCallback(async () => {
     setSyncing(true);
@@ -55,7 +56,7 @@ export default function ReviewsManagement() {
     }
     setSyncing(false);
     setTimeout(() => setSyncMessage(''), 6000);
-  }, []);
+  }, [fetchReviews]);
 
   const handleToggleVisibility = useCallback(async (review: GoogleReview) => {
     try {
@@ -68,7 +69,7 @@ export default function ReviewsManagement() {
     } catch {
       console.error('Failed to toggle visibility');
     }
-  }, []);
+  }, [fetchReviews]);
 
   const handleDelete = useCallback(async (id: string) => {
     if (!confirm('Delete this review?')) return;
@@ -78,7 +79,7 @@ export default function ReviewsManagement() {
     } catch {
       console.error('Failed to delete review');
     }
-  }, []);
+  }, [fetchReviews]);
 
   const handleSave = useCallback(async () => {
     try {
@@ -103,7 +104,7 @@ export default function ReviewsManagement() {
     } catch (err: unknown) {
       console.error('Failed to save review:', err);
     }
-  }, []);
+  }, [formData, editingId, fetchReviews]);
 
   const handleEdit = useCallback((review: GoogleReview) => {
     setEditingId(review.id);

@@ -32,8 +32,8 @@ function useLocationSuggestions() {
         const data = await res.json();
         
         // Photon returns 'features' array
-        const results = data.features
-          .filter((f: any) => f.properties?.countrycode === 'IN')
+        const results = (data.features as Array<{ properties?: { countrycode?: string; name?: string; city?: string; state?: string }; geometry: { coordinates: number[] } }>)
+          .filter((f) => f.properties?.countrycode === 'IN')
           .map((f: any) => {
             const props = f.properties;
             const rawParts = [props.name, props.city, props.state].filter(Boolean);

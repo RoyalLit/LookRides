@@ -39,8 +39,9 @@ export default function SettingsManagement() {
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchSettings();
-  }, []);
+  }, [fetchSettings]);
 
   const handleSave = useCallback(async () => {
     setSaving(true);

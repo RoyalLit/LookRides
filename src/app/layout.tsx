@@ -6,13 +6,13 @@ import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ScrollAnimations from "@/components/ScrollAnimations";
 import MobileStickyCta from "@/components/MobileStickyCta";
-import { BUSINESS_PHONE } from "@/lib/config";
+import { BUSINESS_PHONE, SITE_URL } from "@/lib/config";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"], display: "swap" });
 const outfit = Outfit({ variable: "--font-outfit", subsets: ["latin"], display: "swap" });
 
-const siteUrl = "https://lookrides.com";
+const siteUrl = SITE_URL;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

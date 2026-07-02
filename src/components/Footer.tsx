@@ -107,7 +107,7 @@ export default function Footer() {
       </div>
 
       <div className={styles.footerBottom}>
-        <div className="container" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '1rem' }}>
+        <div className={`container ${styles.footerBottomInner}`}>
           <div>
             <p>© {new Date().getFullYear()} LookRides. All rights reserved. Premium intercity travel platform.</p>
             <p>Serving Chandigarh · Mohali · Panchkula · Zirakpur · Derabassi · Punjab · Delhi NCR</p>

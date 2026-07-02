@@ -1,11 +1,11 @@
 import Link from 'next/link';
-import { ArrowRight, Clock, Shield, CheckCircle, Star } from 'lucide-react';
+import { ArrowRight, Clock, Shield, CheckCircle } from 'lucide-react';
 import type { RouteData } from '@/lib/routes-data';
 import { allRoutes } from '@/lib/routes-data';
-import { BUSINESS_PHONE, BUSINESS_PHONE_DISPLAY } from '@/lib/config';
+import { BUSINESS_PHONE, BUSINESS_PHONE_DISPLAY, SITE_URL } from '@/lib/config';
 import styles from './RoutePage.module.css';
 
-const siteUrl = 'https://lookrides.com';
+const siteUrl = SITE_URL;
 
 export function RoutePageJsonLd(route: RouteData) {
   const slug = route.slug;
@@ -46,7 +46,7 @@ export function RoutePageJsonLd(route: RouteData) {
   };
 }
 
-const fid = (s: string) => typeof s === 'string' ? encodeURIComponent(s.trim()) : '';
+const fid = (s: string) => encodeURIComponent(s.trim());
 
 export default function RoutePage({ route }: { route: RouteData }) {
   return (

@@ -138,8 +138,9 @@ a.contactItem:hover {
   color: var(--accent-gold);
 }
 
-.footerBottom .container {
+.footerBottomInner {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
@@ -158,7 +159,7 @@ a.contactItem:hover {
 @media (max-width: 768px) {
   .footerContainer { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
   .brand { grid-column: 1 / -1; }
-  .footerBottom .container { flex-direction: column; text-align: center; gap: 0.5rem; }
+  .footerBottomInner { flex-direction: column; text-align: center; gap: 0.5rem; }
 }
 
 @media (max-width: 500px) {

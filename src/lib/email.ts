@@ -16,7 +16,9 @@ function htmlEscape(str: string | null | undefined): string {
     .replace(/'/g, '&#x27;');
 }
 
-const fromEmail = process.env.RESEND_FROM_EMAIL || 'LookRides <onboarding@resend.dev>';
+import { SITE_NAME } from './config';
+
+const fromEmail = process.env.RESEND_FROM_EMAIL || `${SITE_NAME} <onboarding@resend.dev>`;
 
 export const sendBookingNotification = async (bookingDetails: {
   pickup_location?: string;

@@ -38,8 +38,9 @@ export default function PricingManagement() {
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchRoutes();
-  }, []);
+  }, [fetchRoutes]);
 
   const handleAddNew = useCallback(() => {
     setEditingId('new');
@@ -49,7 +50,7 @@ export default function PricingManagement() {
       distance: '',
       sedan_price: '',
       suv_price: '',
-      order_index: routes.length,
+      order_index: 0,
     });
   }, []);
 
@@ -81,7 +82,7 @@ export default function PricingManagement() {
     } catch (err: unknown) {
       alert('An unexpected error occurred: ' + (err instanceof Error ? err.message : 'Unknown error'));
     }
-  }, []);
+  }, [formData, editingId, fetchRoutes]);
 
   const handleDelete = useCallback(async (id: string) => {
     if (!confirm('Are you sure you want to delete this route?')) return;
@@ -92,7 +93,7 @@ export default function PricingManagement() {
     } catch (err: unknown) {
       alert('An unexpected error occurred: ' + (err instanceof Error ? err.message : 'Unknown error'));
     }
-  }, []);
+  }, [fetchRoutes]);
 
   return (
     <div className={styles.dashboardContainer}>

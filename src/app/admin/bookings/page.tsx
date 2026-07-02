@@ -71,11 +71,12 @@ export default function BookingsManagement() {
     } catch (err: unknown) {
       console.error('Failed to update booking status:', err);
     }
-  }, []);
+  }, [fetchBookings]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchBookings();
-  }, []);
+  }, [fetchBookings]);
 
   const statuses: { label: string; value: StatusFilter }[] = [
     { label: 'All', value: 'all' },

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { BUSINESS_PHONE } from '@/lib/config';
 
 const title = 'Taxi Services in Zirakpur | LookRides';
@@ -57,24 +58,24 @@ export default function ZirakpurPage() {
             <li style={{ background: '#f8fafc', padding: '1.5rem', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
               <h3 style={{ fontSize: '1.2rem', marginBottom: '0.5rem' }}>Zirakpur to Delhi</h3>
               <p style={{ fontSize: '0.9rem', marginBottom: '1rem' }}>Fast and reliable transfers to IGI Airport or New Delhi directly via NH44.</p>
-              <a href="/routes/chandigarh-to-delhi" style={{ color: 'var(--accent-gold)', fontWeight: '700', textDecoration: 'none' }}>View Route &rarr;</a>
+              <Link href="/routes/chandigarh-to-delhi" style={{ color: 'var(--accent-gold)', fontWeight: '700', textDecoration: 'none' }}>View Route &rarr;</Link>
             </li>
             <li style={{ background: '#f8fafc', padding: '1.5rem', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
               <h3 style={{ fontSize: '1.2rem', marginBottom: '0.5rem' }}>Zirakpur to Shimla</h3>
               <p style={{ fontSize: '0.9rem', marginBottom: '1rem' }}>Comfortable climbs to the Queen of Hills starting right from the Himalayan Expressway.</p>
-              <a href="/routes/chandigarh-to-shimla" style={{ color: 'var(--accent-gold)', fontWeight: '700', textDecoration: 'none' }}>View Route &rarr;</a>
+              <Link href="/routes/chandigarh-to-shimla" style={{ color: 'var(--accent-gold)', fontWeight: '700', textDecoration: 'none' }}>View Route &rarr;</Link>
             </li>
             <li style={{ background: '#f8fafc', padding: '1.5rem', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
               <h3 style={{ fontSize: '1.2rem', marginBottom: '0.5rem' }}>Zirakpur to Manali</h3>
               <p style={{ fontSize: '0.9rem', marginBottom: '1rem' }}>Scenic hill-station rides with experienced mountain drivers.</p>
-              <a href="/routes/chandigarh-to-manali" style={{ color: 'var(--accent-gold)', fontWeight: '700', textDecoration: 'none' }}>View Route &rarr;</a>
+              <Link href="/routes/chandigarh-to-manali" style={{ color: 'var(--accent-gold)', fontWeight: '700', textDecoration: 'none' }}>View Route &rarr;</Link>
             </li>
           </ul>
 
           <div style={{ marginTop: '3rem', textAlign: 'center' }}>
-            <a href="/#booking-widget" className="btn btn-primary btn-lg" style={{ display: 'inline-flex', padding: '1rem 2rem', background: 'var(--accent-gold)', color: 'var(--primary-navy)', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold' }}>
+            <Link href="/#booking-widget" className="btn btn-primary btn-lg" style={{ display: 'inline-flex', padding: '1rem 2rem', background: 'var(--accent-gold)', color: 'var(--primary-navy)', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold' }}>
               Book Your Zirakpur Cab Now
-            </a>
+            </Link>
           </div>
         </div>
       </div>

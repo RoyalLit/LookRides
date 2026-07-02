@@ -7,7 +7,18 @@ import { getPricingRoutes } from '@/lib/queries';
 
 export const metadata: Metadata = {
   title: 'All Popular Routes | LookRides',
-  description: 'Explore all premium intercity outstation routes and airport transfer routes served by LookRides.',
+  description: 'Explore all premium intercity outstation routes and airport transfer routes served by LookRides. Book taxi from Chandigarh to Delhi, Manali, Shimla, Amritsar & more.',
+  openGraph: {
+    title: 'All Taxi Routes from Chandigarh | LookRides',
+    description: 'Book outstation taxi from Chandigarh to Delhi, Manali, Shimla, Amritsar & more. Fixed pricing, verified drivers.',
+    images: '/og-image.png',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'All Taxi Routes | LookRides',
+    description: 'Premium outstation cab routes from Chandigarh. Book online.',
+  },
+  alternates: { canonical: 'https://lookrides.com/routes' },
 };
 
 export const revalidate = 60;

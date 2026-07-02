@@ -5,6 +5,17 @@ import styles from '../legal.module.css';
 export const metadata = {
   title: 'Cancellation & Refund Policy | LookRides',
   description: 'Our cancellation and refund policies for intercity cab bookings — no upfront payment, free cancellation.',
+  openGraph: {
+    title: 'Cancellation & Refund Policy | LookRides',
+    description: 'Free cancellation for intercity cab bookings. No upfront payment required.',
+    images: '/og-image.png',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Cancellation & Refund Policy | LookRides',
+    description: 'Flexible cancellation policy for LookRides cab bookings.',
+  },
+  alternates: { canonical: 'https://lookrides.com/cancellation' },
 };
 
 export default function CancellationPage() {

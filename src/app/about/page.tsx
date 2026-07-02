@@ -4,16 +4,16 @@ import { Shield, Star, Banknote, Clock, Award, Users } from 'lucide-react';
 import styles from './about.module.css';
 
 export const metadata: Metadata = {
-  title: 'About LookRides | Trusted Taxi Service in Chandigarh & Zirakpur',
-  description: 'Learn about LookRides — the leading provider of premium outstation cabs and airport transfers in Chandigarh, Mohali, and Zirakpur since 2014.',
+  title: 'About LookRides | Trusted Cab Service in Chandigarh Since 2014',
+  description: 'Learn about LookRides — trusted taxi service in Chandigarh, Mohali, Zirakpur & Panchkula since 2014. Premium outstation cabs, airport transfers to IXC & IGI Delhi, verified drivers, fixed pricing.',
   openGraph: {
-    title: 'About LookRides | Premium Outstation Taxi Service Since 2014',
-    description: 'Chandigarh-based cab service with 100+ vehicles, verified drivers, and 24/7 support. Serving Delhi, Manali, Shimla, Amritsar & all North India.',
+    title: 'About LookRides | Chandigarh Cab Service Since 2014',
+    description: 'Chandigarh-based taxi service with verified drivers, 24/7 support. Serving Delhi, Manali, Shimla, Amritsar & all North India.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'About LookRides | Premium Outstation Taxi',
-    description: 'Trusted taxi service in Chandigarh, Mohali, Zirakpur & Panchkula since 2014.',
+    title: 'About LookRides | Chandigarh Taxi Service',
+    description: 'Trusted cab service in Chandigarh, Mohali, Zirakpur & Panchkula since 2014.',
   },
 };
 
@@ -37,11 +37,14 @@ const aboutJsonLd = {
     {
       "@type": "AboutPage",
       "@id": "https://lookrides.com/about",
-      "name": "About LookRides",
+      "name": "About LookRides — Premium Taxi Service Chandigarh Since 2014",
       "description": "Learn about LookRides — the leading provider of premium outstation cabs and airport transfers in Chandigarh, Mohali, and Zirakpur since 2014.",
       "mainEntity": {
         "@type": "LocalBusiness",
         "@id": "https://lookrides.com/#business",
+        "name": "LookRides",
+        "telephone": "+919780426567",
+        "areaServed": ["Chandigarh", "Mohali", "Zirakpur", "Panchkula", "Derabassi"],
       },
     },
   ],
@@ -104,6 +107,7 @@ export default function AboutPage() {
                   style={{ objectFit: 'cover' }}
                   sizes="(max-width: 768px) 100vw, 50vw"
                   className={styles.storyImage}
+                  loading="lazy"
                 />
               </div>
             </div>

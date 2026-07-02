@@ -5,6 +5,17 @@ import styles from '../legal.module.css';
 export const metadata = {
   title: 'Privacy Policy | LookRides',
   description: 'How LookRides collects, uses, and protects your personal data when you book intercity cabs.',
+  openGraph: {
+    title: 'Privacy Policy | LookRides',
+    description: 'How LookRides collects, uses, and protects your personal data when you book intercity cabs.',
+    images: '/og-image.png',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Privacy Policy | LookRides',
+    description: 'How LookRides protects your personal data when you book cabs.',
+  },
+  alternates: { canonical: 'https://lookrides.com/privacy' },
 };
 
 export default function PrivacyPage() {

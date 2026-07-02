@@ -17,6 +17,13 @@ const serviceSchema = {
   "@context": "https://schema.org",
   "@graph": [
     {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://lookrides.com" },
+        { "@type": "ListItem", "position": 2, "name": "Airport Transfers", "item": "https://lookrides.com/airport-transfers" },
+      ],
+    },
+    {
       "@type": "Service",
       "serviceType": "Airport Transfer Taxi Service",
       "provider": { "@type": "LocalBusiness", "name": "LookRides" },
@@ -29,6 +36,21 @@ const serviceSchema = {
         "priceCurrency": "INR",
         "url": "https://lookrides.com/airport-transfers"
       }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How much is a taxi from Chandigarh to Delhi Airport?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Chandigarh to Delhi IGI Airport taxi starts at ₹4,299 for a sedan and ₹6,499 for an Innova Crysta. Includes all tolls, fuel, and GST." }
+        },
+        {
+          "@type": "Question",
+          "name": "How early should I leave for a Delhi flight from Chandigarh?",
+          "acceptedAnswer": { "@type": "Answer", "text": "For domestic flights, leave 4-5 hours before departure. For international flights, leave 6 hours before. We track your flight in real-time." }
+        }
+      ]
     }
   ]
 };

@@ -1,18 +1,25 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Our Fleet | Premium Sedan, SUV & Tempo Traveler - LookRides',
-  description: 'Explore LookRides fleet — Toyota Etios, Maruti Dzire, Innova Crysta & Tempo Traveler. All AC, GPS-equipped, sanitized. Perfect for outstation trips & airport transfers.',
+  title: 'Our Fleet | Premium Sedan, Innova Crysta & Tempo Traveler | LookRides',
+  description: 'Explore LookRides premium taxi fleet — Toyota Innova Crysta, Etios, Maruti Dzire & Tempo Traveler for outstation trips & airport transfers. All AC, GPS-equipped, sanitized. Book now.',
   keywords: [
     'innova crysta hire chandigarh', 'etios taxi chandigarh',
     'tempo traveler booking chandigarh', 'sedan cab chandigarh',
     'suv rental chandigarh', 'premium taxi fleet',
     'chandigarh taxi car models', 'luxury cab chandigarh',
     'acar taxi chandigarh', 'innova rental chandigarh',
+    'toyota innova on rent', 'tempo traveller on rent chandigarh',
   ],
   openGraph: {
-    title: 'LookRides Fleet | Sedan, Innova & Tempo Traveler',
-    description: 'Premium fleet of AC, sanitized vehicles with verified drivers. Choose from Etios, Dzire, Innova Crysta or Tempo Traveler.',
+    title: 'LookRides Fleet | Innova Crysta, Etios, Dzire & Tempo Traveler',
+    description: 'Premium fleet of AC, sanitized vehicles with verified drivers for outstation trips and airport transfers. Innova Crysta, Etios, Dzire & Tempo Traveler.',
+    images: '/og-image.png',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'LookRides Premium Fleet',
+    description: 'AC, sanitized taxi fleet for outstation trips & airport transfers.',
   },
 };
 

@@ -67,6 +67,7 @@ export default function Footer() {
             {routeLinks.map((r) => (
               <li key={r.href}><Link href={r.href}>{r.label}</Link></li>
             ))}
+            <li style={{ marginTop: '0.75rem' }}><Link href="/routes" style={{ color: '#FCA311', fontWeight: '600' }}>View All Routes →</Link></li>
           </ul>
         </div>
 

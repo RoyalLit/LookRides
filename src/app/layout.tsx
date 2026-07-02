@@ -17,11 +17,11 @@ const siteUrl = SITE_URL;
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "LookRides — Premium Intercity Cab Service in Chandigarh, Derabassi & Zirakpur",
-    template: "%s | LookRides",
+    default: "LookRides — Premium Cab Service in Chandigarh | Taxi in Chandigarh, Mohali & Zirakpur",
+    template: "%s | LookRides — Taxi & Cab Service Chandigarh",
   },
   description:
-    "North India's premium intercity cab service. Book outstation taxis & airport transfers across Chandigarh, Derabassi, Zirakpur, Mohali & Punjab. Fixed pricing, verified drivers, 24/7 support.",
+    "Book a taxi in Chandigarh ✓ Premium cab service in Chandigarh, Mohali & Zirakpur ✓ Outstation taxi to Delhi, Manali, Shimla ✓ Airport transfers ✓ Fixed pricing, verified drivers, 24/7 support ✓ Best taxi service in Chandigarh.",
   keywords: [
     "intercity cab service chandigarh", "premium taxi service chandigarh",
     "taxi service chandigarh", "cab service chandigarh", "taxi derabassi",
@@ -57,14 +57,14 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_IN",
     siteName: "LookRides",
-    title: "LookRides — Premium Intercity Cab Service in Chandigarh, Derabassi & Zirakpur",
-    description: "North India's premium intercity cab service. Book outstation taxis & airport transfers. Fixed pricing, verified drivers, 24/7 support.",
+    title: "LookRides — Taxi in Chandigarh | Premium Cab Service Chandigarh, Mohali & Zirakpur",
+    description: "Book a taxi in Chandigarh ₹499 onwards. Premium cab service in Chandigarh, Mohali, Zirakpur. Outstation taxi to Delhi, Manali, Shimla. Airport transfers IXC & IGI Delhi. Fixed pricing, verified drivers, 24/7 support.",
     images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "LookRides — Premium Intercity Cab Service" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "LookRides | Premium Intercity Cab Service",
-    description: "Book outstation cabs & airport transfers in Chandigarh.",
+    title: "LookRides | Premium Cab Service Chandigarh",
+    description: "Book taxi in Chandigarh ✓ Outstation cabs ✓ Airport transfers ✓ Fixed pricing.",
     images: ["/og-image.png"],
   },
   icons: {
@@ -207,6 +207,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" className={`${inter.variable} ${outfit.variable}`}>
       <head>
+        <meta httpEquiv="x-dns-prefetch-control" content="on" />
+        <link rel="dns-prefetch" href="https://photon.komoot.io" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+        <link rel="dns-prefetch" href="https://images.unsplash.com" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}

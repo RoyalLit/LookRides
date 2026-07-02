@@ -33,6 +33,8 @@ const eslintConfig = defineConfig([
     "scratch/**",
     "e2e/**",
     "src/**/__tests__/**",
+    "test-supabase.js",
+    "scripts/**",
   ]),
 ]);
 

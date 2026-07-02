@@ -43,12 +43,25 @@ export default async function BlogPostPage({ params }: Props) {
 
   const articleSchema = {
     "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": post.title,
-    "description": post.excerpt,
-    "datePublished": post.date,
-    "author": { "@type": "Organization", "name": "LookRides" },
-    "publisher": { "@type": "Organization", "name": "LookRides", "logo": { "@type": "ImageObject", "url": "https://lookrides.com/logo.png" } }
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://lookrides.com" },
+          { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://lookrides.com/blog" },
+          { "@type": "ListItem", "position": 3, "name": post.title, "item": `https://lookrides.com/blog/${slug}` },
+        ],
+      },
+      {
+        "@type": "Article",
+        "headline": post.title,
+        "description": post.excerpt,
+        "datePublished": post.date,
+        "author": { "@type": "Organization", "name": "LookRides" },
+        "publisher": { "@type": "Organization", "name": "LookRides", "logo": { "@type": "ImageObject", "url": "https://lookrides.com/logo.png" } },
+        "mainEntityOfPage": { "@type": "WebPage", "@id": `https://lookrides.com/blog/${slug}` },
+      },
+    ],
   };
 
   return (

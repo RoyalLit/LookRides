@@ -457,6 +457,21 @@ img, svg { display: block; max-width: 100%; }
   outline-offset: 2px;
 }
 
+.btn:active {
+  transform: scale(0.97);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+details summary:focus-visible {
+  outline: 2px solid var(--primary-navy);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
 ::selection {
   background: rgba(252, 163, 17, 0.25);
   color: var(--primary-navy);

@@ -7,6 +7,9 @@ import styles from './contact.module.css';
 export const metadata: Metadata = {
   title: 'Contact LookRides | Taxi Booking in Derabassi & Chandigarh',
   description: `Contact LookRides for taxi bookings, corporate travel, and support. Call ${BUSINESS_PHONE_DISPLAY} or email info@lookride.in. Based in Derabassi, near Chandigarh.`,
+  alternates: {
+    canonical: 'https://lookrides.com/contact',
+  },
   openGraph: {
     title: 'Contact LookRides | 24/7 Taxi Booking Support',
     description: `Call ${BUSINESS_PHONE_DISPLAY} or email info@lookride.in. Available 24/7 for airport transfers, outstation trips & corporate travel across North India.`,

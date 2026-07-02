@@ -1,5 +1,12 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import styles from './error-page.module.css';
+
+export const metadata: Metadata = {
+  title: '404 - Page Not Found | LookRides',
+  description: 'The page you are looking for does not exist. Find premium cab services in Chandigarh, Mohali & Zirakpur.',
+  robots: { index: false, follow: true },
+};
 
 export default function NotFound() {
   return (

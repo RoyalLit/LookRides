@@ -4,7 +4,18 @@ import styles from '../legal.module.css';
 
 export const metadata = {
   title: 'Terms & Conditions | LookRides',
-  description: 'Terms and conditions for booking intercity cabs with LookRides.',
+  description: 'Terms and conditions for booking intercity cabs with LookRides. Read about booking, pricing, passenger responsibilities, and more.',
+  openGraph: {
+    title: 'Terms & Conditions | LookRides',
+    description: 'Terms and conditions for booking intercity cabs with LookRides.',
+    images: '/og-image.png',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Terms & Conditions | LookRides',
+    description: 'Booking terms for LookRides intercity cab service.',
+  },
+  alternates: { canonical: 'https://lookrides.com/terms' },
 };
 
 export default function TermsPage() {

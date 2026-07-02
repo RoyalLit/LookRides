@@ -4,15 +4,23 @@ import { Plane, Route, CheckCircle, ArrowRight } from 'lucide-react';
 import styles from './services.module.css';
 
 export const metadata: Metadata = {
-  title: 'Our Taxi Services | Airport Transfers & Outstation Cabs - LookRides',
-  description: 'LookRides provides 24/7 airport transfers and outstation trips from Chandigarh/Zirakpur to Delhi, Manali, Shimla, Amritsar, Dehradun, and across North India. Premium fleet with verified drivers.',
+  title: 'Taxi Services | Airport Transfers & Outstation Cabs in Chandigarh - LookRides',
+  description: 'LookRides provides 24/7 cab services in Chandigarh — airport transfers to IXC & IGI Delhi, outstation trips to Manali, Shimla, Amritsar, Dehradun. Premium fleet, verified drivers, fixed pricing.',
+  keywords: [
+    'airport taxi chandigarh', 'outstation cab chandigarh',
+    'intercity taxi service', 'chandigarh airport transfer',
+    'delhi airport taxi chandigarh', 'one way cab chandigarh',
+    'taxi booking chandigarh', 'cab service chandigarh',
+    'chandigarh to delhi taxi', 'chandigarh to manali cab',
+    'ixc airport taxi', 'chandigarh taxi near me',
+  ],
   openGraph: {
-    title: 'Taxi Services in Chandigarh | Airport & Outstation | LookRides',
-    description: '24/7 airport transfers to IGI Delhi & Chandigarh Airport. Outstation one-way and round-trip cabs across North India. Book sedan, Innova or Tempo Traveler.',
+    title: 'Cab Service in Chandigarh | Airport & Outstation Taxi | LookRides',
+    description: '24/7 airport transfers to IGI Delhi & Chandigarh Airport. Outstation one-way and round-trip cabs across North India. Book sedan, Innova or Tempo Traveler. Fixed pricing.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'LookRides Services | Airport Transfer & Outstation Taxi',
+    title: 'LookRides | Cab Service Chandigarh',
     description: 'Premium airport & outstation taxi service in Chandigarh, Mohali, Zirakpur. Available 24/7.',
   },
 };

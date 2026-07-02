@@ -13,10 +13,30 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://lookrides.com/blog' },
 };
 
+const blogIndexJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://lookrides.com" },
+        { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://lookrides.com/blog" },
+      ],
+    },
+    {
+      "@type": "CollectionPage",
+      "name": "LookRides Travel Blog",
+      "description": "Travel tips, destination guides, and route information for North India road trips.",
+    },
+  ],
+};
+
 export default function BlogPage() {
   const allPostsData = getSortedPostsData();
 
   return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(blogIndexJsonLd) }} />
     <div style={{ paddingTop: '120px', paddingBottom: '80px', maxWidth: '1000px', margin: '0 auto', paddingLeft: '20px', paddingRight: '20px' }}>
       <h1 style={{ fontSize: '3rem', fontWeight: '800', marginBottom: '1rem', color: 'var(--primary-navy)' }}>Travel Guides & Tips</h1>
       <p style={{ fontSize: '1.1rem', color: '#4b5563', marginBottom: '3rem' }}>
@@ -44,5 +64,6 @@ export default function BlogPage() {
         </div>
       )}
     </div>
+    </>
   );
 }

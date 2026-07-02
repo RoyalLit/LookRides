@@ -9,6 +9,19 @@ import { getActiveFleet } from '@/lib/queries';
 import { SkeletonCard } from '@/components/Skeleton';
 import styles from './fleet.module.css';
 
+const fleetJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://lookrides.com" },
+        { "@type": "ListItem", "position": 2, "name": "Fleet", "item": "https://lookrides.com/fleet" },
+      ],
+    },
+  ],
+};
+
 export default function FleetPage() {
   const [fleet, setFleet] = useState<FleetVehicle[]>([]);
   const [loading, setLoading] = useState(true);
@@ -24,6 +37,7 @@ export default function FleetPage() {
 
   return (
     <div className={styles.page}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(fleetJsonLd) }} />
       <header className={styles.pageHeader}>
         <div className="container">
           <p className={styles.headerLabel}>Well-Maintained & Sanitized</p>
@@ -50,6 +64,7 @@ export default function FleetPage() {
                       alt={`${v.name} - LookRides Taxi`}
                       fill
                       priority={index === 0}
+                      loading={index === 0 ? undefined : 'lazy'}
                       style={{ objectFit: 'contain', padding: '1.5rem' }}
                       sizes="(max-width: 768px) 100vw, 33vw"
                     />

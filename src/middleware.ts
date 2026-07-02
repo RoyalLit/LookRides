@@ -1,9 +1,31 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
+const SECURITY_HEADERS = {
+  'X-Content-Type-Options': 'nosniff',
+  'X-Frame-Options': 'DENY',
+  'Referrer-Policy': 'strict-origin-when-cross-origin',
+  'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
+  'X-XSS-Protection': '1; mode=block',
+};
+
+function addSecurityHeaders(response: NextResponse): NextResponse {
+  Object.entries(SECURITY_HEADERS).forEach(([key, value]) => {
+    response.headers.set(key, value);
+  });
+  return response;
+}
+
 export async function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
   const { pathname, searchParams } = url;
+
+  // Allow .well-known/ paths through without interference (security.txt, etc.)
+  if (pathname.startsWith('/.well-known/')) {
+    const response = NextResponse.next();
+    Object.entries(SECURITY_HEADERS).forEach(([key, value]) => response.headers.set(key, value));
+    return response;
+  }
 
   // 1. Handle legacy tracking query parameters (e.g. ?replytocom=)
   if (searchParams.has('replytocom')) {
@@ -60,7 +82,7 @@ export async function middleware(request: NextRequest) {
   ].some((regex) => regex.test(pathname));
 
   if (isLegacy410) {
-    return new NextResponse(
+    const response = new NextResponse(
       `<!DOCTYPE html>
       <html lang="en">
         <head>
@@ -88,6 +110,7 @@ export async function middleware(request: NextRequest) {
         },
       }
     );
+    return addSecurityHeaders(response);
   }
 
   // 4. Admin portal authorization checks
@@ -125,21 +148,22 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(redirectUrl);
     }
 
-    return supabaseResponse;
+    return addSecurityHeaders(supabaseResponse);
   }
 
-  return NextResponse.next({ request });
+  return addSecurityHeaders(NextResponse.next({ request }));
 }
 
 export const config = {
   matcher: [
     /*
      * Match all request paths except for the ones starting with:
-     * - api (API routes)
+     * - api (API routes — handle headers at edge via next.config)
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico, favicon.svg (favicon files)
+     * - .well-known (security.txt etc.)
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|favicon.svg).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|favicon.svg|.well-known).*)',
   ],
 };

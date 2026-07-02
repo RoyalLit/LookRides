@@ -7,6 +7,7 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 import ScrollAnimations from "@/components/ScrollAnimations";
 import MobileStickyCta from "@/components/MobileStickyCta";
 import { BUSINESS_PHONE } from "@/lib/config";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"], display: "swap" });
 const outfit = Outfit({ variable: "--font-outfit", subsets: ["latin"], display: "swap" });
@@ -220,6 +221,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <ScrollAnimations />
         <MobileStickyCta />
       </body>
+      <GoogleAnalytics gaId="G-KWGEYR8M8Q" />
     </html>
   );
 }

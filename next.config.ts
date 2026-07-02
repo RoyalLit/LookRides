@@ -34,8 +34,8 @@ const nextConfig: NextConfig = {
           {
             key: "Content-Security-Policy",
             value: process.env.NODE_ENV === 'development'
-              ? "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://*.supabase.co https://images.unsplash.com; connect-src 'self' https://*.supabase.co; font-src 'self'; frame-src 'self';"
-              : "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://*.supabase.co https://images.unsplash.com; connect-src 'self' https://*.supabase.co; font-src 'self'; frame-src 'self';",
+              ? "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://*.supabase.co https://images.unsplash.com https://www.google-analytics.com; connect-src 'self' https://*.supabase.co https://www.google-analytics.com; font-src 'self'; frame-src 'self';"
+              : "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://*.supabase.co https://images.unsplash.com https://www.google-analytics.com; connect-src 'self' https://*.supabase.co https://www.google-analytics.com; font-src 'self'; frame-src 'self';",
           },
           { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
         ],

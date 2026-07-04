@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Plane, Route, CheckCircle, ArrowRight } from 'lucide-react';
+import { SITE_URL } from '@/lib/config';
 import styles from './services.module.css';
 
 export const metadata: Metadata = {
@@ -17,6 +18,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Cab Service in Chandigarh | Airport & Outstation Taxi | LookRides',
     description: '24/7 airport transfers to IGI Delhi & Chandigarh Airport. Outstation one-way and round-trip cabs across North India. Book sedan, Innova or Tempo Traveler. Fixed pricing.',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'LookRides Cab Services Chandigarh' }],
   },
   twitter: {
     card: 'summary_large_image',
@@ -48,16 +50,16 @@ const serviceJsonLd = {
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://lookrides.com" },
-        { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://lookrides.com/services" },
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL },
+        { "@type": "ListItem", "position": 2, "name": "Services", "item": SITE_URL + "/services" },
       ],
     },
     {
       "@type": ["ProfessionalService", "TaxiService"],
-      "@id": "https://lookrides.com/services",
+      "@id": SITE_URL + "/services",
       "name": "LookRides Taxi Services",
       "description": "24/7 airport transfers and outstation cab services from Chandigarh, Mohali, Zirakpur, Panchkula & Derabassi to Delhi, Manali, Shimla, Amritsar and across North India.",
-      "provider": { "@type": "LocalBusiness", "@id": "https://lookrides.com/#business" },
+      "provider": { "@type": "LocalBusiness", "@id": SITE_URL + "/#business" },
       "areaServed": [
         { "@type": "City", "name": "Chandigarh" },
         { "@type": "City", "name": "Mohali" },

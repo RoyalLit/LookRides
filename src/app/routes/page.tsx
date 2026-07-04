@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight, Clock, Activity, Plane } from 'lucide-react';
 import { allRoutes } from '@/lib/routes-data';
+import { SITE_URL } from '@/lib/config';
 import styles from './routes.module.css';
 import { getPricingRoutes } from '@/lib/queries';
 
@@ -18,10 +19,28 @@ export const metadata: Metadata = {
     title: 'All Taxi Routes | LookRides',
     description: 'Premium outstation cab routes from Chandigarh. Book online.',
   },
-  alternates: { canonical: 'https://lookrides.com/routes' },
+  alternates: { canonical: SITE_URL + '/routes' },
 };
 
 export const revalidate = 60;
+
+const routesIndexJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL },
+        { "@type": "ListItem", "position": 2, "name": "Routes", "item": SITE_URL + "/routes" },
+      ],
+    },
+    {
+      "@type": "CollectionPage",
+      "name": "All Taxi Routes from Chandigarh & Tricity",
+      "description": "Browse all outstation and airport transfer routes served by LookRides across North India.",
+    },
+  ],
+};
 
 export default async function RoutesIndexPage() {
   // Fetch live pricing from Supabase via centralized queries
@@ -42,6 +61,7 @@ export default async function RoutesIndexPage() {
 
   return (
     <div className={styles.page}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(routesIndexJsonLd) }} />
       
       {/* HEADER SECTION */}
       <section className={styles.pageHeader}>

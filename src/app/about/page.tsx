@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { Shield, Star, Banknote, Clock, Award, Users } from 'lucide-react';
+import { SITE_URL } from '@/lib/config';
 import styles from './about.module.css';
 
 export const metadata: Metadata = {
@@ -9,11 +10,13 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'About LookRides | Chandigarh Cab Service Since 2014',
     description: 'Chandigarh-based taxi service with verified drivers, 24/7 support. Serving Delhi, Manali, Shimla, Amritsar & all North India.',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'About LookRides — Premium Cab Service' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'About LookRides | Chandigarh Taxi Service',
     description: 'Trusted cab service in Chandigarh, Mohali, Zirakpur & Panchkula since 2014.',
+    images: ['/og-image.png'],
   },
 };
 
@@ -30,18 +33,18 @@ const aboutJsonLd = {
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://lookrides.com" },
-        { "@type": "ListItem", "position": 2, "name": "About", "item": "https://lookrides.com/about" },
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL },
+        { "@type": "ListItem", "position": 2, "name": "About", "item": SITE_URL + "/about" },
       ],
     },
     {
       "@type": "AboutPage",
-      "@id": "https://lookrides.com/about",
+      "@id": SITE_URL + "/about",
       "name": "About LookRides — Premium Taxi Service Chandigarh Since 2014",
       "description": "Learn about LookRides — the leading provider of premium outstation cabs and airport transfers in Chandigarh, Mohali, and Zirakpur since 2014.",
       "mainEntity": {
         "@type": "LocalBusiness",
-        "@id": "https://lookrides.com/#business",
+        "@id": SITE_URL + "/#business",
         "name": "LookRides",
         "telephone": "+919780426567",
         "areaServed": ["Chandigarh", "Mohali", "Zirakpur", "Panchkula", "Derabassi"],

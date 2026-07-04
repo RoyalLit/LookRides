@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { SITE_URL } from '@/lib/config';
 
 const title = 'Taxi Service Cities | LookRides — Chandigarh, Mohali, Zirakpur & Derabassi';
 const description = 'LookRides provides premium taxi services in Chandigarh, Mohali, Zirakpur, Panchkula & Derabassi. Book airport transfers and outstation trips with fixed transparent pricing.';
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
   keywords: ['Chandigarh taxi', 'Mohali cab', 'Zirakpur taxi service', 'Tricity taxi', 'LookRides service cities', 'taxi in Panchkula', 'cab in Derabassi'],
   openGraph: { title, description, images: '/og-image.png' },
   twitter: { card: 'summary_large_image', title, description },
-  alternates: { canonical: 'https://lookrides.com/cities' },
+  alternates: { canonical: SITE_URL + '/cities' },
 };
 
 const citiesJsonLd = {
@@ -19,8 +20,8 @@ const citiesJsonLd = {
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://lookrides.com" },
-        { "@type": "ListItem", "position": 2, "name": "Service Cities", "item": "https://lookrides.com/cities" },
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL },
+        { "@type": "ListItem", "position": 2, "name": "Service Cities", "item": SITE_URL + "/cities" },
       ],
     },
     {

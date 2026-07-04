@@ -11,11 +11,13 @@ const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/services', label: 'Services' },
   { href: '/fleet', label: 'Our Fleet' },
+  { href: '/blog', label: 'Travel Blog' },
   { href: '/about', label: 'About Us' },
   { href: '/contact', label: 'Contact' },
 ];
 
 const routeLinks = [
+  { href: '/airport-transfers', label: 'Airport Transfers' },
   { href: '/routes/chandigarh-to-delhi', label: 'Chandigarh→Delhi' },
   { href: '/routes/chandigarh-to-manali', label: 'Chandigarh→Manali' },
   { href: '/routes/chandigarh-to-shimla', label: 'Chandigarh→Shimla' },

@@ -1,8 +1,9 @@
 import React from 'react';
+import type { Metadata } from 'next';
 import { BUSINESS_PHONE_DISPLAY } from '@/lib/config';
 import styles from '../legal.module.css';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Cancellation & Refund Policy | LookRides',
   description: 'Our cancellation and refund policies for intercity cab bookings — no upfront payment, free cancellation.',
   openGraph: {

@@ -17,8 +17,8 @@ const siteUrl = SITE_URL;
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "LookRides — Premium Cab Service in Chandigarh | Taxi in Chandigarh, Mohali & Zirakpur",
-    template: "%s | LookRides — Taxi & Cab Service Chandigarh",
+    default: "LookRides — Premium Cab Service in Chandigarh & Tricity",
+    template: "%s | LookRides — Chandigarh Taxi Service",
   },
   description:
     "Book a taxi in Chandigarh ✓ Premium cab service in Chandigarh, Mohali & Zirakpur ✓ Outstation taxi to Delhi, Manali, Shimla ✓ Airport transfers ✓ Fixed pricing, verified drivers, 24/7 support ✓ Best taxi service in Chandigarh.",

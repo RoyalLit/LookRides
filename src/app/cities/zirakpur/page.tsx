@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { BUSINESS_PHONE } from '@/lib/config';
+import { BUSINESS_PHONE, SITE_URL } from '@/lib/config';
 
 const title = 'Taxi in Zirakpur @ ₹799 | Premium Cab Service Zirakpur | LookRides';
 const description = 'Book taxi in Zirakpur from ₹799. Premium cab service in Zirakpur for Delhi outstation trips, Chandigarh airport transfers. Fixed pricing on NH44 highway. Verified drivers, 24/7 availability.';
@@ -11,18 +11,26 @@ export const metadata: Metadata = {
   keywords: ['Zirakpur taxi', 'Zirakpur cab service', 'taxi in Zirakpur', 'Zirakpur airport taxi', 'Zirakpur to Delhi taxi', 'cab service Zirakpur'],
   openGraph: { title, description, images: '/og-image.png' },
   twitter: { card: 'summary_large_image', title, description },
-  alternates: { canonical: 'https://lookrides.com/cities/zirakpur' },
+  alternates: { canonical: SITE_URL + '/cities/zirakpur' },
 };
 
 const citySchema = {
   "@context": "https://schema.org",
   "@graph": [
     {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL },
+        { "@type": "ListItem", "position": 2, "name": "Cities", "item": SITE_URL + "/cities" },
+        { "@type": "ListItem", "position": 3, "name": "Zirakpur", "item": SITE_URL + "/cities/zirakpur" },
+      ],
+    },
+    {
       "@type": "LocalBusiness",
       "name": "LookRides Zirakpur",
       "image": "https://lookrides.com/logo.png",
       "telephone": BUSINESS_PHONE,
-      "url": "https://lookrides.com/cities/zirakpur",
+      "url": SITE_URL + "/cities/zirakpur",
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Zirakpur",

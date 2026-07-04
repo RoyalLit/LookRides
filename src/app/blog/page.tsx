@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getSortedPostsData } from '@/lib/markdown';
+import { SITE_URL } from '@/lib/config';
 
 const title = 'Blog | LookRides — Travel Tips & Destination Guides';
 const description = 'Read the latest travel tips, destination guides, and updates from LookRides. Discover the best routes, hidden gems, and travel hacks for the Tricity region and beyond.';
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
   description,
   openGraph: { title, description, images: '/og-image.png' },
   twitter: { card: 'summary_large_image', title, description },
-  alternates: { canonical: 'https://lookrides.com/blog' },
+  alternates: { canonical: SITE_URL + '/blog' },
 };
 
 const blogIndexJsonLd = {
@@ -19,8 +20,8 @@ const blogIndexJsonLd = {
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://lookrides.com" },
-        { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://lookrides.com/blog" },
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL },
+        { "@type": "ListItem", "position": 2, "name": "Blog", "item": SITE_URL + "/blog" },
       ],
     },
     {

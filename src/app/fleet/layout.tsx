@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { SITE_URL } from '@/lib/config';
 
 export const metadata: Metadata = {
   title: 'Our Fleet | Premium Sedan, Innova Crysta & Tempo Traveler | LookRides',
@@ -29,8 +30,8 @@ const fleetJsonLd = {
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://lookrides.com" },
-        { "@type": "ListItem", "position": 2, "name": "Fleet", "item": "https://lookrides.com/fleet" },
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL },
+        { "@type": "ListItem", "position": 2, "name": "Fleet", "item": SITE_URL + "/fleet" },
       ],
     },
     {

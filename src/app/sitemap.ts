@@ -1,9 +1,10 @@
 import type { MetadataRoute } from 'next';
 import { allRoutes } from '@/lib/routes-data';
 import { getAllPostSlugs } from '@/lib/markdown';
+import { SITE_URL } from '@/lib/config';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://lookrides.com';
+  const baseUrl = SITE_URL;
 
   const staticPages = [
     { url: baseUrl, lastModified: new Date(), changeFrequency: 'daily' as const, priority: 1.0 },

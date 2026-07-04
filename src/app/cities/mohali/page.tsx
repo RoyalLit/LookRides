@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { BUSINESS_PHONE } from '@/lib/config';
+import { BUSINESS_PHONE, SITE_URL } from '@/lib/config';
 
 const title = 'Taxi in Mohali @ ₹599 | Premium Cab Service Mohali (SAS Nagar) | LookRides';
 const description = 'Book taxi in Mohali from ₹599. Premium cab service in Mohali (SAS Nagar) for airport transfers to IXC, outstation trips to Delhi, Manali, Shimla. Fixed pricing, verified drivers, 24/7 service.';
@@ -11,18 +11,26 @@ export const metadata: Metadata = {
   keywords: ['Mohali taxi', 'Mohali cab service', 'taxi in Mohali', 'Mohali airport taxi', 'Mohali to Chandigarh taxi', 'cab service Mohali'],
   openGraph: { title, description, images: '/og-image.png' },
   twitter: { card: 'summary_large_image', title, description },
-  alternates: { canonical: 'https://lookrides.com/cities/mohali' },
+  alternates: { canonical: SITE_URL + '/cities/mohali' },
 };
 
 const citySchema = {
   "@context": "https://schema.org",
   "@graph": [
     {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL },
+        { "@type": "ListItem", "position": 2, "name": "Cities", "item": SITE_URL + "/cities" },
+        { "@type": "ListItem", "position": 3, "name": "Mohali", "item": SITE_URL + "/cities/mohali" },
+      ],
+    },
+    {
       "@type": "LocalBusiness",
       "name": "LookRides Mohali",
       "image": "https://lookrides.com/logo.png",
       "telephone": BUSINESS_PHONE,
-      "url": "https://lookrides.com/cities/mohali",
+      "url": SITE_URL + "/cities/mohali",
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Mohali",

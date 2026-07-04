@@ -22,7 +22,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: route.metaTitle,
     description: route.metaDesc,
     keywords: route.keywords,
-    openGraph: { title: route.metaTitle, description: route.metaDesc },
+    openGraph: {
+      title: route.metaTitle,
+      description: route.metaDesc,
+      images: [{ url: '/og-image.png', width: 1200, height: 630, alt: `${route.from} to ${route.to} Taxi - LookRides` }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: route.metaTitle,
+      description: route.metaDesc,
+      images: ['/og-image.png'],
+    },
     alternates: { canonical: `https://lookrides.com/routes/${route.slug}` },
   };
 }

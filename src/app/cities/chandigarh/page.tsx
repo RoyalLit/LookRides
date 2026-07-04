@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { BUSINESS_PHONE } from '@/lib/config';
+import { BUSINESS_PHONE, SITE_URL } from '@/lib/config';
 
 const title = 'Taxi in Chandigarh @ ₹499 | Premium Cab Service Chandigarh | LookRides';
 const description = 'Book taxi in Chandigarh from ₹499. Premium cab service in Chandigarh for airport transfers, outstation trips to Delhi, Manali, Shimla. Fixed pricing, verified drivers, 24/7 availability.';
@@ -11,18 +11,26 @@ export const metadata: Metadata = {
   keywords: ['Chandigarh taxi', 'Chandigarh cab service', 'taxi in Chandigarh', 'Chandigarh airport taxi', 'Chandigarh to Manali taxi', 'cab service Chandigarh'],
   openGraph: { title, description, images: '/og-image.png' },
   twitter: { card: 'summary_large_image', title, description },
-  alternates: { canonical: 'https://lookrides.com/cities/chandigarh' },
+  alternates: { canonical: SITE_URL + '/cities/chandigarh' },
 };
 
 const citySchema = {
   "@context": "https://schema.org",
   "@graph": [
     {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL },
+        { "@type": "ListItem", "position": 2, "name": "Cities", "item": SITE_URL + "/cities" },
+        { "@type": "ListItem", "position": 3, "name": "Chandigarh", "item": SITE_URL + "/cities/chandigarh" },
+      ],
+    },
+    {
       "@type": "LocalBusiness",
       "name": "LookRides Chandigarh",
       "image": "https://lookrides.com/logo.png",
       "telephone": BUSINESS_PHONE,
-      "url": "https://lookrides.com/cities/chandigarh",
+      "url": SITE_URL + "/cities/chandigarh",
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Chandigarh",

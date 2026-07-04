@@ -21,10 +21,14 @@ export function RoutePageJsonLd(route: RouteData) {
         ],
       },
       {
-        "@type": "Product",
+        "@type": ["Service", "TaxiService"],
         "name": `${route.from} to ${route.to} Taxi Service`,
         "description": route.metaDesc,
-        "brand": { "@type": "Brand", "name": "LookRides" },
+        "provider": { "@type": "LocalBusiness", "@id": `${siteUrl}/#business`, "name": "LookRides" },
+        "areaServed": [
+          { "@type": "City", "name": route.from },
+          { "@type": "City", "name": route.to },
+        ],
         "offers": {
           "@type": "AggregateOffer",
           "priceCurrency": "INR",

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { SITE_URL } from '@/lib/config';
 
 const title = 'Airport Transfers | LookRides — Chandigarh & Delhi Airport Taxi';
 const description = 'Reliable airport transfers to and from Chandigarh International Airport (IXC) and Delhi IGI Airport. Book online for fixed pricing, 24/7 availability, and instant confirmation.';
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
   keywords: 'airport transfers, Chandigarh airport taxi, Delhi IGI airport cab, IXC airport pickup, airport drop Chandigarh',
   openGraph: { title, description, images: '/og-image.png' },
   twitter: { card: 'summary_large_image', title, description },
-  alternates: { canonical: 'https://lookrides.com/airport-transfers' },
+  alternates: { canonical: SITE_URL + '/airport-transfers' },
 };
 
 const serviceSchema = {
@@ -19,8 +20,8 @@ const serviceSchema = {
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://lookrides.com" },
-        { "@type": "ListItem", "position": 2, "name": "Airport Transfers", "item": "https://lookrides.com/airport-transfers" },
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL },
+        { "@type": "ListItem", "position": 2, "name": "Airport Transfers", "item": SITE_URL + "/airport-transfers" },
       ],
     },
     {
@@ -34,7 +35,7 @@ const serviceSchema = {
       "offers": {
         "@type": "Offer",
         "priceCurrency": "INR",
-        "url": "https://lookrides.com/airport-transfers"
+        "url": SITE_URL + "/airport-transfers"
       }
     },
     {

@@ -1,8 +1,9 @@
 import React from 'react';
+import type { Metadata } from 'next';
 import { BUSINESS_PHONE_DISPLAY } from '@/lib/config';
 import styles from '../legal.module.css';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Privacy Policy | LookRides',
   description: 'How LookRides collects, uses, and protects your personal data when you book intercity cabs.',
   openGraph: {

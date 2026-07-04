@@ -1,23 +1,25 @@
 import type { Metadata } from 'next';
 import { Phone, Mail, MapPin, MessageSquare } from 'lucide-react';
 import ContactForm from './ContactForm';
-import { BUSINESS_PHONE, BUSINESS_PHONE_DISPLAY } from '@/lib/config';
+import { BUSINESS_PHONE, BUSINESS_PHONE_DISPLAY, SITE_URL } from '@/lib/config';
 import styles from './contact.module.css';
 
 export const metadata: Metadata = {
   title: 'Contact LookRides | Taxi Booking in Derabassi & Chandigarh',
   description: `Contact LookRides for taxi bookings, corporate travel, and support. Call ${BUSINESS_PHONE_DISPLAY} or email info@lookride.in. Based in Derabassi, near Chandigarh.`,
   alternates: {
-    canonical: 'https://lookrides.com/contact',
+    canonical: SITE_URL + '/contact',
   },
   openGraph: {
     title: 'Contact LookRides | 24/7 Taxi Booking Support',
     description: `Call ${BUSINESS_PHONE_DISPLAY} or email info@lookride.in. Available 24/7 for airport transfers, outstation trips & corporate travel across North India.`,
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Contact LookRides — 24/7 Cab Booking' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Contact LookRides Taxi Service',
     description: `Book your ride: ${BUSINESS_PHONE}. 24/7 customer support for bookings & inquiries.`,
+    images: ['/og-image.png'],
   },
 };
 
@@ -27,12 +29,13 @@ const contactJsonLd = {
     {
       "@type": "BreadcrumbList",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://lookrides.com" },
-        { "@type": "ListItem", "position": 2, "name": "Contact", "item": "https://lookrides.com/contact" },
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": SITE_URL },
+        { "@type": "ListItem", "position": 2, "name": "Contact", "item": SITE_URL + "/contact" },
       ],
     },
     {
       "@type": "ContactPoint",
+      "url": SITE_URL + "/contact",
       "telephone": "+91-9780426567",
       "contactType": "customer service",
       "availableLanguage": ["Hindi", "English", "Punjabi"],

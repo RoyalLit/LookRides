@@ -1,8 +1,9 @@
 import React from 'react';
+import type { Metadata } from 'next';
 import { BUSINESS_PHONE_DISPLAY } from '@/lib/config';
 import styles from '../legal.module.css';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Terms & Conditions | LookRides',
   description: 'Terms and conditions for booking intercity cabs with LookRides. Read about booking, pricing, passenger responsibilities, and more.',
   openGraph: {

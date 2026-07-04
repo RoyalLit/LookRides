@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useCallback, useEffect, useState } from "react";
+import { useRef, useCallback, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { BUSINESS_PHONE } from '@/lib/config';
@@ -12,38 +12,11 @@ import {
 import { FleetVehicle, GoogleReview } from "@/lib/supabase";
 import BookingForm from "@/components/BookingForm";
 import { SkeletonSlide, SkeletonReviewCard } from "@/components/Skeleton";
+import CircularGallery from "@/components/CircularGallery";
 import OfficeLocationMap from "@/components/home/OfficeLocationMap";
 import styles from "@/app/page.module.css";
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
-
-function DestImage({ src, alt, className }: { src: string; alt: string; className?: string }) {
-  const [failed, setFailed] = useState(false);
-
-  if (failed) {
-    return (
-      <div style={{
-        position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
-        background: 'var(--primary-navy)', color: 'var(--accent-gold)', fontSize: '2rem', fontWeight: 800, fontFamily: 'var(--font-outfit)'
-      }}>
-        {alt[0]}
-      </div>
-    );
-  }
-
-  return (
-    <Image
-      src={src}
-      alt={alt}
-      fill
-      style={{ objectFit: 'cover' }}
-      sizes="(max-width: 768px) 50vw, 25vw"
-      className={className}
-      loading="lazy"
-      onError={() => setFailed(true)}
-    />
-  );
-}
 
 const trustFeatures = [
   { Icon: BadgeCheck, title: "Verified Drivers", desc: "Every chauffeur undergoes biometric & criminal background checks." },
@@ -295,26 +268,18 @@ export default function HomeClient({ fleet, reviews, settings, loading }: HomeCl
             <p>Inspiring travel ideas for your next road trip. Click a destination to view customized routing details.</p>
           </div>
 
-          <div className={styles.destinationsGrid}>
-            {popularDestinations.map((d, i) => (
-              <Link key={d.name} href={d.route} className={`${styles.destinationCard} ${styles.revealUp}`} style={{ transitionDelay: `${i * 0.05}s` }} aria-label={`Explore route to ${d.name}`}>
-                <div className={styles.destCardImgWrap}>
-                  <DestImage src={d.image} alt={d.name} className={styles.destImage} />
-                  <div className={styles.destOverlay} />
-                  <div className={styles.destText}>
-                    <div className={styles.destHeader}>
-                      <h3>{d.name}</h3>
-                      <span className={styles.destDuration}><Clock size={12} style={{ display: 'inline', marginRight: '3px' }} /> {d.time}</span>
-                    </div>
-                    <p>{d.desc}</p>
-                    <span className={styles.destExploreLink}>
-                      Explore Route <ArrowRight size={12} />
-                    </span>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
+        </div>
+        <div style={{ height: '550px', position: 'relative' }}>
+          <CircularGallery
+            items={popularDestinations.map(d => ({ image: d.image, text: d.name }))}
+            bend={3}
+            textColor="#ffffff"
+            borderRadius={0.05}
+            scrollSpeed={2}
+            scrollEase={0.02}
+            font="bold 28px Outfit"
+            fontUrl="https://fonts.googleapis.com/css2?family=Outfit:wght@700&display=swap"
+          />
         </div>
       </section>
 

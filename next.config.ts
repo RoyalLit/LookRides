@@ -47,6 +47,53 @@ const nextConfig: NextConfig = {
     ];
   },
 
+  // SEO: www → non-www, trailing slash cleanup, WordPress ghost URL cleanup
+  async redirects() {
+    return [
+      // www → bare domain (fixes "Page with redirect" GSC issue)
+      // Note: www redirects are typically also handled at DNS/Vercel level
+      {
+        source: '/(.*)',
+        has: [{ type: 'host', value: 'www.lookrides.com' }],
+        destination: 'https://lookrides.com/$1',
+        permanent: true,
+      },
+      // Trailing-slash cleanup: /contact/ → /contact, /blog/ → /blog
+      {
+        source: '/:slug([^/]+)/',
+        destination: '/:slug',
+        permanent: true,
+      },
+      // Trailing-slash cleanup for nested paths: /blog/slug/ → /blog/slug
+      {
+        source: '/:section([^/]+)/:slug([^/]+)/',
+        destination: '/:section/:slug',
+        permanent: true,
+      },
+      // WordPress ghost paths — redirect to homepage
+      {
+        source: '/category/:path+',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/wp-admin',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/wp-login.php',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/wordpress/:path+',
+        destination: '/',
+        permanent: true,
+      },
+    ];
+  },
+
 };
 
 const cspValue = process.env.NODE_ENV === 'development'

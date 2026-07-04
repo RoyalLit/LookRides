@@ -12,6 +12,7 @@ import {
 import { FleetVehicle, GoogleReview } from "@/lib/supabase";
 import BookingForm from "@/components/BookingForm";
 import { SkeletonSlide, SkeletonReviewCard } from "@/components/Skeleton";
+import OfficeLocationMap from "@/components/home/OfficeLocationMap";
 import styles from "@/app/page.module.css";
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
@@ -552,6 +553,9 @@ export default function HomeClient({ fleet, reviews, settings, loading }: HomeCl
           </div>
         </div>
       </section>
+
+      {/* 9.5 LOCATION MAP */}
+      <OfficeLocationMap />
 
       {/* 10. FINAL CTA */}
       <section className={`${styles.ctaSection} reveal-on-scroll`} ref={addToRefs} data-journey="cta">

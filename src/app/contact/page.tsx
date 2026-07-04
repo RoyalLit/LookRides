@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Phone, Mail, MapPin, MessageSquare } from 'lucide-react';
 import ContactForm from './ContactForm';
 import { BUSINESS_PHONE, BUSINESS_PHONE_DISPLAY, SITE_URL } from '@/lib/config';
+import OfficeLocationMap from '@/components/home/OfficeLocationMap';
 import styles from './contact.module.css';
 
 export const metadata: Metadata = {
@@ -93,8 +94,15 @@ export default function ContactPage() {
                 <div className={styles.infoItem}>
                   <div className={styles.infoIcon}><MapPin size={20} strokeWidth={1.5} /></div>
                   <div>
-                    <h3>Location</h3>
-                    <p>Tricity Area, Punjab<br />North India</p>
+                    <h3>Main Hub (Tricity)</h3>
+                    <p>Operating across Chandigarh, Mohali, Zirakpur, and Punjab.</p>
+                  </div>
+                </div>
+                <div className={styles.infoItem}>
+                  <div className={styles.infoIcon}><MapPin size={20} strokeWidth={1.5} /></div>
+                  <div>
+                    <h3>New Delhi Office</h3>
+                    <p>#73 -A Friends Enclave<br />Sultanpuri, New Delhi, 110083</p>
                   </div>
                 </div>
               </div>
@@ -117,6 +125,9 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+
+      {/* NEW DELHI OFFICE MAP */}
+      <OfficeLocationMap />
     </div>
   );
 }

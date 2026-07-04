@@ -5,8 +5,10 @@ type BlendMode = 'screen' | 'multiply';
 export default function Logo({ variant = 'dark', height = 80 }: { variant?: 'dark' | 'light', height?: number }) {
   const src = variant === 'light' ? '/logo-light.webp' : '/logo-dark.png';
   const alt = "LookRides Logo";
-  const width = height * 4.5; 
+  const width = height * 4.5;
   const blendMode: BlendMode = variant === 'light' ? 'screen' : 'multiply';
+  // Rendered pixel width — used by Next.js to pick the right optimised image variant
+  const renderedWidth = Math.round(width);
 
   return (
     <div style={{ 
@@ -28,8 +30,8 @@ export default function Logo({ variant = 'dark', height = 80 }: { variant?: 'dar
         <Image
           src={src}
           alt={alt}
-          width={160}
-          height={60}
+          width={renderedWidth}
+          height={height}
           style={{ 
             position: 'absolute',
             objectFit: 'contain',
@@ -39,7 +41,7 @@ export default function Logo({ variant = 'dark', height = 80 }: { variant?: 'dar
             top: '-75%',
             maxWidth: 'none'
           }}
-          unoptimized
+          sizes={`${renderedWidth}px`}
           priority
         />
       </div>

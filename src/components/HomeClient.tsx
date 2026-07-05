@@ -270,16 +270,27 @@ export default function HomeClient({ fleet, reviews, settings, loading }: HomeCl
 
         </div>
         <div style={{ height: '550px', position: 'relative' }}>
-          <CircularGallery
-            items={popularDestinations.map(d => ({ image: d.image, text: d.name }))}
-            bend={3}
-            textColor="#ffffff"
-            borderRadius={0.05}
-            scrollSpeed={2}
-            scrollEase={0.02}
-            font="bold 28px Outfit"
-            fontUrl="https://fonts.googleapis.com/css2?family=Outfit:wght@700&display=swap"
-          />
+<CircularGallery
+  items={popularDestinations.map(d => ({ image: d.image, text: d.name }))}
+  bend={3}
+  textColor="#ffffff"
+  borderRadius={0.05}
+  scrollSpeed={2}
+  scrollEase={0.02}
+  font="bold 28px Outfit"
+  fontUrl="https://fonts.googleapis.com/css2?family=Outfit:wght@700&display=swap"
+/>
+  
+  {/* Destination Info Panel */}
+  <div className={styles.destinationsInfo} data-journey="destinations">
+    <div className="info-panel">
+      <div className="destination-info">
+        <div className="destination-name">Delhi</div>
+        <div className="destination-desc">Capital connection to historical landmarks, commercial hubs, and IGI terminal 3.</div>
+        <div className="destination-time">4.5 hours</div>
+      </div>
+    </div>
+  </div>
         </div>
       </section>
 
@@ -303,17 +314,17 @@ export default function HomeClient({ fleet, reviews, settings, loading }: HomeCl
                 return (
                   <div key={v.id} className={`${styles.embla__slide} ${styles.revealUp}`} style={{ transitionDelay: `${i * 0.1}s` }} role="group" aria-roledescription="slide" aria-label={`Vehicle ${i + 1} of ${fleet.length}`}>
                     <div className={styles.fleetCardV2}>
-                      <div className={styles.fleetImgWrap}>
+                      <div className={styles.fleetImgWrap} style={{ position: 'relative' }}>
                         <Image 
                           src={v.image_url} 
                           alt={v.name} 
                           fill 
-                          style={{ objectFit: "contain", padding: "1.5rem" }} 
+                          style={{ objectFit: "contain", padding: "1.5rem", zIndex: 1 }} 
                           sizes="(max-width: 768px) 100vw, 33vw" 
                           className={styles.fleetImgFloat}
                           loading="lazy"
                         />
-                        <span className={`badge badge-navy ${styles.fleetTypeBadge}`}>{v.category} Class</span>
+                        <span className={`badge badge-navy ${styles.fleetTypeBadge}`} style={{ position: 'absolute', bottom: '1rem', left: '1.5rem', zIndex: 10, background: 'var(--primary-navy)', color: '#fff' }}>{v.category} Class</span>
                       </div>
 
                       <div className={styles.fleetBodyV2}>

@@ -35,6 +35,11 @@
 - CSV export for offline booking analysis
 - Markdown blog editor with auto-slug, cover image, publish toggle
 
+### Visual Experience
+- WebGL-powered 3D circular gallery on homepage showcasing popular destinations
+- GPU-accelerated scroll, touch, and keyboard-driven carousel with smooth lerp animation
+- Dynamic canvas text rendering with configurable fonts, colors, and border radius
+
 ### Fleet & Pricing
 - Vehicle catalog with images, capacity, pricing tiers, active/inactive toggle
 - Route pricing with city-to-city pairs, sedan/SUV pricing, display ordering
@@ -105,6 +110,8 @@ src/
 │   ├── robots.ts             # Robots.txt
 │   └── page.tsx              # Homepage with booking widget
 ├── components/               # Shared components
+│   ├── CircularGallery.tsx   # WebGL 3D destination carousel (OGL)
+│   └── CircularGallery.css   # Gallery container styles
 ├── lib/                      # Utilities, queries, config, tests
 ├── middleware.ts             # Auth + redirect + security headers
 └── test/                     # Vitest setup
@@ -127,6 +134,7 @@ src/
 | **Linting** | ESLint 9 flat config |
 | **Notifications** | Telegram Bot API, WhatsApp Click-to-Chat |
 | **Reviews Sync** | SerpAPI (Google Reviews, free tier) |
+| **3D Rendering** | OGL (WebGL) — circular gallery with GPU-animated transforms & textures |
 | **Media** | WebP/AVIF optimization, Embla Carousel |
 
 ---

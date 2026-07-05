@@ -576,7 +576,7 @@ export default function CircularGallery({
   const galleryItems = items && items.length ? items : defaultItems;
   const mediasImages = galleryItems.concat(galleryItems);
 
-  const handleUpdatePositions = (positions: any[]) => {
+  const handleUpdatePositions = useCallback((positions: any[]) => {
     positions.forEach((pos, i) => {
       const el = cardsRef.current[i];
       if (el) {
@@ -591,7 +591,7 @@ export default function CircularGallery({
         }
       }
     });
-  };
+  }, []);
 
   const handleIndexChange = useCallback((index: number) => {
     setActiveIndex(index);
@@ -621,7 +621,8 @@ export default function CircularGallery({
         appRef.current = null;
       }
     };
-  }, [items, bend, textColor, borderRadius, scrollSpeed, scrollEase, handleIndexChange, scrollProgress]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items, bend, textColor, borderRadius, scrollSpeed, scrollEase]);
 
   useEffect(() => {
     if (appRef.current && scrollProgress !== undefined) {

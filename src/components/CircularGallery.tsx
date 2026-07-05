@@ -477,7 +477,8 @@ class App {
       borderRadius = 0,
       font = 'bold 30px Figtree',
       scrollSpeed = 2,
-      scrollEase = 0.05
+      scrollEase = 0.05,
+      onIndexChange
     }: {
       items?: MediaData[];
       bend?: number;

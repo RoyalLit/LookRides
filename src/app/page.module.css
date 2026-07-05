@@ -1462,6 +1462,7 @@
   overflow: hidden;
   background-color: #f4f6f8; /* Soft grey to blend with car image backgrounds */
   border-bottom: 1px solid var(--border);
+  isolation: isolate;
 }
 
 .fleetImgFloat {

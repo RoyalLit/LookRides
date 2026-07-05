@@ -135,7 +135,7 @@ src/
 | **Notifications** | Telegram Bot API, WhatsApp Click-to-Chat |
 | **Reviews Sync** | SerpAPI (Google Reviews, free tier) |
 | **3D Rendering** | OGL (WebGL) — circular gallery with GPU-animated transforms & textures |
-| **Media** | WebP/AVIF optimization, Embla Carousel |
+| **Media** | WebP optimization, Embla Carousel |
 
 ---
 

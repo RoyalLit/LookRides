@@ -361,6 +361,7 @@ export default function HomeClient({ fleet, reviews, settings, loading }: HomeCl
                           sizes="(max-width: 768px) 100vw, 33vw" 
                           className={styles.fleetImgFloat}
                           priority={true}
+                          unoptimized={true}
                         />
                         <span className={`badge badge-navy ${styles.fleetTypeBadge}`}>{v.category} Class</span>
                       </div>

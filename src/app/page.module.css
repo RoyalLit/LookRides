@@ -1,4 +1,4 @@
-.page { overflow: hidden; position: relative; z-index: 2; }
+.page { overflow-x: clip; position: relative; z-index: 2; }
 
 /* ══ HERO ════════════════════════════════════════════════════ */
 .hero {

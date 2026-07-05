@@ -1263,7 +1263,7 @@
 
 /* Scroll-Jacking Layout */
 .scrollJackContainer {
-  height: 300vh;
+  height: 400vh;
   position: relative;
   margin-top: 2rem;
 }

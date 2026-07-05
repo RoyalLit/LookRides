@@ -40,15 +40,16 @@
 }
 
 .circular-gallery-card-details {
-  background: rgba(10, 15, 30, 0.6);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   padding: 1.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
   color: #fff;
   pointer-events: auto;
   opacity: 0;
   transition: opacity 0.3s ease;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.2);
 }
 
 .circular-gallery-card[data-active="true"] .circular-gallery-card-details {
@@ -66,13 +67,15 @@
 .circular-gallery-card-details p {
   font-size: 0.95rem;
   line-height: 1.5;
-  color: rgba(255, 255, 255, 0.85);
+  color: #fff;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
   margin: 0 0 1rem 0;
 }
 
 .circular-gallery-card-time {
   font-size: 0.9rem;
-  color: #a0aec0;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
   margin-bottom: 1.25rem;
 }
 

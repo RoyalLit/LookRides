@@ -114,6 +114,14 @@ const getFleetDetails = (category: string) => {
   }
 };
 
+const galleryItems = popularDestinations.map(d => ({ 
+  image: d.image, 
+  text: d.name,
+  desc: d.desc,
+  time: d.time,
+  route: d.route
+}));
+
 interface HomeClientProps {
   fleet: FleetVehicle[];
   reviews: GoogleReview[];
@@ -151,11 +159,15 @@ export default function HomeClient({ fleet, reviews, settings, loading }: HomeCl
       const rect = galleryContainerRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
       
-      if (rect.top <= 0 && rect.bottom >= windowHeight) {
-        const totalScroll = rect.height - windowHeight;
-        const currentScroll = -rect.top;
-        setScrollProgress(currentScroll / totalScroll);
-      } else if (rect.top > 0) {
+      const stickyTop = windowHeight * 0.1; // 10vh
+      const stickyHeight = windowHeight * 0.8; // 80vh
+      const stickyBottom = stickyTop + stickyHeight;
+      
+      if (rect.top <= stickyTop && rect.bottom >= stickyBottom) {
+        const totalScroll = rect.height - stickyHeight;
+        const currentScroll = stickyTop - rect.top;
+        setScrollProgress(Math.min(Math.max(currentScroll / totalScroll, 0), 1));
+      } else if (rect.top > stickyTop) {
         setScrollProgress(0);
       } else {
         setScrollProgress(1);
@@ -300,13 +312,7 @@ export default function HomeClient({ fleet, reviews, settings, loading }: HomeCl
         <div className={styles.scrollJackContainer} ref={galleryContainerRef}>
           <div className={styles.stickyGallery}>
             <CircularGallery
-              items={popularDestinations.map(d => ({ 
-                image: d.image, 
-                text: d.name,
-                desc: d.desc,
-                time: d.time,
-                route: d.route
-              }))}
+              items={galleryItems}
               bend={3}
               textColor="#ffffff"
               borderRadius={0.05}

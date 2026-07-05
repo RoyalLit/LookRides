@@ -465,6 +465,9 @@ class App {
   // eslint-disable-next-line no-unused-vars
   private boundOnKeyDown!: (ev: KeyboardEvent) => void;
 
+  private onIndexChange?: (index: number) => void;
+  private activeIndex: number = -1;
+
   constructor(
     container: HTMLElement,
     {
@@ -483,10 +486,12 @@ class App {
       font?: string;
       scrollSpeed?: number;
       scrollEase?: number;
+      onIndexChange?: (index: number) => void;
     } = {}
   ) {
     this.container = container;
     this.scrollSpeed = scrollSpeed;
+    this.onIndexChange = onIndexChange;
     this.scroll = { ease: scrollEase, current: 0, target: 0, last: 0, position: 0 };
     this.onCheckDebounce = debounce(this.onCheck, 200);
     this.createRenderer();
@@ -609,6 +614,22 @@ class App {
     const itemIndex = Math.round(Math.abs(this.scroll.target) / width);
     const item = width * itemIndex;
     this.scroll.target = this.scroll.target < 0 ? -item : item;
+
+    if (this.onIndexChange) {
+      const originalLength = this.mediasImages.length / 2;
+      const normalizedIndex = itemIndex % originalLength;
+      if (normalizedIndex !== this.activeIndex) {
+        this.activeIndex = normalizedIndex;
+        this.onIndexChange(normalizedIndex);
+      }
+    }
+  }
+
+  setScrollProgress(progress: number) {
+    if (!this.medias || !this.medias[0]) return;
+    const totalWidth = this.medias[0].width * (this.mediasImages.length / 2);
+    this.scroll.target = progress * totalWidth;
+    this.onCheck();
   }
   onResize() {
     this.screen = {
@@ -686,7 +707,9 @@ export default function CircularGallery({
   font = 'bold 30px Figtree',
   fontUrl,
   scrollSpeed = 2,
-  scrollEase = 0.05
+  scrollEase = 0.05,
+  scrollProgress,
+  onIndexChange
 }: {
   items?: MediaData[];
   bend?: number;
@@ -696,30 +719,45 @@ export default function CircularGallery({
   fontUrl?: string;
   scrollSpeed?: number;
   scrollEase?: number;
+  scrollProgress?: number;
+  onIndexChange?: (index: number) => void;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const appRef = useRef<App | null>(null);
+
   useEffect(() => {
     if (!containerRef.current) return;
-    let app: App | undefined;
     let isMounted = true;
     resolveFont(font, fontUrl).then(resolvedFont => {
       if (!isMounted || !containerRef.current) return;
-      app = new App(containerRef.current, {
+      const app = new App(containerRef.current, {
         items,
         bend,
         textColor,
         borderRadius,
         font: resolvedFont,
         scrollSpeed,
-        scrollEase
+        scrollEase,
+        onIndexChange
       });
+      appRef.current = app;
     });
 
     return () => {
       isMounted = false;
-      if (app) app.destroy();
+      if (appRef.current) {
+        appRef.current.destroy();
+        appRef.current = null;
+      }
     };
-  }, [items, bend, textColor, borderRadius, font, fontUrl, scrollSpeed, scrollEase]);
+  }, [items, bend, textColor, borderRadius, font, fontUrl, scrollSpeed, scrollEase, onIndexChange]);
+
+  useEffect(() => {
+    if (appRef.current && scrollProgress !== undefined) {
+      appRef.current.setScrollProgress(scrollProgress);
+    }
+  }, [scrollProgress]);
+
   return (
     <div
       className="circular-gallery"

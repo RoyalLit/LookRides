@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useCallback, useEffect } from "react";
+import { useRef, useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { BUSINESS_PHONE } from '@/lib/config';
@@ -124,7 +124,13 @@ interface HomeClientProps {
 export default function HomeClient({ fleet, reviews, settings, loading }: HomeClientProps) {
   const [emblaRef] = useEmblaCarousel({ loop: true, align: 'start' }, [Autoplay({ delay: 3500, stopOnInteraction: true })]);
   const [reviewsRef] = useEmblaCarousel({ loop: true, align: 'start' }, [Autoplay({ delay: 4500, stopOnInteraction: true })]);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState<number | undefined>(undefined);
+  const [activeDestIndex, setActiveDestIndex] = useState(0);
 
+  const heroRef = useRef<HTMLDivElement>(null);
+  const galleryContainerRef = useRef<HTMLDivElement>(null);
   const revealRefs = useRef<(HTMLElement | null)[]>([]);
   const addToRefs = useCallback((el: HTMLElement | null) => {
     if (el && !revealRefs.current.includes(el)) revealRefs.current.push(el);
@@ -138,6 +144,31 @@ export default function HomeClient({ fleet, reviews, settings, loading }: HomeCl
     }, { threshold: 0.1 });
     revealRefs.current.forEach(ref => { if (ref) observer.observe(ref); });
     return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const handleGalleryScroll = () => {
+      if (!galleryContainerRef.current) return;
+      const rect = galleryContainerRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      
+      if (rect.top <= 0 && rect.bottom >= windowHeight) {
+        const totalScroll = rect.height - windowHeight;
+        const currentScroll = -rect.top;
+        setScrollProgress(currentScroll / totalScroll);
+      } else if (rect.top > 0) {
+        setScrollProgress(0);
+      } else {
+        setScrollProgress(1);
+      }
+    };
+    window.addEventListener('scroll', handleGalleryScroll, { passive: true });
+    handleGalleryScroll();
+    return () => window.removeEventListener('scroll', handleGalleryScroll);
+  }, []);
+
+  const handleIndexChange = useCallback((index: number) => {
+    setActiveDestIndex(index);
   }, []);
 
   const stats = [
@@ -265,21 +296,38 @@ export default function HomeClient({ fleet, reviews, settings, loading }: HomeCl
           <div className={`${styles.sectionHead} ${styles.revealUp}`}>
             <span className="section-label">Explore Destinations</span>
             <h2>Where to Next? Discover North India</h2>
-            <p>Inspiring travel ideas for your next road trip. Click a destination to view customized routing details.</p>
+            <p>Inspiring travel ideas for your next road trip. Scroll to explore customized routing details.</p>
           </div>
 
         </div>
-        <div style={{ height: '550px', position: 'relative' }}>
-          <CircularGallery
-            items={popularDestinations.map(d => ({ image: d.image, text: d.name }))}
-            bend={3}
-            textColor="#ffffff"
-            borderRadius={0.05}
-            scrollSpeed={2}
-            scrollEase={0.02}
-            font="bold 28px Outfit"
-            fontUrl="https://fonts.googleapis.com/css2?family=Outfit:wght@700&display=swap"
-          />
+        
+        <div className={styles.scrollJackContainer} ref={galleryContainerRef}>
+          <div className={styles.stickyGallery}>
+            <CircularGallery
+              items={popularDestinations.map(d => ({ image: d.image, text: d.name }))}
+              bend={3}
+              textColor="#ffffff"
+              borderRadius={0.05}
+              scrollSpeed={2}
+              scrollEase={0.02}
+              font="bold 28px Outfit"
+              scrollProgress={scrollProgress}
+              onIndexChange={handleIndexChange}
+            />
+            
+            <div className={styles.glassOverlay}>
+              <div className={styles.glassOverlayContent}>
+                <h3>{popularDestinations[activeDestIndex]?.name}</h3>
+                <p>{popularDestinations[activeDestIndex]?.desc}</p>
+                <div className={styles.glassOverlayTime}>
+                  <strong>Travel Time:</strong> {popularDestinations[activeDestIndex]?.time}
+                </div>
+                <Link href={popularDestinations[activeDestIndex]?.route || "/"} className={`btn btn-primary ${styles.glassOverlayBtn}`}>
+                  View Route
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

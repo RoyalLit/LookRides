@@ -1258,7 +1258,77 @@
   background-size: 24px 24px;
   border-top: 1px solid var(--border);
   position: relative;
+  overflow: visible; /* Changed from hidden for scroll-jacking space */
+}
+
+/* Scroll-Jacking Layout */
+.scrollJackContainer {
+  height: 300vh;
+  position: relative;
+  margin-top: 2rem;
+}
+
+.stickyGallery {
+  position: sticky;
+  top: 10vh; /* Pin near the top of the viewport */
+  height: 80vh; /* Leave some breathing room */
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--primary-navy);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+/* Glassmorphism Details Overlay */
+.glassOverlay {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  width: 380px;
+  max-width: calc(100% - 4rem);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  color: #fff;
+  z-index: 10;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  transition: all 0.4s var(--ease-out);
+}
+
+.glassOverlayContent h3 {
+  font-family: var(--font-outfit);
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  color: #fff;
+}
+
+.glassOverlayContent p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 1rem;
+}
+
+.glassOverlayTime {
+  font-size: 0.85rem;
+  margin-bottom: 1.5rem;
+  color: var(--accent-gold);
+}
+
+.glassOverlayBtn {
+  width: 100%;
+  justify-content: center;
+  background: var(--accent-gold);
+  color: var(--primary-navy);
+}
+
+.glassOverlayBtn:hover {
+  background: #fff;
 }
 
 .destinationsGrid {

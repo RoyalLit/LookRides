@@ -29,185 +29,12 @@ function autoBind(instance: any) {
   });
 }
 
-const DEFAULT_FONT = 'bold 30px Figtree';
-const DEFAULT_FONT_URL = 'https://fonts.googleapis.com/css2?family=Figtree:wght@400;700&display=swap';
-
-function deriveFontFamilyFromUrl(url: string) {
-  const fileName = (url.split('/').pop() || 'custom-font').split('?')[0];
-  const base = fileName.replace(/\.(woff2?|ttf|otf|eot)$/i, '');
-  return base.replace(/[^a-zA-Z0-9-_ ]/g, '').trim() || 'CircularGalleryFont';
-}
-
-async function loadFontFromStylesheet(url: string) {
-  const response = await fetch(url);
-  if (!response.ok) throw new Error(`Failed to fetch font stylesheet (${response.status})`);
-  const cssText = await response.text();
-  const faceBlocks = cssText.match(/@font-face\s*{[^}]*}/g) || [];
-  let family: string | null = null;
-  const fontFaces: FontFace[] = [];
-  for (const block of faceBlocks) {
-    const familyMatch = block.match(/font-family:\s*['"]?([^;'"]+)['"]?/);
-    const urlMatch = block.match(/url\(\s*['"]?([^'")]+)['"]?\s*\)/);
-    if (!familyMatch || !urlMatch) continue;
-    family = familyMatch[1].trim();
-    const descriptors: Record<string, string> = {};
-    const weightMatch = block.match(/font-weight:\s*([^;]+);/);
-    const styleMatch = block.match(/font-style:\s*([^;]+);/);
-    const rangeMatch = block.match(/unicode-range:\s*([^;]+);/);
-    if (weightMatch) descriptors.weight = weightMatch[1].trim();
-    if (styleMatch) descriptors.style = styleMatch[1].trim();
-    if (rangeMatch) descriptors.unicodeRange = rangeMatch[1].trim();
-    fontFaces.push(new FontFace(family, `url(${urlMatch[1]})`, descriptors));
-  }
-  if (!family) throw new Error('No @font-face rule found in the stylesheet');
-  await Promise.allSettled(
-    fontFaces.map(async face => {
-      await face.load();
-      document.fonts.add(face);
-    })
-  );
-  return family;
-}
-
-async function loadFontFromFile(url: string) {
-  const family = deriveFontFamilyFromUrl(url);
-  const fontFace = new FontFace(family, `url(${url})`);
-  await fontFace.load();
-  document.fonts.add(fontFace);
-  return family;
-}
-
-async function loadCustomFont(fontUrl: string) {
-  const isStylesheet = fontUrl.includes('fonts.googleapis.com') || /\.css(\?.*)?$/i.test(fontUrl);
-  return isStylesheet ? loadFontFromStylesheet(fontUrl) : loadFontFromFile(fontUrl);
-}
-
-async function resolveFont(font: string, fontUrl?: string) {
-  const effectiveUrl = fontUrl || (font === DEFAULT_FONT ? DEFAULT_FONT_URL : undefined);
-  if (!effectiveUrl) {
-    if (document.fonts && document.fonts.load) {
-      try {
-        await document.fonts.load(font);
-        await document.fonts.ready;
-      } catch {
-        // Ignore – fall back to whatever the browser provides.
-      }
-    }
-    return font;
-  }
-  try {
-    const family = await loadCustomFont(effectiveUrl);
-    const sizeMatch = font.match(/^\s*(.*?\d+px)/);
-    const prefix = sizeMatch ? sizeMatch[1].trim() : 'bold 30px';
-    const resolved = `${prefix} "${family}"`;
-    if (document.fonts && document.fonts.load) {
-      try {
-        await document.fonts.load(resolved);
-      } catch {
-        // Ignore – we still attempt to render with the requested font.
-      }
-    }
-    return resolved;
-  } catch (error) {
-    console.error('CircularGallery: unable to load font from', fontUrl, error);
-    return font;
-  }
-}
-
-function getFontSize(font: string) {
-  const match = font.match(/(\d+)px/);
-  return match ? parseInt(match[1], 10) : 30;
-}
-
-function createTextTexture(gl: OGLRenderingContext, text: string, font = 'bold 30px monospace', color = 'black') {
-  const canvas = document.createElement('canvas');
-  const context = canvas.getContext('2d')!;
-  context.font = font;
-  const metrics = context.measureText(text);
-  const textWidth = Math.ceil(metrics.width);
-  const textHeight = Math.ceil(getFontSize(font) * 1.2);
-  canvas.width = textWidth + 20;
-  canvas.height = textHeight + 20;
-  context.font = font;
-  context.fillStyle = color;
-  context.textBaseline = 'middle';
-  context.textAlign = 'center';
-  context.clearRect(0, 0, canvas.width, canvas.height);
-  context.fillText(text, canvas.width / 2, canvas.height / 2);
-  const texture = new Texture(gl, { generateMipmaps: false });
-  texture.image = canvas;
-  return { texture, width: canvas.width, height: canvas.height };
-}
-
 interface MediaData {
   image: string;
   text: string;
-}
-
-interface TitleParams {
-  gl: OGLRenderingContext;
-  plane: Mesh;
-  renderer: Renderer;
-  text: string;
-  textColor: string;
-  font: string;
-}
-
-class Title {
-  private gl: OGLRenderingContext;
-  private plane: Mesh;
-  private renderer: Renderer;
-  private text: string;
-  private textColor: string;
-  private font: string;
-  mesh!: Mesh;
-
-  constructor({ gl, plane, renderer, text, textColor, font }: TitleParams) {
-    autoBind(this);
-    this.gl = gl;
-    this.plane = plane;
-    this.renderer = renderer;
-    this.text = text;
-    this.textColor = textColor;
-    this.font = font;
-    this.createMesh();
-  }
-  createMesh() {
-    const { texture, width, height } = createTextTexture(this.gl, this.text, this.font, this.textColor);
-    const geometry = new Plane(this.gl);
-    const program = new Program(this.gl, {
-      vertex: `
-        attribute vec3 position;
-        attribute vec2 uv;
-        uniform mat4 modelViewMatrix;
-        uniform mat4 projectionMatrix;
-        varying vec2 vUv;
-        void main() {
-          vUv = uv;
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `,
-      fragment: `
-        precision highp float;
-        uniform sampler2D tMap;
-        varying vec2 vUv;
-        void main() {
-          vec4 color = texture2D(tMap, vUv);
-          if (color.a < 0.1) discard;
-          gl_FragColor = color;
-        }
-      `,
-      uniforms: { tMap: { value: texture } },
-      transparent: true
-    });
-    this.mesh = new Mesh(this.gl, { geometry, program });
-    const aspect = width / height;
-    const textHeight = this.plane.scale.y * 0.15;
-    const textWidth = textHeight * aspect;
-    this.mesh.scale.set(textWidth, textHeight, 1);
-    this.mesh.position.y = -this.plane.scale.y * 0.5 - textHeight * 0.5 - 0.05;
-    this.mesh.setParent(this.plane);
-  }
+  desc?: string;
+  time?: string;
+  route?: string;
 }
 
 interface MediaParams {
@@ -253,7 +80,6 @@ class Media {
   font: string;
   program!: Program;
   plane!: Mesh;
-  title!: Title;
   scale!: number;
   padding!: number;
   width!: number;
@@ -283,7 +109,6 @@ class Media {
     this.font = font;
     this.createShader();
     this.createMesh();
-    this.createTitle();
     this.onResize();
   }
   createShader() {
@@ -366,16 +191,6 @@ class Media {
     });
     this.plane.setParent(this.scene);
   }
-  createTitle() {
-    this.title = new Title({
-      gl: this.gl,
-      plane: this.plane,
-      renderer: this.renderer,
-      text: this.text,
-      textColor: this.textColor,
-      font: this.font
-    });
-  }
   update(scroll: ScrollState, direction: string) {
     this.plane.position.x = this.x - scroll.current - this.extra;
 
@@ -426,7 +241,7 @@ class Media {
       }
     }
     this.scale = this.screen.height / 1500;
-    this.plane.scale.y = (this.viewport.height * (900 * this.scale)) / this.screen.height;
+    this.plane.scale.y = (this.viewport.height * (1200 * this.scale)) / this.screen.height;
     this.plane.scale.x = (this.viewport.width * (700 * this.scale)) / this.screen.width;
     this.plane.program.uniforms.uPlaneSizes.value = [this.plane.scale.x, this.plane.scale.y];
     this.padding = 2;
@@ -467,6 +282,8 @@ class App {
 
   private onIndexChange?: (index: number) => void;
   private activeIndex: number = -1;
+  private isControlled: boolean;
+  private onUpdatePositions?: (positions: any[]) => void;
 
   constructor(
     container: HTMLElement,
@@ -478,6 +295,8 @@ class App {
       font = 'bold 30px Figtree',
       scrollSpeed = 2,
       scrollEase = 0.05,
+      isControlled = false,
+      onUpdatePositions,
       onIndexChange
     }: {
       items?: MediaData[];
@@ -487,11 +306,15 @@ class App {
       font?: string;
       scrollSpeed?: number;
       scrollEase?: number;
+      isControlled?: boolean;
+      onUpdatePositions?: (positions: any[]) => void;
       onIndexChange?: (index: number) => void;
     } = {}
   ) {
     this.container = container;
     this.scrollSpeed = scrollSpeed;
+    this.isControlled = isControlled;
+    this.onUpdatePositions = onUpdatePositions;
     this.onIndexChange = onIndexChange;
     this.scroll = { ease: scrollEase, current: 0, target: 0, last: 0, position: 0 };
     this.onCheckDebounce = debounce(this.onCheck, 200);
@@ -614,7 +437,10 @@ class App {
     const width = this.medias[0].width;
     const itemIndex = Math.round(Math.abs(this.scroll.target) / width);
     const item = width * itemIndex;
-    this.scroll.target = this.scroll.target < 0 ? -item : item;
+    
+    if (!this.isControlled) {
+      this.scroll.target = this.scroll.target < 0 ? -item : item;
+    }
 
     if (this.onIndexChange) {
       const originalLength = this.mediasImages.length / 2;
@@ -652,9 +478,37 @@ class App {
   update() {
     this.scroll.current = lerp(this.scroll.current, this.scroll.target, this.scroll.ease);
     const direction = this.scroll.current > this.scroll.last ? 'right' : 'left';
+    
+    const positions: any[] = [];
+    
     if (this.medias) {
-      this.medias.forEach(media => media.update(this.scroll, direction));
+      this.medias.forEach((media, i) => {
+        media.update(this.scroll, direction);
+        positions.push({
+          x: media.plane.position.x,
+          y: media.plane.position.y,
+          rotationZ: media.plane.rotation.z,
+          width: media.plane.scale.x,
+          height: media.plane.scale.y,
+          isBefore: media.isBefore,
+          isAfter: media.isAfter,
+          index: i
+        });
+      });
     }
+    
+    if (this.onUpdatePositions && this.viewport && this.screen) {
+      const screenPositions = positions.map(p => ({
+        ...p,
+        screenX: (p.x / (this.viewport.width / 2)) * (this.screen.width / 2) + this.screen.width / 2,
+        screenY: -(p.y / (this.viewport.height / 2)) * (this.screen.height / 2) + this.screen.height / 2,
+        widthPx: (p.width / this.viewport.width) * this.screen.width,
+        heightPx: (p.height / this.viewport.height) * this.screen.height,
+        visible: !p.isBefore && !p.isAfter
+      }));
+      this.onUpdatePositions(screenPositions);
+    }
+    
     this.renderer.render({ scene: this.scene, camera: this.camera });
     this.scroll.last = this.scroll.current;
     this.raf = window.requestAnimationFrame(this.update.bind(this));
@@ -668,34 +522,37 @@ class App {
     this.boundOnKeyDown = this.onKeyDown.bind(this);
 
     window.addEventListener('resize', this.boundOnResize);
-    window.addEventListener('mousewheel' as keyof WindowEventMap, this.boundOnWheel as EventListener);
-    window.addEventListener('wheel', this.boundOnWheel);
-    window.addEventListener('mousedown', this.boundOnTouchDown);
-    window.addEventListener('mousemove', this.boundOnTouchMove);
-    window.addEventListener('mouseup', this.boundOnTouchUp);
-    window.addEventListener('touchstart', this.boundOnTouchDown);
-    window.addEventListener('touchmove', this.boundOnTouchMove);
-    window.addEventListener('touchend', this.boundOnTouchUp);
-
-    this.container?.addEventListener('keydown', this.boundOnKeyDown);
+    
+    if (!this.isControlled) {
+      window.addEventListener('mousewheel' as keyof WindowEventMap, this.boundOnWheel as EventListener);
+      window.addEventListener('wheel', this.boundOnWheel);
+      window.addEventListener('mousedown', this.boundOnTouchDown);
+      window.addEventListener('mousemove', this.boundOnTouchMove);
+      window.addEventListener('mouseup', this.boundOnTouchUp);
+      window.addEventListener('touchstart', this.boundOnTouchDown);
+      window.addEventListener('touchmove', this.boundOnTouchMove);
+      window.addEventListener('touchend', this.boundOnTouchUp);
+      this.container?.addEventListener('keydown', this.boundOnKeyDown);
+    }
   }
   destroy() {
     window.cancelAnimationFrame(this.raf);
     window.removeEventListener('resize', this.boundOnResize);
-    window.removeEventListener('mousewheel' as keyof WindowEventMap, this.boundOnWheel as EventListener);
-    window.removeEventListener('wheel', this.boundOnWheel);
-    window.removeEventListener('mousedown', this.boundOnTouchDown);
-    window.removeEventListener('mousemove', this.boundOnTouchMove);
-    window.removeEventListener('mouseup', this.boundOnTouchUp);
-    window.removeEventListener('touchstart', this.boundOnTouchDown);
-    window.removeEventListener('touchmove', this.boundOnTouchMove);
-    window.removeEventListener('touchend', this.boundOnTouchUp);
+    if (!this.isControlled) {
+      window.removeEventListener('mousewheel' as keyof WindowEventMap, this.boundOnWheel as EventListener);
+      window.removeEventListener('wheel', this.boundOnWheel);
+      window.removeEventListener('mousedown', this.boundOnTouchDown);
+      window.removeEventListener('mousemove', this.boundOnTouchMove);
+      window.removeEventListener('mouseup', this.boundOnTouchUp);
+      window.removeEventListener('touchstart', this.boundOnTouchDown);
+      window.removeEventListener('touchmove', this.boundOnTouchMove);
+      window.removeEventListener('touchend', this.boundOnTouchUp);
+      if (this.container) {
+        this.container.removeEventListener('keydown', this.boundOnKeyDown);
+      }
+    }
     if (this.renderer && this.renderer.gl && (this.renderer.gl.canvas as HTMLCanvasElement).parentNode) {
       (this.renderer.gl.canvas as HTMLCanvasElement).parentNode!.removeChild(this.renderer.gl.canvas as HTMLCanvasElement);
-    }
-
-    if (this.container) {
-      this.container.removeEventListener('keydown', this.boundOnKeyDown);
     }
   }
 }
@@ -725,24 +582,53 @@ export default function CircularGallery({
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const appRef = useRef<App | null>(null);
+  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  // WebGL appends a duplicate of the items array to allow infinite scrolling
+  const defaultItems: MediaData[] = [];
+  const galleryItems = items && items.length ? items : defaultItems;
+  const mediasImages = galleryItems.concat(galleryItems);
+
+  const handleUpdatePositions = (positions: any[]) => {
+    positions.forEach((pos, i) => {
+      const el = cardsRef.current[i];
+      if (el) {
+        if (pos.visible) {
+          el.style.display = 'flex';
+          el.style.transform = `translate(-50%, -50%) translate3d(${pos.screenX}px, ${pos.screenY}px, 0) rotateZ(${-pos.rotationZ}rad)`;
+          el.style.width = `${pos.widthPx}px`;
+          el.style.height = `${pos.heightPx}px`;
+          el.style.zIndex = Math.round(100 - Math.abs(pos.rotationZ) * 100).toString();
+        } else {
+          el.style.display = 'none';
+        }
+      }
+    });
+  };
+
+  const handleIndexChange = (index: number) => {
+    setActiveIndex(index);
+    if (onIndexChange) onIndexChange(index);
+  };
 
   useEffect(() => {
     if (!containerRef.current) return;
     let isMounted = true;
-    resolveFont(font, fontUrl).then(resolvedFont => {
-      if (!isMounted || !containerRef.current) return;
-      const app = new App(containerRef.current, {
-        items,
-        bend,
-        textColor,
-        borderRadius,
-        font: resolvedFont,
-        scrollSpeed,
-        scrollEase,
-        onIndexChange
-      });
-      appRef.current = app;
+    
+    // Create the App directly, skipping the font loader since text is in HTML now
+    const app = new App(containerRef.current, {
+      items,
+      bend,
+      textColor,
+      borderRadius,
+      scrollSpeed,
+      scrollEase,
+      isControlled: scrollProgress !== undefined,
+      onUpdatePositions: handleUpdatePositions,
+      onIndexChange: handleIndexChange
     });
+    appRef.current = app;
 
     return () => {
       isMounted = false;
@@ -751,7 +637,7 @@ export default function CircularGallery({
         appRef.current = null;
       }
     };
-  }, [items, bend, textColor, borderRadius, font, fontUrl, scrollSpeed, scrollEase, onIndexChange]);
+  }, [items, bend, textColor, borderRadius, scrollSpeed, scrollEase]);
 
   useEffect(() => {
     if (appRef.current && scrollProgress !== undefined) {
@@ -760,12 +646,43 @@ export default function CircularGallery({
   }, [scrollProgress]);
 
   return (
-    <div
-      className="circular-gallery"
-      ref={containerRef}
-      tabIndex={0}
-      role="region"
-      aria-label="Circular image gallery. Use left and right arrow keys to navigate."
-    />
+    <div className="circular-gallery" style={{ position: 'relative' }}>
+      <div
+        ref={containerRef}
+        className="circular-gallery-canvas-container"
+        style={{ width: '100%', height: '100%', position: 'absolute', top: 0, left: 0 }}
+        tabIndex={0}
+        role="region"
+        aria-label="Circular image gallery. Use left and right arrow keys to navigate."
+      />
+      <div className="circular-gallery-html-container">
+        {mediasImages.map((data, index) => {
+          const isRealActive = activeIndex === (index % galleryItems.length);
+          return (
+            <div
+              key={index}
+              ref={el => { cardsRef.current[index] = el; }}
+              className="circular-gallery-card"
+              data-active={isRealActive}
+            >
+              <div className="circular-gallery-card-details">
+                <h3>{data.text}</h3>
+                {data.desc && <p>{data.desc}</p>}
+                {data.time && (
+                  <div className="circular-gallery-card-time">
+                    <strong>Travel Time:</strong> {data.time}
+                  </div>
+                )}
+                {data.route && (
+                  <a href={data.route} className="circular-gallery-card-btn">
+                    View Route
+                  </a>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 }

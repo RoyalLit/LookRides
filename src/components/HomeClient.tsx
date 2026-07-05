@@ -127,7 +127,6 @@ export default function HomeClient({ fleet, reviews, settings, loading }: HomeCl
   const [isScrolled, setIsScrolled] = useState(false);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState<number | undefined>(undefined);
-  const [activeDestIndex, setActiveDestIndex] = useState(0);
 
   const heroRef = useRef<HTMLDivElement>(null);
   const galleryContainerRef = useRef<HTMLDivElement>(null);
@@ -167,9 +166,6 @@ export default function HomeClient({ fleet, reviews, settings, loading }: HomeCl
     return () => window.removeEventListener('scroll', handleGalleryScroll);
   }, []);
 
-  const handleIndexChange = useCallback((index: number) => {
-    setActiveDestIndex(index);
-  }, []);
 
   const stats = [
     { val: settings.google_rating, label: "Google Rating", suffix: " ★" },
@@ -304,29 +300,20 @@ export default function HomeClient({ fleet, reviews, settings, loading }: HomeCl
         <div className={styles.scrollJackContainer} ref={galleryContainerRef}>
           <div className={styles.stickyGallery}>
             <CircularGallery
-              items={popularDestinations.map(d => ({ image: d.image, text: d.name }))}
+              items={popularDestinations.map(d => ({ 
+                image: d.image, 
+                text: d.name,
+                desc: d.desc,
+                time: d.time,
+                route: d.route
+              }))}
               bend={3}
               textColor="#ffffff"
               borderRadius={0.05}
               scrollSpeed={2}
               scrollEase={0.02}
-              font="bold 28px Outfit"
               scrollProgress={scrollProgress}
-              onIndexChange={handleIndexChange}
             />
-            
-            <div className={styles.glassOverlay}>
-              <div className={styles.glassOverlayContent}>
-                <h3>{popularDestinations[activeDestIndex]?.name}</h3>
-                <p>{popularDestinations[activeDestIndex]?.desc}</p>
-                <div className={styles.glassOverlayTime}>
-                  <strong>Travel Time:</strong> {popularDestinations[activeDestIndex]?.time}
-                </div>
-                <Link href={popularDestinations[activeDestIndex]?.route || "/"} className={`btn btn-primary ${styles.glassOverlayBtn}`}>
-                  View Route
-                </Link>
-              </div>
-            </div>
           </div>
         </div>
       </section>

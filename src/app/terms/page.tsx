@@ -1,7 +1,9 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import { BUSINESS_PHONE_DISPLAY } from '@/lib/config';
+import { BUSINESS_PHONE_DISPLAY, SITE_URL } from '@/lib/config';
 import styles from '../legal.module.css';
+
+const siteUrl = SITE_URL;
 
 export const metadata: Metadata = {
   title: 'Terms & Conditions | LookRides',
@@ -9,14 +11,15 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Terms & Conditions | LookRides',
     description: 'Terms and conditions for booking intercity cabs with LookRides.',
-    images: '/og-image.png',
+    images: siteUrl + '/og-image.png',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Terms & Conditions | LookRides',
     description: 'Booking terms for LookRides intercity cab service.',
+    images: siteUrl + '/og-image.png',
   },
-  alternates: { canonical: 'https://lookrides.com/terms' },
+  alternates: { canonical: siteUrl + '/terms' },
 };
 
 export default function TermsPage() {

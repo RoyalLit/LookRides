@@ -1,11 +1,10 @@
 'use client';
 
 import { Camera, Mesh, Plane, Program, Renderer, Texture, Transform, type OGLRenderingContext } from 'ogl';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 
 import './CircularGallery.css';
 
-// eslint-disable-next-line no-unused-vars
 function debounce<T extends (...p: unknown[]) => void>(func: T, wait: number) {
   let timeout: ReturnType<typeof setTimeout>;
   return function (this: unknown, ...args: Parameters<T>) {
@@ -16,17 +15,6 @@ function debounce<T extends (...p: unknown[]) => void>(func: T, wait: number) {
 
 function lerp(p1: number, p2: number, t: number) {
   return p1 + (p2 - p1) * t;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function autoBind(instance: any) {
-  const proto = Object.getPrototypeOf(instance);
-  Object.getOwnPropertyNames(proto).forEach(key => {
-    if (key !== 'constructor' && typeof instance[key] === 'function') {
-      // eslint-disable-next-line no-unused-vars
-      instance[key] = (instance[key] as (...p: unknown[]) => unknown).bind(instance);
-    }
-  });
 }
 
 interface MediaData {
@@ -270,14 +258,10 @@ class App {
   private raf = 0;
 
   private boundOnResize!: () => void;
-  // eslint-disable-next-line no-unused-vars
   private boundOnWheel!: (ev: WheelEvent) => void;
-  // eslint-disable-next-line no-unused-vars
   private boundOnTouchDown!: (ev: MouseEvent | TouchEvent) => void;
-  // eslint-disable-next-line no-unused-vars
   private boundOnTouchMove!: (ev: MouseEvent | TouchEvent) => void;
   private boundOnTouchUp!: () => void;
-  // eslint-disable-next-line no-unused-vars
   private boundOnKeyDown!: (ev: KeyboardEvent) => void;
 
   private onIndexChange?: (index: number) => void;
@@ -524,6 +508,7 @@ class App {
     window.addEventListener('resize', this.boundOnResize);
     
     if (!this.isControlled) {
+      // eslint-disable-next-line no-undef
       window.addEventListener('mousewheel' as keyof WindowEventMap, this.boundOnWheel as EventListener);
       window.addEventListener('wheel', this.boundOnWheel);
       window.addEventListener('mousedown', this.boundOnTouchDown);
@@ -539,6 +524,7 @@ class App {
     window.cancelAnimationFrame(this.raf);
     window.removeEventListener('resize', this.boundOnResize);
     if (!this.isControlled) {
+      // eslint-disable-next-line no-undef
       window.removeEventListener('mousewheel' as keyof WindowEventMap, this.boundOnWheel as EventListener);
       window.removeEventListener('wheel', this.boundOnWheel);
       window.removeEventListener('mousedown', this.boundOnTouchDown);
@@ -607,14 +593,13 @@ export default function CircularGallery({
     });
   };
 
-  const handleIndexChange = (index: number) => {
+  const handleIndexChange = useCallback((index: number) => {
     setActiveIndex(index);
     if (onIndexChange) onIndexChange(index);
-  };
+  }, [onIndexChange]);
 
   useEffect(() => {
     if (!containerRef.current) return;
-    let isMounted = true;
     
     // Create the App directly, skipping the font loader since text is in HTML now
     const app = new App(containerRef.current, {
@@ -631,13 +616,12 @@ export default function CircularGallery({
     appRef.current = app;
 
     return () => {
-      isMounted = false;
       if (appRef.current) {
         appRef.current.destroy();
         appRef.current = null;
       }
     };
-  }, [items, bend, textColor, borderRadius, scrollSpeed, scrollEase]);
+  }, [items, bend, textColor, borderRadius, scrollSpeed, scrollEase, handleIndexChange, scrollProgress]);
 
   useEffect(() => {
     if (appRef.current && scrollProgress !== undefined) {

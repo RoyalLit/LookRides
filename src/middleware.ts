@@ -113,7 +113,35 @@ export async function middleware(request: NextRequest) {
     return addSecurityHeaders(response);
   }
 
-  // 4. Admin portal authorization checks
+  // 4. Admin API authorization checks
+  if (pathname.startsWith('/api/admin/')) {
+    let supabaseResponse = NextResponse.next({ request });
+
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          getAll() { return request.cookies.getAll(); },
+          setAll(cookiesToSet) {
+            cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
+            supabaseResponse = NextResponse.next({ request });
+            cookiesToSet.forEach(({ name, value, options }) => supabaseResponse.cookies.set(name, value, options));
+          },
+        },
+      }
+    );
+
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user || user.user_metadata?.is_admin !== true) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    return addSecurityHeaders(supabaseResponse);
+  }
+
+  // 5. Admin portal page authorization checks
   if (pathname.startsWith('/admin') && !pathname.startsWith('/admin/login')) {
     let supabaseResponse = NextResponse.next({ request });
 
@@ -158,12 +186,13 @@ export const config = {
   matcher: [
     /*
      * Match all request paths except for the ones starting with:
-     * - api (API routes — handle headers at edge via next.config)
+     * - api (API routes except /api/admin/* which needs auth)
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico, favicon.svg (favicon files)
      * - .well-known (security.txt etc.)
      */
     '/((?!api|_next/static|_next/image|favicon.ico|favicon.svg|.well-known).*)',
+    '/api/admin/:path*',
   ],
 };

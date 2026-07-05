@@ -44,3 +44,39 @@
 .button:hover {
   background: var(--primary-navy-800);
 }
+
+.description {
+  color: #6b7280;
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  max-width: 400px;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.buttonSecondary {
+  background: transparent;
+  color: var(--primary-navy);
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: var(--text-sm);
+  border: 1px solid var(--primary-navy);
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-inter);
+}
+
+.buttonSecondary:hover {
+  background: var(--primary-navy);
+  color: #fff;
+}

@@ -9,8 +9,8 @@ export const metadata: Metadata = {
   title,
   description,
   keywords: ['Mohali taxi', 'Mohali cab service', 'taxi in Mohali', 'Mohali airport taxi', 'Mohali to Chandigarh taxi', 'cab service Mohali'],
-  openGraph: { title, description, images: '/og-image.png' },
-  twitter: { card: 'summary_large_image', title, description },
+  openGraph: { title, description, images: SITE_URL + '/og-image.png' },
+  twitter: { card: 'summary_large_image', title, description, images: SITE_URL + '/og-image.png' },
   alternates: { canonical: SITE_URL + '/cities/mohali' },
 };
 

@@ -124,8 +124,12 @@
   border: none;
   cursor: pointer;
   color: var(--primary-navy);
-  padding: 0.25rem;
+  padding: 0.5rem;
+  min-width: 44px;
+  min-height: 44px;
   line-height: 0;
+  align-items: center;
+  justify-content: center;
 }
 
 .mobileMenu {

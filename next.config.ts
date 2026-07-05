@@ -38,6 +38,12 @@ const nextConfig: NextConfig = {
         ],
       },
       {
+        source: "/admin/:path*",
+        headers: [
+          { key: "X-Robots-Tag", value: "noindex" },
+        ],
+      },
+      {
         // Cache static assets aggressively
         source: "/(.*)\\.(png|jpg|jpeg|webp|avif|svg|ico|woff2)",
         headers: [
@@ -98,6 +104,6 @@ const nextConfig: NextConfig = {
 
 const cspValue = process.env.NODE_ENV === 'development'
   ? "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://*.supabase.co https://images.unsplash.com https://www.google-analytics.com https://*.cartocdn.com; connect-src 'self' https://*.supabase.co https://www.google-analytics.com; font-src 'self'; frame-src 'self';"
-  : "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://*.supabase.co https://images.unsplash.com https://www.google-analytics.com https://*.cartocdn.com; connect-src 'self' https://*.supabase.co https://www.google-analytics.com https://photon.komoot.io; font-src 'self'; frame-src 'self'; base-uri 'self'; form-action 'self';";
+  : "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://*.supabase.co https://images.unsplash.com https://www.google-analytics.com https://*.cartocdn.com; connect-src 'self' https://*.supabase.co https://www.google-analytics.com https://photon.komoot.io https://api.razorpay.com; font-src 'self'; frame-src 'self' https://api.razorpay.com; base-uri 'self'; form-action 'self';";
 
 export default nextConfig;

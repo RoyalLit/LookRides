@@ -59,13 +59,13 @@ export const metadata: Metadata = {
     siteName: "LookRides",
     title: "LookRides — Taxi in Chandigarh | Premium Cab Service Chandigarh, Mohali & Zirakpur",
     description: "Book a taxi in Chandigarh ₹499 onwards. Premium cab service in Chandigarh, Mohali, Zirakpur. Outstation taxi to Delhi, Manali, Shimla. Airport transfers IXC & IGI Delhi. Fixed pricing, verified drivers, 24/7 support.",
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "LookRides — Premium Intercity Cab Service" }],
+    images: [{ url: `${siteUrl}/og-image.png`, width: 1200, height: 630, alt: "LookRides — Premium Intercity Cab Service" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "LookRides | Premium Cab Service Chandigarh",
     description: "Book taxi in Chandigarh ✓ Outstation cabs ✓ Airport transfers ✓ Fixed pricing.",
-    images: ["/og-image.png"],
+    images: [`${siteUrl}/og-image.png`],
   },
   icons: {
     icon: [
@@ -209,10 +209,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" className={`${inter.variable} ${outfit.variable}`}>
       <head>
         <meta httpEquiv="x-dns-prefetch-control" content="on" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://www.google-analytics.com" />
+        <link rel="preconnect" href="https://images.unsplash.com" />
         <link rel="dns-prefetch" href="https://photon.komoot.io" />
-        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
-        <link rel="dns-prefetch" href="https://images.unsplash.com" />
+        <link rel="dns-prefetch" href="https://*.supabase.co" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}

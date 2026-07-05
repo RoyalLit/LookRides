@@ -38,3 +38,6 @@ ALTER TABLE rate_limits ENABLE ROW LEVEL SECURITY;
 -- Only the service_role can manage rate_limits (no public access needed)
 CREATE POLICY "Service role can manage rate limits"
   ON rate_limits FOR ALL USING (auth.role() = 'service_role');
+
+-- 5. Add blocked_until column for rate limit escalation (exponential backoff)
+ALTER TABLE rate_limits ADD COLUMN IF NOT EXISTS blocked_until TIMESTAMP WITH TIME ZONE;

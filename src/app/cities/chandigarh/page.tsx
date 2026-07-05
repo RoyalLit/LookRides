@@ -9,8 +9,8 @@ export const metadata: Metadata = {
   title,
   description,
   keywords: ['Chandigarh taxi', 'Chandigarh cab service', 'taxi in Chandigarh', 'Chandigarh airport taxi', 'Chandigarh to Manali taxi', 'cab service Chandigarh'],
-  openGraph: { title, description, images: '/og-image.png' },
-  twitter: { card: 'summary_large_image', title, description },
+  openGraph: { title, description, images: SITE_URL + '/og-image.png' },
+  twitter: { card: 'summary_large_image', title, description, images: SITE_URL + '/og-image.png' },
   alternates: { canonical: SITE_URL + '/cities/chandigarh' },
 };
 

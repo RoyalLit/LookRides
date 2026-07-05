@@ -9,8 +9,8 @@ export const metadata: Metadata = {
   title,
   description,
   keywords: ['Zirakpur taxi', 'Zirakpur cab service', 'taxi in Zirakpur', 'Zirakpur airport taxi', 'Zirakpur to Delhi taxi', 'cab service Zirakpur'],
-  openGraph: { title, description, images: '/og-image.png' },
-  twitter: { card: 'summary_large_image', title, description },
+  openGraph: { title, description, images: SITE_URL + '/og-image.png' },
+  twitter: { card: 'summary_large_image', title, description, images: SITE_URL + '/og-image.png' },
   alternates: { canonical: SITE_URL + '/cities/zirakpur' },
 };
 

@@ -1,7 +1,9 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import { BUSINESS_PHONE_DISPLAY } from '@/lib/config';
+import { BUSINESS_PHONE_DISPLAY, SITE_URL } from '@/lib/config';
 import styles from '../legal.module.css';
+
+const siteUrl = SITE_URL;
 
 export const metadata: Metadata = {
   title: 'Privacy Policy | LookRides',
@@ -9,14 +11,15 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Privacy Policy | LookRides',
     description: 'How LookRides collects, uses, and protects your personal data when you book intercity cabs.',
-    images: '/og-image.png',
+    images: siteUrl + '/og-image.png',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Privacy Policy | LookRides',
     description: 'How LookRides protects your personal data when you book cabs.',
+    images: siteUrl + '/og-image.png',
   },
-  alternates: { canonical: 'https://lookrides.com/privacy' },
+  alternates: { canonical: siteUrl + '/privacy' },
 };
 
 export default function PrivacyPage() {

@@ -8,8 +8,8 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
         disallow: [
           '/admin/',
+          '/api/',
           '/_next/',        // Internal Next.js build assets (chunks, fonts, etc.)
-          '/*?*',           // Block all query-param variants (booking form, UTM spam, etc.)
         ],
       },
     ],

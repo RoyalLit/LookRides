@@ -10,10 +10,19 @@ import {
   BadgeCheck, HeadphonesIcon, Car, Navigation, Check,
 } from "lucide-react";
 import { FleetVehicle, GoogleReview } from "@/lib/supabase";
+import dynamic from "next/dynamic";
 import BookingForm from "@/components/BookingForm";
 import { SkeletonSlide, SkeletonReviewCard } from "@/components/Skeleton";
-import CircularGallery from "@/components/CircularGallery";
-import OfficeLocationMap from "@/components/home/OfficeLocationMap";
+
+const CircularGallery = dynamic(() => import("@/components/CircularGallery"), {
+  ssr: false,
+  loading: () => <div style={{ height: '550px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#6b7280' }}>Loading gallery...</div>,
+});
+
+const OfficeLocationMap = dynamic(() => import("@/components/home/OfficeLocationMap"), {
+  ssr: false,
+  loading: () => null,
+});
 import styles from "@/app/page.module.css";
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
@@ -132,11 +141,8 @@ interface HomeClientProps {
 export default function HomeClient({ fleet, reviews, settings, loading }: HomeClientProps) {
   const [emblaRef] = useEmblaCarousel({ loop: true, align: 'start' }, [Autoplay({ delay: 3500, stopOnInteraction: true })]);
   const [reviewsRef] = useEmblaCarousel({ loop: true, align: 'start' }, [Autoplay({ delay: 4500, stopOnInteraction: true })]);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState<number | undefined>(undefined);
 
-  const heroRef = useRef<HTMLDivElement>(null);
   const galleryContainerRef = useRef<HTMLDivElement>(null);
   const revealRefs = useRef<(HTMLElement | null)[]>([]);
   const addToRefs = useCallback((el: HTMLElement | null) => {

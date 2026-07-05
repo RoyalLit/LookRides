@@ -1,8 +1,7 @@
-import { supabase } from './supabase';
 import { supabaseAdmin } from './supabase-admin';
 
 export async function getActiveFleet() {
-  const { data, error } = await supabase
+  const { data, error } = await supabaseAdmin
     .from('fleet')
     .select('*')
     .eq('is_active', true)
@@ -16,7 +15,7 @@ export async function getActiveFleet() {
 }
 
 export async function getFleet() {
-  const { data, error } = await supabase
+  const { data, error } = await supabaseAdmin
     .from('fleet')
     .select('*')
     .order('order_index');
@@ -29,7 +28,7 @@ export async function getFleet() {
 }
 
 export async function getPricingRoutes() {
-  const { data, error } = await supabase
+  const { data, error } = await supabaseAdmin
     .from('pricing_routes')
     .select('*')
     .order('order_index');
@@ -42,7 +41,7 @@ export async function getPricingRoutes() {
 }
 
 export async function getPricingRouteBySlug(slug: string) {
-  const { data, error } = await supabase
+  const { data, error } = await supabaseAdmin
     .from('pricing_routes')
     .select('*')
     .eq('slug', slug)
@@ -56,7 +55,7 @@ export async function getPricingRouteBySlug(slug: string) {
 }
 
 export async function getPricingRouteByCities(fromCity: string, toCity: string) {
-  const { data, error } = await supabase
+  const { data, error } = await supabaseAdmin
     .from('pricing_routes')
     .select('sedan_price, suv_price')
     .eq('from_city', fromCity)
@@ -71,7 +70,7 @@ export async function getPricingRouteByCities(fromCity: string, toCity: string) 
 }
 
 export async function getVisibleReviews(limit = 6) {
-  const { data, error } = await supabase
+  const { data, error } = await supabaseAdmin
     .from('reviews')
     .select('*')
     .eq('is_visible', true)

@@ -154,8 +154,6 @@ export default function HomeClient({ fleet, reviews, settings, loading }: HomeCl
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('is-visible');
-        } else {
-          entry.target.classList.remove('is-visible');
         }
       });
     }, { threshold: 0.1 });
@@ -362,7 +360,7 @@ export default function HomeClient({ fleet, reviews, settings, loading }: HomeCl
                           style={{ objectFit: "contain", padding: "1.5rem" }} 
                           sizes="(max-width: 768px) 100vw, 33vw" 
                           className={styles.fleetImgFloat}
-                          loading="lazy"
+                          priority={true}
                         />
                         <span className={`badge badge-navy ${styles.fleetTypeBadge}`}>{v.category} Class</span>
                       </div>

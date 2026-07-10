@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     "chandigarh to manali taxi", "chandigarh to shimla taxi",
     "one way cab chandigarh", "chandigarh to amritsar taxi",
     "innova crysta hire chandigarh", "etios taxi chandigarh",
-    "tempo traveler booking", "sedan cab chandigarh", "suv rental chandigarh",
+    "tempo traveller booking", "sedan cab chandigarh", "suv rental chandigarh",
     "lookrides", "taxi booking chandigarh", "online cab booking",
     "24 hour taxi service", "best cab service in chandigarh",
     "chandigarh taxi service", "derabassi cab service",

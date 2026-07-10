@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: 'Cab Service in Chandigarh | Airport & Outstation Taxi | LookRides',
-    description: '24/7 airport transfers to IGI Delhi & Chandigarh Airport. Outstation one-way and round-trip cabs across North India. Book sedan, Innova or Tempo Traveler. Fixed pricing.',
+    description: '24/7 airport transfers to IGI Delhi & Chandigarh Airport. Outstation one-way and round-trip cabs across North India. Book sedan, Innova or Tempo Traveller. Fixed pricing.',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'LookRides Cab Services Chandigarh' }],
   },
   twitter: {

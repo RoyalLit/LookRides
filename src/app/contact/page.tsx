@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Phone, Mail, MapPin, MessageSquare } from 'lucide-react';
+import { Phone, Mail, MapPin, MessageSquare, User } from 'lucide-react';
 import ContactForm from './ContactForm';
 import { BUSINESS_PHONE, BUSINESS_PHONE_DISPLAY, SITE_URL } from '@/lib/config';
 import OfficeLocationMap from '@/components/home/OfficeLocationMap';
@@ -96,6 +96,13 @@ export default function ContactPage() {
                   <div>
                     <h3>Main Hub (Tricity)</h3>
                     <p>Operating across Chandigarh, Mohali, Zirakpur, and Punjab.</p>
+                  </div>
+                </div>
+                <div className={styles.infoItem}>
+                  <div className={styles.infoIcon}><User size={20} strokeWidth={1.5} /></div>
+                  <div>
+                    <h3>Owner & Operator</h3>
+                    <p>Tarun Kumar</p>
                   </div>
                 </div>
                 <div className={styles.infoItem}>

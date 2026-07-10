@@ -41,6 +41,7 @@ export default function TermsPage() {
 
           <div className={styles.section}>
             <h2>1. Acceptance of Terms</h2>
+            <p><strong>LookRides is owned and operated by Tarun Kumar.</strong></p>
             <p>By accessing the LookRides website or booking a ride through our platform, you confirm that you have read, understood, and agree to be bound by these terms. If you do not agree, please do not use our services.</p>
           </div>
 
@@ -129,6 +130,7 @@ export default function TermsPage() {
             <h2>12. Contact</h2>
             <p>For questions or concerns about these terms, please contact us:</p>
             <ul>
+              <li><strong>Owner:</strong> Tarun Kumar</li>
               <li>Phone / WhatsApp: {BUSINESS_PHONE_DISPLAY}</li>
               <li>Email: info@lookride.in</li>
             </ul>

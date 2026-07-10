@@ -41,7 +41,7 @@ export default function PrivacyPage() {
 
           <div className={styles.section}>
             <h2>1. Information We Collect</h2>
-            <p>When you use LookRides, we collect only the information necessary to provide and improve our intercity cab booking service:</p>
+            <p>LookRides (owned and operated by Tarun Kumar) respects your privacy. When you use LookRides, we collect only the information necessary to provide and improve our intercity cab booking service:</p>
             <ul>
               <li><strong>Contact details:</strong> Your name, phone number, and email address when you make a booking or enquiry.</li>
               <li><strong>Trip information:</strong> Pickup and drop-off locations, travel dates, times, and any special instructions you provide.</li>
@@ -138,6 +138,7 @@ export default function PrivacyPage() {
             <h2>10. Contact Us</h2>
             <p>If you have questions, concerns, or requests regarding your personal data, please reach out:</p>
             <ul>
+              <li><strong>Owner:</strong> Tarun Kumar</li>
               <li>Phone / WhatsApp: {BUSINESS_PHONE_DISPLAY}</li>
               <li>Email: info@lookride.in</li>
             </ul>

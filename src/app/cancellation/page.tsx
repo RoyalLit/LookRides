@@ -36,6 +36,8 @@ export default function CancellationPage() {
         <div className={styles.inner}>
           <p className={styles.lastUpdated}>Last updated: July 1, 2026</p>
 
+          <p><strong>LookRides is owned and operated by Tarun Kumar.</strong></p>
+
           <div className={styles.highlight}>
             <p><strong>Zero upfront payment.</strong> We do not charge any booking fees or advance payments for standard intercity routes. You pay the driver directly at the end of your trip. This makes cancellations simple and free.</p>
           </div>
@@ -106,6 +108,7 @@ export default function CancellationPage() {
             <h2>7. Questions?</h2>
             <p>If you have any questions about our cancellation or refund policies, please don&apos;t hesitate to reach out:</p>
             <ul>
+              <li><strong>Owner:</strong> Tarun Kumar</li>
               <li>Phone / WhatsApp: {BUSINESS_PHONE_DISPLAY}</li>
               <li>Email: info@lookride.in</li>
             </ul>

@@ -246,7 +246,7 @@ export default function HomeClient({ fleet, reviews, settings, loading }: HomeCl
                 <Phone size={18} />
                 Call Helpline (24/7)
               </a>
-              <a href="https://wa.me/919780426567?text=Hi!%20I%20want%20to%20book%20a%20cab%20with%20LookRides." 
+              <a href="https://wa.me/919780426567?text=Hi!%20I%20want%20to%20book%20a%20ride%20with%20LookRides." 
                  target="_blank" rel="noopener noreferrer"
                  className={`btn btn-gold-outline btn-lg ${styles.whatsappBtn}`}
                  aria-label="Book via WhatsApp">

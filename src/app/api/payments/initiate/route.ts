@@ -42,15 +42,20 @@ export async function POST(request: Request) {
       .update({ transaction_id: transactionId })
       .eq('id', link.id);
 
+    // Clean phone number (PhonePe typically expects 10 digits without country code)
+    const cleanPhone = link.customer_phone ? link.customer_phone.replace(/\D/g, '') : '';
+    const phonepeMobile = cleanPhone.length >= 10 ? cleanPhone.slice(-10) : undefined;
+    const amountInPaise = Math.round(Number(link.amount) * 100);
+
     const payload = {
       merchantId: merchantId,
       merchantTransactionId: transactionId,
       merchantUserId: `MUID_${link.id.substring(0, 8)}`,
-      amount: link.amount * 100, // Amount in paise
+      amount: amountInPaise, // Amount in paise
       redirectUrl: `${SITE_URL}/pay/${link.id}?status=redirect`,
       redirectMode: "REDIRECT",
       callbackUrl: `${SITE_URL}/api/payments/webhook`,
-      mobileNumber: link.customer_phone || undefined,
+      mobileNumber: phonepeMobile,
       paymentInstrument: {
         type: "PAY_PAGE"
       }

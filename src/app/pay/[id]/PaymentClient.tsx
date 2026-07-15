@@ -34,7 +34,13 @@ export default function PaymentClient({ link }: { link: any }) {
       if (res.ok && data.redirectUrl) {
         window.location.href = data.redirectUrl;
       } else {
-        setError(data.error || 'Failed to initiate payment.');
+        let errorMsg = data.error || 'Failed to initiate payment.';
+        if (data.details && data.details.message) {
+          errorMsg = `PhonePe Error: ${data.details.message}`;
+        } else if (data.details && data.details.code) {
+          errorMsg = `PhonePe Error: ${data.details.code}`;
+        }
+        setError(errorMsg);
         setLoading(false);
       }
     } catch (err) {

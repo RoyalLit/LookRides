@@ -31,7 +31,11 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Payment gateway not configured' }, { status: 500 });
     }
 
-    const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+    // Default to the production domain if Vercel ENV vars are missing
+    const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 
+                     (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : 
+                     (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://lookrides.com'));
+                     
     const transactionId = `TXN_${Date.now()}_${link.id.substring(0, 8)}`;
 
     await supabaseAdmin

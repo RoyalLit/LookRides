@@ -1,90 +1,100 @@
 import { NextResponse } from 'next/server';
-import crypto from 'crypto';
 import { supabaseAdmin } from '@/lib/supabase-admin';
-import { SITE_URL } from '@/lib/config';
 
 export async function POST(request: Request) {
   try {
     const { paymentLinkId } = await request.json();
+
     if (!paymentLinkId) {
-      return NextResponse.json({ error: 'Payment Link ID required' }, { status: 400 });
+      return NextResponse.json({ error: 'Payment link ID is required' }, { status: 400 });
     }
 
-    // Fetch payment link details
-    const { data: link, error: dbError } = await supabaseAdmin
+    const { data: link, error } = await supabaseAdmin
       .from('payment_links')
       .select('*')
       .eq('id', paymentLinkId)
       .single();
 
-    if (dbError || !link) {
+    if (error || !link) {
       return NextResponse.json({ error: 'Payment link not found' }, { status: 404 });
     }
 
-    if (link.status === 'success') {
-      return NextResponse.json({ error: 'Payment already successful' }, { status: 400 });
+    if (link.status !== 'pending') {
+      return NextResponse.json({ error: 'Payment link is no longer pending' }, { status: 400 });
     }
 
-    const merchantId = process.env.PHONEPE_MERCHANT_ID;
-    const saltKey = process.env.PHONEPE_SALT_KEY;
-    const saltIndex = process.env.PHONEPE_SALT_INDEX || '1';
-    const env = process.env.PHONEPE_ENV || 'UAT'; // UAT or PROD
+    const clientId = process.env.PHONEPE_CLIENT_ID || 'SU2607141834113505542635';
+    const clientSecret = process.env.PHONEPE_SALT_KEY; // The V2 Secret API Key
+    const envStr = process.env.PHONEPE_ENV || 'UAT'; // UAT or PROD
 
-    if (!merchantId || !saltKey) {
+    if (!clientId || !clientSecret) {
       return NextResponse.json({ error: 'Payment gateway not configured' }, { status: 500 });
     }
 
+    const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
     const transactionId = `TXN_${Date.now()}_${link.id.substring(0, 8)}`;
 
-    // Update link with new transaction ID
     await supabaseAdmin
       .from('payment_links')
       .update({ transaction_id: transactionId })
       .eq('id', link.id);
 
-    // Clean phone number (PhonePe typically expects 10 digits without country code)
-    const cleanPhone = link.customer_phone ? link.customer_phone.replace(/\D/g, '') : '';
-    const phonepeMobile = cleanPhone.length >= 10 ? cleanPhone.slice(-10) : undefined;
     const amountInPaise = Math.round(Number(link.amount) * 100);
 
-    const payload = {
-      merchantId: merchantId,
-      merchantTransactionId: transactionId,
-      merchantUserId: `MUID_${link.id.substring(0, 8)}`,
-      amount: amountInPaise, // Amount in paise
-      redirectUrl: `${SITE_URL}/pay/${link.id}?status=redirect`,
-      redirectMode: "REDIRECT",
-      callbackUrl: `${SITE_URL}/api/payments/webhook`,
-      mobileNumber: phonepeMobile,
-      paymentInstrument: {
-        type: "PAY_PAGE"
-      }
-    };
+    const authHost = envStr === 'PROD' 
+      ? 'https://api.phonepe.com/apis/identity-manager/v1/oauth/token' 
+      : 'https://api-preprod.phonepe.com/apis/identity-manager/v1/oauth/token';
 
-    const base64Payload = Buffer.from(JSON.stringify(payload)).toString('base64');
-    const checksum = crypto.createHash('sha256').update(base64Payload + "/pg/v1/pay" + saltKey).digest('hex') + "###" + saltIndex;
-
-    const host = env === 'PROD' ? 'https://api.phonepe.com/apis' : 'https://api-preprod.phonepe.com/apis/pg-sandbox';
+    const authRes = await fetch(authHost, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+            client_id: clientId,
+            client_version: '1',
+            client_secret: clientSecret,
+            grant_type: 'client_credentials'
+        })
+    });
     
-    const response = await fetch(`${host}/pg/v1/pay`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-VERIFY': checksum
-      },
-      body: JSON.stringify({ request: base64Payload })
+    const authData = await authRes.json();
+    
+    if (!authRes.ok || !authData.access_token) {
+        return NextResponse.json({ error: 'Authentication failed with payment gateway', details: authData }, { status: 500 });
+    }
+
+    const token = authData.access_token;
+    const checkoutHost = envStr === 'PROD'
+      ? 'https://api.phonepe.com/apis/pg/checkout/v2/pay'
+      : 'https://api-preprod.phonepe.com/apis/pg-sandbox/pg/checkout/v2/pay';
+
+    const payRes = await fetch(checkoutHost, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `O-Bearer ${token}`
+        },
+        body: JSON.stringify({
+            merchantOrderId: transactionId,
+            amount: amountInPaise,
+            paymentFlow: {
+                type: "PG_CHECKOUT",
+                merchantUrls: {
+                    redirectUrl: `${SITE_URL}/pay/${link.id}?status=redirect`
+                }
+            }
+        })
     });
 
-    const data = await response.json();
+    const payData = await payRes.json();
 
-    if (data.success && data.data?.instrumentResponse?.redirectInfo?.url) {
-      return NextResponse.json({ redirectUrl: data.data.instrumentResponse.redirectInfo.url });
+    if (payRes.ok && payData.redirectUrl) {
+      return NextResponse.json({ success: true, redirectUrl: payData.redirectUrl });
     } else {
-      console.error('PhonePe Error:', data);
-      return NextResponse.json({ error: 'Failed to initiate payment', details: data }, { status: 500 });
+      return NextResponse.json({ error: 'Failed to generate redirect URL', details: payData }, { status: 500 });
     }
+
   } catch (error) {
     console.error('Initiate Payment Error:', error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    return NextResponse.json({ error: 'Internal Server Error', details: error }, { status: 500 });
   }
 }

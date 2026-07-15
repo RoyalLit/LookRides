@@ -64,7 +64,7 @@ export async function POST(request: Request) {
     const base64Payload = Buffer.from(JSON.stringify(payload)).toString('base64');
     const checksum = crypto.createHash('sha256').update(base64Payload + "/pg/v1/pay" + saltKey).digest('hex') + "###" + saltIndex;
 
-    const host = env === 'PROD' ? 'https://api.phonepe.com/apis/hermes' : 'https://api-preprod.phonepe.com/apis/pg-sandbox';
+    const host = env === 'PROD' ? 'https://api.phonepe.com/apis' : 'https://api-preprod.phonepe.com/apis/pg-sandbox';
     
     const response = await fetch(`${host}/pg/v1/pay`, {
       method: 'POST',

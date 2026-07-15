@@ -120,60 +120,66 @@ export default function PaymentsManagement() {
         <p>Generate and manage PhonePe payment links for customers</p>
       </header>
 
-      <div className={styles.grid2Col}>
+      <div className={styles.formGrid}>
         {/* Create Link Form */}
-        <div className={`glass-panel ${styles.formPanel}`}>
-          <h2>Create New Link</h2>
-          <form onSubmit={handleCreate} className={styles.adminForm}>
-            <div className={styles.formGroup}>
-              <label>Amount (₹) *</label>
-              <input 
-                type="number" 
-                min="1" 
-                step="0.01" 
-                required 
-                value={amount} 
-                onChange={e => setAmount(e.target.value)}
-                placeholder="e.g. 1500"
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label>Customer Email</label>
-              <input 
-                type="email" 
-                value={email} 
-                onChange={e => setEmail(e.target.value)}
-                placeholder="Required for email delivery"
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label>Customer Phone</label>
-              <input 
-                type="tel" 
-                value={phone} 
-                onChange={e => setPhone(e.target.value)}
-                placeholder="For WhatsApp (e.g. 919876543210)"
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label>Purpose / Reference</label>
-              <input 
-                type="text" 
-                value={purpose} 
-                onChange={e => setPurpose(e.target.value)}
-                placeholder="e.g. Advance for Chandigarh to Manali"
-              />
-            </div>
-            <button type="submit" className={`btn btn-primary ${styles.submitBtn}`} disabled={isSubmitting}>
-              <Plus size={18} /> {isSubmitting ? 'Generating...' : 'Generate Payment Link'}
-            </button>
-          </form>
+        <div className={`glass-panel ${styles.tableContainer}`} style={{ gridColumn: 'span 1' }}>
+          <div style={{ padding: '1.5rem', borderBottom: '1px solid var(--admin-border)', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <h2 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 600 }}>Create New Link</h2>
+          </div>
+          <div style={{ padding: '1.5rem' }}>
+            <form onSubmit={handleCreate}>
+              <div className={styles.formField} style={{ marginBottom: '1.5rem' }}>
+                <label>Amount (₹) *</label>
+                <input 
+                  type="number" 
+                  min="1" 
+                  step="0.01" 
+                  required 
+                  value={amount} 
+                  onChange={e => setAmount(e.target.value)}
+                  placeholder="e.g. 1500"
+                />
+              </div>
+              <div className={styles.formField} style={{ marginBottom: '1.5rem' }}>
+                <label>Customer Email</label>
+                <input 
+                  type="email" 
+                  value={email} 
+                  onChange={e => setEmail(e.target.value)}
+                  placeholder="Required for email delivery"
+                />
+              </div>
+              <div className={styles.formField} style={{ marginBottom: '1.5rem' }}>
+                <label>Customer Phone</label>
+                <input 
+                  type="tel" 
+                  value={phone} 
+                  onChange={e => setPhone(e.target.value)}
+                  placeholder="For WhatsApp (e.g. 919876543210)"
+                />
+              </div>
+              <div className={styles.formField} style={{ marginBottom: '1.5rem' }}>
+                <label>Purpose / Reference</label>
+                <input 
+                  type="text" 
+                  value={purpose} 
+                  onChange={e => setPurpose(e.target.value)}
+                  placeholder="e.g. Advance for Chandigarh to Manali"
+                />
+              </div>
+              <button type="submit" className="btn btn-primary" disabled={isSubmitting} style={{ width: '100%', display: 'flex', justifyContent: 'center', gap: '0.5rem' }}>
+                <Plus size={18} /> {isSubmitting ? 'Generating...' : 'Generate Payment Link'}
+              </button>
+            </form>
+          </div>
         </div>
 
         {/* Recent Links */}
-        <div className={`glass-panel ${styles.tablePanel}`}>
-          <h2>Generated Links</h2>
-          {loading ? <SkeletonTable /> : (
+        <div className={`glass-panel ${styles.tableContainer}`} style={{ gridColumn: 'span 1' }}>
+          <div style={{ padding: '1.5rem', borderBottom: '1px solid var(--admin-border)', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <h2 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 600 }}>Generated Links</h2>
+          </div>
+          {loading ? <div style={{ padding: '1.5rem' }}><SkeletonTable /></div> : (
             <div className={styles.tableResponsive}>
               <table className={styles.adminTable}>
                 <thead>

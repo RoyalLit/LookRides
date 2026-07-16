@@ -19,7 +19,7 @@
 - Multi-step widget with route, date, vehicle, and passenger selection
 - Zero-upfront payment model — confirm booking, pay later
 - Real-time Telegram, Email, and WhatsApp notifications to dispatch team
-- Razorpay payment integration with webhook verification
+- PhonePe V2 Checkout API integration with OAuth & secure S2S webhook verification
 
 ### Programmatic SEO
 - 19 dynamic route pages (`/routes/[slug]`) with unique JSON-LD structured data
@@ -28,12 +28,13 @@
 - Dynamic `sitemap.xml` with prioritized routes
 - `BreadcrumbList` schema on every public page
 
-### Admin Portal (`/admin`)
-- JWT-authenticated dashboard with real-time counts
-- Full CRUD: bookings, fleet, pricing, reviews, blog posts, messages, users, settings
-- Google Reviews Sync via SerpAPI (free tier)
-- CSV export for offline booking analysis
-- Markdown blog editor with auto-slug, cover image, publish toggle
+### Admin Operations Portal (`/admin`)
+- Secure JWT-authenticated dashboard with dynamic real-time metrics
+- Centralized Payment Operations: Generate, share, and track secure PhonePe payment links (via WhatsApp/Email directly from the dashboard)
+- Full CRUD architecture for: bookings, fleet, pricing, reviews, blog posts, messages, users, and global settings
+- Google Reviews Sync via SerpAPI integration
+- CSV export module for offline booking and financial analysis
+- Custom Markdown blog editor featuring auto-slug generation, cover image handling, and publishing toggles
 
 ### Visual Experience
 - WebGL-powered 3D circular gallery on homepage showcasing popular destinations
@@ -70,8 +71,9 @@
 
 | Optimization | Detail |
 |:---|---:|
+| **Core Web Vitals** | 90+ Desktop PageSpeed score. Prioritized LCP hero image rendering. |
 | **Image Optimization** | Next.js `Image` with AVIF/WebP, remote patterns, 30-day CDN cache TTL |
-| **Lazy Loading** | Below-fold images use `loading="lazy"` with blur placeholder |
+| **Lazy Loading** | Below-fold images use `loading="lazy"` with blur placeholder to reduce initial payload |
 | **DNS Prefetch** | Early resolution for Supabase, Google Analytics, Komoot |
 | **Caching** | Static pages: `revalidate: 60` ISR. Assets: `max-age=31536000, immutable` |
 | **Compression** | Brotli/gzip response compression |
@@ -128,7 +130,7 @@ src/
 | **Styling** | CSS Modules, Custom Design Tokens (navy `#0B132B` / gold `#FCA311`) |
 | **Database** | Supabase PostgreSQL + Row Level Security |
 | **Auth** | Supabase Auth with cookie-based `is_admin` verification |
-| **Payments** | Razorpay (order creation + webhook verification) |
+| **Payments** | PhonePe V2 API (OAuth checkout + secure webhook validation) |
 | **Email** | Resend API |
 | **Testing** | Vitest 4 (unit), Playwright (E2E) |
 | **Linting** | ESLint 9 flat config |

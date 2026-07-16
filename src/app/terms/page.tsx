@@ -66,6 +66,9 @@ export default function TermsPage() {
 
             <h3>3.3 Booking Confirmation</h3>
             <p>A booking is confirmed when you receive a WhatsApp or SMS confirmation from our team. Until confirmed, the vehicle availability and pricing may be subject to change.</p>
+
+            <h3>3.4 Secure Online Payments</h3>
+            <p>For advance tokens or full payments, you may receive a secure payment link via SMS or WhatsApp. All online transactions are 100% securely processed by our official payment partner, <strong>PhonePe</strong>. We accept all major UPI apps, credit cards, debit cards, and netbanking.</p>
           </div>
 
           <div className={styles.section}>

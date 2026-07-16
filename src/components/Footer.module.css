@@ -152,6 +152,33 @@ a.contactItem:hover {
   color: rgba(255,255,255,0.5);
 }
 
+.securePayment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px dashed rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.5);
+  font-size: 0.8rem;
+}
+
+.securePayment strong {
+  color: #a677e5; /* PhonePe lightened purple for dark mode visibility */
+  font-weight: 600;
+}
+
+.secureIcon {
+  color: #a677e5;
+}
+
+.paymentMethods {
+  color: rgba(255,255,255,0.3);
+  margin-left: 0.5rem;
+}
+
 @media (max-width: 1100px) {
   .footerContainer { grid-template-columns: 1fr 1fr 1fr; }
   .brand { grid-column: 1 / -1; }
@@ -161,6 +188,7 @@ a.contactItem:hover {
   .footerContainer { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
   .brand { grid-column: 1 / -1; }
   .footerBottomInner { flex-direction: column; text-align: center; gap: 0.5rem; }
+  .paymentMethods { display: none; } /* Hide on mobile to keep it clean */
 }
 
 @media (max-width: 500px) {

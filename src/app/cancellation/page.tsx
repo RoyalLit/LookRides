@@ -98,7 +98,7 @@ export default function CancellationPage() {
             <p>When a refund is applicable (large fleet bookings or driver-initiated cancellations):</p>
             <ul>
               <li>Refunds are processed within <strong>5–7 business days</strong> from the date of cancellation.</li>
-              <li>The amount is credited back to your original payment method (UPI, bank transfer, or card).</li>
+              <li>The amount is automatically routed back to your original payment method (UPI, credit/debit card, or netbanking) through our secure <strong>PhonePe</strong> gateway.</li>
               <li>You will receive a confirmation once the refund has been initiated.</li>
               <li>If you do not see the refund within 7 business days, please contact us for a status update.</li>
             </ul>

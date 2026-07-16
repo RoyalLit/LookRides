@@ -6,7 +6,7 @@ import Link from "next/link";
 import { BUSINESS_PHONE } from '@/lib/config';
 import {
   Users, Star, ArrowRight, CheckCircle, Phone,
-  Luggage, Shield, Clock,
+  Luggage, Shield, Clock, ShieldCheck,
   BadgeCheck, HeadphonesIcon, Car, Navigation, Check,
 } from "lucide-react";
 import { FleetVehicle, GoogleReview } from "@/lib/supabase";
@@ -30,7 +30,7 @@ import Autoplay from 'embla-carousel-autoplay';
 const trustFeatures = [
   { Icon: BadgeCheck, title: "Verified Drivers", desc: "Every chauffeur undergoes biometric & criminal background checks." },
   { Icon: Shield, title: "Fixed All-Inclusive Fares", desc: "No toll surprises or night charges. You pay exactly what you see." },
-  { Icon: Clock, title: "Flight-Delay Monitoring", desc: "We track your flight in real-time to adjust pickup timings dynamically." },
+  { Icon: ShieldCheck, title: "100% Secure Payments", desc: "Pay securely via PhonePe. All major UPI apps, cards & netbanking accepted." },
   { Icon: HeadphonesIcon, title: "24/7 Dedicated Helpline", desc: "Round-the-clock support dispatch for complete peace of mind." },
 ];
 

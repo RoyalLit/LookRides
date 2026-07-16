@@ -121,6 +121,11 @@ export default function Footer() {
             <Link href="/cancellation">Cancellation & Refunds</Link>
           </div>
         </div>
+        <div className={`container ${styles.securePayment}`}>
+          <Shield size={14} className={styles.secureIcon} /> 
+          <span>100% Secure Payments processed by <strong>PhonePe</strong></span>
+          <span className={styles.paymentMethods}>· UPI · Credit/Debit Cards · Netbanking</span>
+        </div>
       </div>
     </footer>
   );

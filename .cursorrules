@@ -1,0 +1,23 @@
+# LookRides - AI Agent Guidelines
+
+This repository relies on AI-assisted development. To maintain the enterprise-grade architecture and performance standards of this codebase, all AI agents (Cursor, GitHub Copilot, etc.) must strictly adhere to the following rules:
+
+## 1. Architectural Standards
+- **Framework:** Next.js 14+ (App Router only). Do not use the `pages/` directory.
+- **Language:** TypeScript exclusively. No implicit `any`. Use strict type definitions for all Supabase queries.
+- **Database:** Supabase PostgreSQL. All database reads/writes must use explicit column selections (e.g., `.select('id, name')` instead of `.select('*')`).
+- **Security:** Do not bypass Row Level Security (RLS) unless operating explicitly within an authenticated admin API route using the service role key. 
+
+## 2. Styling Rules
+- **CSS Modules:** Use CSS modules (`*.module.css`) for all component styling. 
+- **Tailwind CSS:** Do NOT use Tailwind CSS. This project relies on custom design tokens and semantic class names to prevent HTML bloat and maintain a strict design system.
+- **Color Variables:** Always use CSS variables (e.g., `var(--primary-navy)`, `var(--accent-gold)`) instead of hardcoded hex values to maintain dark-mode compatibility.
+
+## 3. UI / UX / Accessibility
+- **Performance:** For heavy components (like 3D galleries or maps), always use `next/dynamic` to ensure they do not block the initial page render.
+- **Accessibility:** All interactive elements must have `focus-visible` states. Ensure inputs use native HTML5 types (e.g., `<input type="date">`) for frictionless mobile usage. Respect `prefers-reduced-motion` in all CSS animations.
+- **Images:** All images must use the Next.js `<Image>` component with appropriate `priority` tags for LCP elements.
+
+## 4. Operational Workflow
+- Do not add scratchpad or testing scripts to the root directory. Place utility scripts in `scripts/utils/`.
+- Ensure all webhook and payment-related credentials are read strictly from environment variables. Do not hardcode testing credentials.

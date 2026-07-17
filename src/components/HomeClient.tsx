@@ -342,13 +342,6 @@ export default function HomeClient({ fleet, reviews, settings, loading }: HomeCl
                 </svg>
                 Book via WhatsApp
               </a>
-              <button
-                onClick={() => document.getElementById('booking-widget')?.scrollIntoView({ behavior: 'smooth' })}
-                className="btn btn-primary btn-lg"
-                type="button"
-              >
-                Book Instantly ↓
-              </button>
             </div>
 
             <div className={styles.heroStatsGrid}>

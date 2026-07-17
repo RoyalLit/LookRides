@@ -228,9 +228,18 @@ class Media {
         this.plane.program.uniforms.uViewportSizes.value = [this.viewport.width, this.viewport.height];
       }
     }
-    this.scale = this.screen.height / 1500;
-    this.plane.scale.y = (this.viewport.height * (1200 * this.scale)) / this.screen.height;
-    this.plane.scale.x = (this.viewport.width * (700 * this.scale)) / this.screen.width;
+    // Ensure robust sizing across devices
+    let cardWidthPx = 350; // Desktop default
+    if (this.screen.width < 768) {
+      cardWidthPx = this.screen.width * 0.75; // 75% of screen on mobile
+    } else {
+      cardWidthPx = Math.min(450, this.screen.width * 0.35); // 35% of screen on desktop, max 450px
+    }
+    const cardHeightPx = cardWidthPx * 1.4; // 1:1.4 aspect ratio
+    
+    this.plane.scale.x = (this.viewport.width * cardWidthPx) / this.screen.width;
+    this.plane.scale.y = (this.viewport.height * cardHeightPx) / this.screen.height;
+    
     this.plane.program.uniforms.uPlaneSizes.value = [this.plane.scale.x, this.plane.scale.y];
     this.padding = 2;
     this.width = this.plane.scale.x + this.padding;

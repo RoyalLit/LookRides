@@ -7,6 +7,7 @@ const SECURITY_HEADERS = {
   'Referrer-Policy': 'strict-origin-when-cross-origin',
   'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
   'X-XSS-Protection': '1; mode=block',
+  'Strict-Transport-Security': 'max-age=63072000; includeSubDomains; preload',
 };
 
 function addSecurityHeaders(response: NextResponse): NextResponse {
@@ -192,7 +193,7 @@ export const config = {
      * - favicon.ico, favicon.svg (favicon files)
      * - .well-known (security.txt etc.)
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|favicon.svg|.well-known).*)',
+    '/((?!_next/static|_next/image|favicon.ico|favicon.svg|.well-known).*)',
     '/api/admin/:path*',
   ],
 };

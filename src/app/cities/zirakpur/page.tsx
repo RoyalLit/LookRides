@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { BUSINESS_PHONE, SITE_URL } from '@/lib/config';
 
-const title = 'Taxi in Zirakpur @ ₹799 | Premium Cab Service Zirakpur | LookRides';
+const title = 'Taxi in Zirakpur @ ₹799 | LookRides';
 const description = 'Book taxi in Zirakpur from ₹799. Premium cab service in Zirakpur for Delhi outstation trips, Chandigarh airport transfers. Fixed pricing on NH44 highway. Verified drivers, 24/7 availability.';
 
 export const metadata: Metadata = {
@@ -109,7 +109,7 @@ export default function ZirakpurPage() {
           <p>Our cab service covers all locations in Zirakpur including VIP Road, Shimla-Kalka Highway, Paradise Colony, Emaar Digital Greens, Green Enclave, Omaxe City, Lake Elsinore, and all residential colonies. Being located right on NH44, we offer the fastest exit to Delhi and convenient access to Chandigarh Airport.</p>
 
           <div style={{ marginTop: '2rem', textAlign: 'center' }}>
-            <Link href="/#booking-widget" className="btn btn-primary btn-lg" style={{ display: 'inline-flex', padding: '1rem 2rem', background: 'var(--accent-gold)', color: 'var(--primary-navy)', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold' }}>
+            <Link href="/?pickup=Zirakpur" className="btn btn-primary btn-lg" style={{ display: 'inline-flex', padding: '1rem 2rem', background: 'var(--accent-gold)', color: 'var(--primary-navy)', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold' }}>
               Book Your Zirakpur Cab Now
             </Link>
           </div>

@@ -3,7 +3,7 @@ import { supabaseAdmin } from './supabase-admin';
 export async function getActiveFleet() {
   const { data, error } = await supabaseAdmin
     .from('fleet')
-    .select('*')
+    .select('id, name, seats, bags, image_url, category, is_active, description, price_per_km, price_desc, order_index')
     .eq('is_active', true)
     .order('order_index');
 
@@ -17,7 +17,7 @@ export async function getActiveFleet() {
 export async function getFleet() {
   const { data, error } = await supabaseAdmin
     .from('fleet')
-    .select('*')
+    .select('id, name, seats, bags, image_url, category, is_active, description, price_per_km, luggage_capacity, ac, night_halt_charge, driver_allowance')
     .order('order_index');
 
   if (error) {
@@ -30,7 +30,7 @@ export async function getFleet() {
 export async function getPricingRoutes() {
   const { data, error } = await supabaseAdmin
     .from('pricing_routes')
-    .select('*')
+    .select('id, from_location, to_location, from_city, to_city, slug, base_price, price_per_km, sedan_price, suv_price, category, is_active')
     .order('order_index');
 
   if (error) {
@@ -43,7 +43,7 @@ export async function getPricingRoutes() {
 export async function getPricingRouteBySlug(slug: string) {
   const { data, error } = await supabaseAdmin
     .from('pricing_routes')
-    .select('*')
+    .select('id, from_location, to_location, slug, base_price, price_per_km, distance_km, estimated_duration, category, is_active, description')
     .eq('slug', slug)
     .single();
 
@@ -72,7 +72,7 @@ export async function getPricingRouteByCities(fromCity: string, toCity: string) 
 export async function getVisibleReviews(limit = 6) {
   const { data, error } = await supabaseAdmin
     .from('reviews')
-    .select('*')
+    .select('id, author, text, rating, city, is_visible, created_at')
     .eq('is_visible', true)
     .order('created_at', { ascending: false })
     .limit(limit);
@@ -87,7 +87,8 @@ export async function getVisibleReviews(limit = 6) {
 export async function getSiteSettings() {
   const { data, error } = await supabaseAdmin
     .from('site_settings')
-    .select('key, value');
+    .select('key, value')
+    .in('key', ['google_rating', 'review_count', 'phone', 'email']);
 
   if (error) {
     console.error('Error fetching site settings:', error);

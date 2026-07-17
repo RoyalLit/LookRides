@@ -21,13 +21,15 @@ function MapController() {
       const zoomOutPos: [number, number] = [28.690784 - 0.1, 77.07586 - 0.1];
       map.setView(zoomOutPos, 10);
       
-      setTimeout(() => {
+      const timeoutId = setTimeout(() => {
         map.flyTo(position, 16, {
           duration: 3,
           easeLinearity: 0.25
         });
         setHasAnimated(true);
       }, 500);
+
+      return () => clearTimeout(timeoutId);
     }
   }, [map, hasAnimated]);
 
@@ -50,6 +52,7 @@ export default function MapInner() {
       zoom={16} 
       scrollWheelZoom={false}
       className={styles.mapWrapper}
+      aria-label="Map showing LookRides office at #73-A Friends Enclave, Sultanpuri, New Delhi, 110083"
     >
       <TileLayer
         url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"

@@ -16,8 +16,9 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'About LookRides | Chandigarh Taxi Service',
     description: 'Trusted cab service in Chandigarh, Mohali, Zirakpur & Panchkula since 2014.',
-    images: ['/og-image.png'],
+    images: [SITE_URL + '/og-image.png'],
   },
+  alternates: { canonical: `${SITE_URL}/about` },
 };
 
 const values = [

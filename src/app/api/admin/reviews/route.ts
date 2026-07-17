@@ -131,7 +131,12 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: 'Review ID is required' }, { status: 400 });
     }
 
-    const { error } = await supabaseAdmin.from('reviews').delete().eq('id', id);
+    const parsed = z.string().uuid().safeParse(id);
+    if (!parsed.success) {
+      return NextResponse.json({ error: 'Invalid review ID format' }, { status: 400 });
+    }
+
+    const { error } = await supabaseAdmin.from('reviews').delete().eq('id', parsed.data);
     if (error) {
       return NextResponse.json({ error: 'Failed to delete review' }, { status: 500 });
     }

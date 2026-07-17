@@ -1,23 +1,36 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase-admin';
+import crypto from 'crypto';
 
 export async function POST(request: Request) {
   try {
     const rawBody = await request.text();
+
+    // 1. Basic Auth check
     const authHeader = request.headers.get('authorization') || request.headers.get('Authorization');
+    const webhookAuth = process.env.PHONEPE_WEBHOOK_AUTH;
+    if (!webhookAuth) {
+      return NextResponse.json({ error: 'Server configuration error' }, { status: 500 });
+    }
+    const expectedAuth = 'Basic ' + Buffer.from(webhookAuth).toString('base64');
 
-    // PhonePe V2 Webhook uses Basic Authentication
-    // Please configure Username: lookrides, Password: WebhookSecure2026 in PhonePe Dashboard
-    const expectedAuth = 'Basic ' + Buffer.from('lookrides:WebhookSecure2026').toString('base64');
-    
-    // We allow bypassing auth in development or if an explicit Vercel ENV var is set
-    const envAuth = process.env.PHONEPE_WEBHOOK_AUTH ? `Basic ${Buffer.from(process.env.PHONEPE_WEBHOOK_AUTH).toString('base64')}` : expectedAuth;
-
-    if (!authHeader || authHeader !== envAuth) {
-      console.error('Invalid Webhook Authorization', authHeader);
+    if (!authHeader || authHeader !== expectedAuth) {
+      console.error('Invalid Webhook Authorization');
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    // 2. HMAC signature verification
+    const xVerify = request.headers.get('X-VERIFY');
+    const saltKey = process.env.PHONEPE_SALT_KEY;
+    if (!xVerify || !saltKey) {
+      return NextResponse.json({ error: 'Missing verification headers' }, { status: 401 });
+    }
+    const hmac = crypto.createHmac('sha256', saltKey).update(rawBody).digest('hex');
+    if (hmac !== xVerify) {
+      return NextResponse.json({ error: 'Invalid signature' }, { status: 401 });
+    }
+
+    // 3. Parse and process webhook payload
     let jsonBody;
     try {
       jsonBody = JSON.parse(rawBody);

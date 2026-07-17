@@ -9,6 +9,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: [
           '/admin/',
           '/api/',
+          '/pay/',
           '/_next/',        // Internal Next.js build assets (chunks, fonts, etc.)
         ],
       },

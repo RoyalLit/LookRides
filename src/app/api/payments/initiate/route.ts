@@ -1,13 +1,21 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase-admin';
+import { z } from 'zod';
+
+const initiateSchema = z.object({
+  paymentLinkId: z.string().uuid(),
+});
 
 export async function POST(request: Request) {
   try {
-    const { paymentLinkId } = await request.json();
+    const body = await request.json();
+    const parsed = initiateSchema.safeParse(body);
 
-    if (!paymentLinkId) {
+    if (!parsed.success) {
       return NextResponse.json({ error: 'Payment link ID is required' }, { status: 400 });
     }
+
+    const { paymentLinkId } = parsed.data;
 
     const { data: link, error } = await supabaseAdmin
       .from('payment_links')
@@ -23,15 +31,23 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Payment link is no longer pending' }, { status: 400 });
     }
 
+    // Check for existing pending transaction (race condition protection)
+    if (link.transaction_id && link.status === 'pending') {
+      // A transaction was already initiated — return it to prevent duplicates
+      return NextResponse.json({ 
+        transactionId: link.transaction_id,
+        message: 'A payment session already exists for this link.',
+      });
+    }
+
     const clientId = process.env.PHONEPE_CLIENT_ID || 'SU2607141834113505542635';
-    const clientSecret = process.env.PHONEPE_SALT_KEY; // The V2 Secret API Key
-    const envStr = process.env.PHONEPE_ENV || 'UAT'; // UAT or PROD
+    const clientSecret = process.env.PHONEPE_SALT_KEY;
+    const envStr = process.env.PHONEPE_ENV || 'UAT';
 
     if (!clientId || !clientSecret) {
       return NextResponse.json({ error: 'Payment gateway not configured' }, { status: 500 });
     }
 
-    // Default to the production domain if Vercel ENV vars are missing
     const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 
                      (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : 
                      (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'https://lookrides.com'));
@@ -63,7 +79,7 @@ export async function POST(request: Request) {
     const authData = await authRes.json();
     
     if (!authRes.ok || !authData.access_token) {
-        return NextResponse.json({ error: 'Authentication failed with payment gateway', details: authData }, { status: 500 });
+        return NextResponse.json({ error: 'Payment initiation failed' }, { status: 500 });
     }
 
     const token = authData.access_token;
@@ -94,11 +110,11 @@ export async function POST(request: Request) {
     if (payRes.ok && payData.redirectUrl) {
       return NextResponse.json({ success: true, redirectUrl: payData.redirectUrl });
     } else {
-      return NextResponse.json({ error: 'Failed to generate redirect URL', details: payData }, { status: 500 });
+      return NextResponse.json({ error: 'Failed to generate redirect URL' }, { status: 500 });
     }
 
   } catch (error) {
     console.error('Initiate Payment Error:', error);
-    return NextResponse.json({ error: 'Internal Server Error', details: error }, { status: 500 });
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }

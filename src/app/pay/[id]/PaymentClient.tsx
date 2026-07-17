@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { CreditCard, CheckCircle, XCircle, Loader2 } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import Logo from '@/components/Logo';
@@ -57,7 +58,7 @@ export default function PaymentClient({ link }: { link: any }) {
         <h1 style={{ marginBottom: '10px' }}>Payment Successful!</h1>
         <p style={{ color: '#666', marginBottom: '20px' }}>Thank you for your payment of ₹{link.amount}.</p>
         <p style={{ fontSize: '0.9rem', color: '#999' }}>Transaction ID: {link.transaction_id || 'N/A'}</p>
-        <a href="/" className="btn btn-primary" style={{ marginTop: '30px', display: 'inline-block' }}>Return Home</a>
+        <Link href="/" className="btn btn-primary" style={{ marginTop: '30px', display: 'inline-block' }}>Return Home</Link>
       </div>
     );
   }

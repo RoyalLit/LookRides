@@ -3,9 +3,7 @@ import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import WhatsAppButton from "@/components/WhatsAppButton";
-import ScrollAnimations from "@/components/ScrollAnimations";
-import MobileStickyCta from "@/components/MobileStickyCta";
+import ClientShell from "@/components/ClientShell";
 import { BUSINESS_PHONE, SITE_URL } from "@/lib/config";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
@@ -96,17 +94,6 @@ export const viewport = {
   themeColor: "#0B132B",
 };
 
-const breadcrumbData = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Home", "item": siteUrl },
-    { "@type": "ListItem", "position": 2, "name": "Services", "item": `${siteUrl}/services` },
-    { "@type": "ListItem", "position": 3, "name": "Our Fleet", "item": `${siteUrl}/fleet` },
-    { "@type": "ListItem", "position": 4, "name": "Contact", "item": `${siteUrl}/contact` },
-  ],
-};
-
 const structuredData = {
   "@context": "https://schema.org",
   "@graph": [
@@ -125,7 +112,6 @@ const structuredData = {
         "query-input": "required name=search_term_string"
       }
     },
-    breadcrumbData,
     {
       "@type": ["LocalBusiness", "TaxiService"],
       "@id": `${siteUrl}/#business`,
@@ -224,9 +210,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <Header />
         <main id="main-content">{children}</main>
         <Footer />
-        <WhatsAppButton />
-        <ScrollAnimations />
-        <MobileStickyCta />
+        <ClientShell />
       </body>
       <GoogleAnalytics gaId="G-KWGEYR8M8Q" />
     </html>

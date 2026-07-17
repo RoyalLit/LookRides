@@ -57,11 +57,12 @@
 | Layer | Implementation |
 |:---|---:|
 | **CSP Headers** | Strict `Content-Security-Policy` — restricts script/style sources, disallows `eval` in production |
-| **Rate Limiting** | Supabase-backed table-based limiter with exponential backoff — fail-closed on error |
+| **Rate Limiting** | Comprehensive rate limiting across all API endpoints (auth, admin, email) |
+| **HMAC Verification** | Secure S2S webhook validation using crypto HMAC signatures |
 | **Origin Checking** | `isAllowedOrigin()` validates `Origin` header on all API routes |
 | **Admin API Routes** | All admin ops through server-side routes with service role key + cookie-based `is_admin` verification |
-| **Row Level Security** | PostgreSQL RLS requiring `is_admin` JWT claim for sensitive tables |
-| **Middleware Auth** | Intercepts `/admin/*`, verifies Supabase session before page load |
+| **Row Level Security** | Strict PostgreSQL RLS requiring `is_admin` JWT claim (no public access on sensitive tables) |
+| **Payment Integrity** | Strict UUID validation on DELETEs, ₹1L cap on payment links, and race condition prevention |
 | **Login Throttling** | Progressive cooldown (5s → exponential to 60s) after failed attempts |
 | **Security Headers** | `X-Content-Type-Options`, `X-Frame-Options`, `HSTS`, `X-XSS-Protection`, `Referrer-Policy`, `Permissions-Policy` |
 
@@ -72,13 +73,26 @@
 | Optimization | Detail |
 |:---|---:|
 | **Core Web Vitals** | 90+ Desktop PageSpeed score. Prioritized LCP hero image rendering. |
-| **Image Optimization** | Next.js `Image` with AVIF/WebP, remote patterns, 30-day CDN cache TTL |
-| **Lazy Loading** | Below-fold images use `loading="lazy"` with blur placeholder to reduce initial payload |
+| **Image Optimization** | Next.js `Image` with AVIF/WebP formats, remote patterns, 30-day CDN cache TTL |
+| **Lazy Loading** | Below-fold images use `loading="lazy"`. Heavy components (BookingForm, Maps) utilize `next/dynamic` |
+| **Database Queries** | Explicit column selection over `SELECT *` for highly optimized Supabase fetch times |
+| **CSS Modules** | 100% extraction of inline styles to CSS modules to prevent layout shifts and bloat |
 | **DNS Prefetch** | Early resolution for Supabase, Google Analytics, Komoot |
 | **Caching** | Static pages: `revalidate: 60` ISR. Assets: `max-age=31536000, immutable` |
-| **Compression** | Brotli/gzip response compression |
-| **Fonts** | System font stack with `font-display: swap` — no render-blocking |
-| **Code Splitting** | App Router automatic route-level splitting, dynamic imports |
+| **Code Splitting** | App Router automatic route-level splitting with `React.memo` on heavy list items |
+
+---
+
+## ♿ Accessibility & UX
+
+| Feature | Implementation |
+|:---|---:|
+| **Input Optimization** | Native `<input type="date">` for frictionless mobile interactions |
+| **Keyboard Navigation** | `focus-visible` outlines added across all interactive elements |
+| **Screen Readers** | Loading spinners with `role="status"` and `sr-only` text; `aria-label`s on maps |
+| **Focus Management** | Mobile menu implements focus traps and Escape key unmounting |
+| **Motion Accessibility** | Global `prefers-reduced-motion` blanket rule for animations |
+| **SEO Hardening** | No-indexed payment gateways, fixed dynamic sitemaps, robust Twitter card generation |
 
 ---
 

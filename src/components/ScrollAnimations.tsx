@@ -16,7 +16,7 @@ export default function ScrollAnimations() {
       { threshold: 0.12 }
     );
 
-    document.querySelectorAll('[class*="fadeUp"], [class*="fadeIn"], [class*="slideUp"], [class*="fleetCard"], [class*="serviceCard"], [class*="trustCard"], [class*="testimonialCard"], [class*="valueCard"]').forEach((el) => {
+    document.querySelectorAll('[data-animate="fadeUp"], [data-animate="fadeIn"], [data-animate="fadeLeft"], [data-animate="fadeRight"], [data-animate="scaleIn"], [class*="fadeUp"], [class*="fadeIn"], [class*="slideUp"], [class*="fleetCard"], [class*="serviceCard"], [class*="trustCard"], [class*="testimonialCard"], [class*="valueCard"]').forEach((el) => {
       observer.observe(el);
     });
 

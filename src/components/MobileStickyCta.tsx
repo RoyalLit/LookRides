@@ -50,8 +50,8 @@ export default function MobileStickyCta() {
         WhatsApp
       </a>
       <Link
-        href="/"
-        scroll={false}
+        href="/#booking-widget"
+        scroll={true}
         className={`${styles.btn} ${styles.book}`}
       >
         Book Now

@@ -1878,6 +1878,29 @@
   padding-left: 1.75rem;
   min-width: 0;
 }
+
+/* BookingForm lazy-load skeleton */
+.bookingFormSkeleton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 380px;
+  background: #fff;
+  border-radius: var(--radius-xl);
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent-gold);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
 @media (max-width: 1024px) {
   .embla__slide {
     flex: 0 0 45%;

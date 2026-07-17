@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { BUSINESS_PHONE, SITE_URL } from '@/lib/config';
 
-const title = 'Taxi in Mohali @ ₹599 | Premium Cab Service Mohali (SAS Nagar) | LookRides';
+const title = 'Taxi in Mohali @ ₹599 | LookRides';
 const description = 'Book taxi in Mohali from ₹599. Premium cab service in Mohali (SAS Nagar) for airport transfers to IXC, outstation trips to Delhi, Manali, Shimla. Fixed pricing, verified drivers, 24/7 service.';
 
 export const metadata: Metadata = {
@@ -114,7 +114,7 @@ export default function MohaliPage() {
           <p>Our cab service covers all sectors and phases of Mohali (SAS Nagar) including Sector 70, 71, 78, Phase 3B2, Phase 5, Phase 7, Phase 9, Phase 11, Aerocity, IT Park, Industrial Area, and Mohali Hills. We provide doorstep pickup from any Mohali location for both outstation trips and airport transfers.</p>
 
           <div style={{ marginTop: '2rem', textAlign: 'center' }}>
-            <Link href="/#booking-widget" className="btn btn-primary btn-lg" style={{ display: 'inline-flex', padding: '1rem 2rem', background: 'var(--accent-gold)', color: 'var(--primary-navy)', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold' }}>
+            <Link href="/?pickup=Mohali" className="btn btn-primary btn-lg" style={{ display: 'inline-flex', padding: '1rem 2rem', background: 'var(--accent-gold)', color: 'var(--primary-navy)', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold' }}>
               Book Your Mohali Cab Now
             </Link>
           </div>

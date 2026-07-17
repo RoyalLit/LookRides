@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import { BUSINESS_PHONE_DISPLAY } from '@/lib/config';
+import { BUSINESS_PHONE_DISPLAY, SITE_URL } from '@/lib/config';
 import styles from '../legal.module.css';
 
 export const metadata: Metadata = {
@@ -15,8 +15,9 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Cancellation & Refund Policy | LookRides',
     description: 'Flexible cancellation policy for LookRides cab bookings.',
+    images: [SITE_URL + '/og-image.png'],
   },
-  alternates: { canonical: 'https://lookrides.com/cancellation' },
+  alternates: { canonical: `${SITE_URL}/cancellation` },
 };
 
 export default function CancellationPage() {

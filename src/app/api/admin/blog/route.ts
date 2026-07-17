@@ -140,7 +140,12 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: 'Post ID is required' }, { status: 400 });
     }
 
-    const { error } = await supabaseAdmin.from('blog_posts').delete().eq('id', id);
+    const parsed = z.string().uuid().safeParse(id);
+    if (!parsed.success) {
+      return NextResponse.json({ error: 'Invalid post ID format' }, { status: 400 });
+    }
+
+    const { error } = await supabaseAdmin.from('blog_posts').delete().eq('id', parsed.data);
     if (error) {
       return NextResponse.json({ error: 'Failed to delete post' }, { status: 500 });
     }

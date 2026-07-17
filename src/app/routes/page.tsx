@@ -18,6 +18,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'All Taxi Routes | LookRides',
     description: 'Premium outstation cab routes from Chandigarh. Book online.',
+    images: [SITE_URL + '/og-image.png'],
   },
   alternates: { canonical: SITE_URL + '/routes' },
 };

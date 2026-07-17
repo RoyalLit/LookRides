@@ -2,19 +2,33 @@ import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 import { getAdminUser } from '@/lib/admin-auth';
+import { rateLimit } from '@/lib/rate-limit';
 
 const createLinkSchema = z.object({
-  amount: z.number().positive(),
+  amount: z.number().positive().max(100000),
   customer_email: z.string().email().optional().or(z.literal('')),
   customer_phone: z.string().optional().or(z.literal('')),
   purpose: z.string().optional().or(z.literal(''))
 });
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     const user = await getAdminUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const ip = request.headers.get('x-forwarded-for') || 'unknown';
+    const { allowed, retryAfter } = await rateLimit({
+      key: `admin-paylinks:${ip}`,
+      limit: 30,
+      windowMs: 60_000,
+    });
+    if (!allowed) {
+      return NextResponse.json(
+        { error: `Too many requests. Try again in ${retryAfter} seconds.` },
+        { status: 429, headers: { 'Retry-After': String(retryAfter) } }
+      );
     }
 
     const { data, error } = await supabaseAdmin
@@ -27,7 +41,7 @@ export async function GET() {
     }
 
     return NextResponse.json(data);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
@@ -37,6 +51,19 @@ export async function POST(request: Request) {
     const user = await getAdminUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const ip = request.headers.get('x-forwarded-for') || 'unknown';
+    const { allowed, retryAfter } = await rateLimit({
+      key: `admin-paylinks:${ip}`,
+      limit: 10,
+      windowMs: 60_000,
+    });
+    if (!allowed) {
+      return NextResponse.json(
+        { error: `Too many requests. Try again in ${retryAfter} seconds.` },
+        { status: 429, headers: { 'Retry-After': String(retryAfter) } }
+      );
     }
 
     const body = await request.json();

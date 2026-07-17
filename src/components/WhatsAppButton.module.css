@@ -25,12 +25,6 @@
   color: #fff;
 }
 
-.overFooter {
-  position: absolute;
-  bottom: 1.5rem;
-  right: 2rem;
-}
-
 .label {
   letter-spacing: 0.02em;
 }

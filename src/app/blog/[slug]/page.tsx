@@ -70,7 +70,7 @@ export default async function BlogPostPage({ params }: Props) {
         "image": post.coverImage || `${SITE_URL}/og-image.png`,
         "datePublished": post.date,
         "dateModified": post.date,
-        "author": { "@type": "Organization", "name": "LookRides" },
+        "author": { "@type": "Organization", "name": "LookRides", "url": `${SITE_URL}/about` },
         "publisher": { "@type": "Organization", "name": "LookRides", "logo": { "@type": "ImageObject", "url": `${SITE_URL}/logo.png` } },
         "mainEntityOfPage": { "@type": "WebPage", "@id": `${SITE_URL}/blog/${slug}` },
       },

@@ -21,7 +21,9 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'LookRides Premium Fleet',
     description: 'AC, sanitized taxi fleet for outstation trips & airport transfers.',
+    images: [SITE_URL + '/og-image.png'],
   },
+  alternates: { canonical: `${SITE_URL}/fleet` },
 };
 
 const fleetJsonLd = {

@@ -5,6 +5,7 @@ import PaymentClient from './PaymentClient';
 export const metadata = {
   title: 'Secure Payment Checkout | LookRides',
   description: 'Complete your secure payment for LookRides taxi booking.',
+  robots: { index: false, follow: false },
 };
 
 export default async function PaymentPage(props: { params: Promise<{ id: string }> }) {

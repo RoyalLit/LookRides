@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
 
   // Images: allow remote domains + optimize
   images: {
-    formats: ["image/webp"],
+    formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920],
     minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days
     remotePatterns: [

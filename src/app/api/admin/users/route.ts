@@ -22,7 +22,7 @@ export async function GET() {
       email: u.email,
       created_at: u.created_at,
       last_sign_in_at: u.last_sign_in_at,
-      is_admin: u.user_metadata?.is_admin === 'true',
+      is_admin: !!u.user_metadata?.is_admin,
       confirmed_at: u.confirmed_at,
     }));
 
@@ -64,11 +64,11 @@ export async function POST(request: Request) {
     }
 
     const { data, error } = await supabaseAdmin.auth.admin.inviteUserByEmail(parsed.data.email, {
-      data: { is_admin: parsed.data.is_admin ? 'true' : 'false' },
+      data: { is_admin: !!parsed.data.is_admin },
     });
 
     if (error) {
-      return NextResponse.json({ error: 'Failed to invite user: ' + error.message }, { status: 500 });
+      return NextResponse.json({ error: 'Failed to invite user' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true, user: { id: data.user.id, email: data.user.email } }, { status: 201 });
@@ -96,11 +96,11 @@ export async function PUT(request: Request) {
     }
 
     const { error } = await supabaseAdmin.auth.admin.updateUserById(parsed.data.id, {
-      user_metadata: { is_admin: parsed.data.is_admin ? 'true' : 'false' },
+      user_metadata: { is_admin: !!parsed.data.is_admin },
     });
 
     if (error) {
-      return NextResponse.json({ error: 'Failed to update user: ' + error.message }, { status: 500 });
+      return NextResponse.json({ error: 'Failed to update user' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });

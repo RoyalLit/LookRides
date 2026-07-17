@@ -134,7 +134,12 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: 'Vehicle ID is required' }, { status: 400 });
     }
 
-    const { error } = await supabaseAdmin.from('fleet').delete().eq('id', id);
+    const parsed = z.string().uuid().safeParse(id);
+    if (!parsed.success) {
+      return NextResponse.json({ error: 'Invalid vehicle ID format' }, { status: 400 });
+    }
+
+    const { error } = await supabaseAdmin.from('fleet').delete().eq('id', parsed.data);
     if (error) {
       return NextResponse.json({ error: 'Failed to delete vehicle' }, { status: 500 });
     }

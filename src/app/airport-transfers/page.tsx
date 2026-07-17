@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   description,
   keywords: 'airport transfers, Chandigarh airport taxi, Delhi IGI airport cab, IXC airport pickup, airport drop Chandigarh',
   openGraph: { title, description, images: '/og-image.png' },
-  twitter: { card: 'summary_large_image', title, description },
+  twitter: { card: 'summary_large_image', title, description, images: [SITE_URL + '/og-image.png'] },
   alternates: { canonical: SITE_URL + '/airport-transfers' },
 };
 

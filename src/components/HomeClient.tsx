@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useCallback, useEffect, useState } from "react";
+import React, { useRef, useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { BUSINESS_PHONE } from '@/lib/config';
@@ -11,8 +11,12 @@ import {
 } from "lucide-react";
 import { FleetVehicle, GoogleReview } from "@/lib/supabase";
 import dynamic from "next/dynamic";
-import BookingForm from "@/components/BookingForm";
 import { SkeletonSlide, SkeletonReviewCard } from "@/components/Skeleton";
+
+const BookingForm = dynamic(() => import("@/components/BookingForm"), {
+  ssr: false,
+  loading: () => <div className={styles.bookingFormSkeleton}><div className={styles.spinner} /></div>,
+});
 
 const CircularGallery = dynamic(() => import("@/components/CircularGallery"), {
   ssr: false,
@@ -130,6 +134,89 @@ const galleryItems = popularDestinations.map(d => ({
   time: d.time,
   route: d.route
 }));
+
+const FleetCard = React.memo(function FleetCard({ vehicle, index }: { vehicle: FleetVehicle; index: number }) {
+  const details = getFleetDetails(vehicle.category);
+  return (
+    <div className={`${styles.embla__slide} ${styles.revealUp}`} style={{ transitionDelay: `${index * 0.1}s` }} role="group" aria-roledescription="slide" aria-label={`Vehicle ${index + 1}`}>
+      <div className={styles.fleetCardV2}>
+        <div className={styles.fleetImgWrap}>
+          <Image 
+            src={vehicle.image_url} 
+            alt={vehicle.name} 
+            fill 
+            style={{ objectFit: "contain", padding: "1.5rem" }} 
+            sizes="(max-width: 768px) 85vw, (max-width: 1200px) 45vw, 31vw" 
+            className={styles.fleetImgFloat}
+            priority={index === 0}
+            unoptimized={true}
+          />
+          <span className={`badge badge-navy ${styles.fleetTypeBadge}`}>{vehicle.category} Class</span>
+        </div>
+
+        <div className={styles.fleetBodyV2}>
+          <div className={styles.fleetHeaderV2}>
+             <h3>{vehicle.name}</h3>
+             <span className={styles.acBadge}>AC</span>
+          </div>
+          
+          <p className={styles.fleetIdealTrip}>{details.idealTrip}</p>
+
+          <div className={styles.fleetSpecsV2}>
+            <span><Users size={14} /> {vehicle.seats} Passengers</span>
+            <span><Luggage size={14} /> {vehicle.bags} Bags Max</span>
+          </div>
+
+          <p className={styles.fleetComfortText}>{details.comfortLevel}</p>
+
+          <div className={styles.fleetFooterV2}>
+            <span className={styles.acDetailsText}>{details.ac}</span>
+            <Link 
+              href="#booking-widget" 
+              className="btn btn-primary btn-sm"
+              scroll={true}
+            >
+              Book Now
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+});
+
+const ReviewCard = React.memo(function ReviewCard({ review, index }: { review: GoogleReview; index: number }) {
+  return (
+    <div className={`${styles.embla__slide} ${styles.revealUp}`} style={{ transitionDelay: `${index * 0.1}s` }} role="group" aria-roledescription="slide" aria-label={`Review ${index + 1}`}>
+      <div className={styles.testimonialCardV2} style={{ height: '100%' }}>
+        <div className={styles.tCardHeader}>
+          <div className={styles.tCardAvatarWrap}>
+            <div className={styles.tCardInitialAvatar}>
+              {review.author ? review.author[0].toUpperCase() : 'G'}
+            </div>
+            <span className={styles.tCardBadgeWrap}><Check size={10} style={{ color: 'white' }} /></span>
+          </div>
+          <div className={styles.tCardMetaInfo}>
+            <h4>{review.author}</h4>
+            <span className={styles.tCardRouteText}>{review.city || 'Verified Trip'} Route</span>
+          </div>
+        </div>
+
+        <div className={styles.tCardStars}>
+          {"★".repeat(review.rating)}
+          <span className={styles.tCardRatingVal}>{review.rating}.0</span>
+        </div>
+
+        <p className={styles.tCardText}>&ldquo;{review.text}&rdquo;</p>
+        
+        <div className={styles.tCardFooter}>
+          <span className={styles.tCardVerifiedBadge}>✓ Verified Customer Review</span>
+          <span className={styles.tCardDate}>{review.created_at ? new Date(review.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short' }) : ''}</span>
+        </div>
+      </div>
+    </div>
+  );
+});
 
 interface HomeClientProps {
   fleet: FleetVehicle[];
@@ -255,6 +342,13 @@ export default function HomeClient({ fleet, reviews, settings, loading }: HomeCl
                 </svg>
                 Book via WhatsApp
               </a>
+              <button
+                onClick={() => document.getElementById('booking-widget')?.scrollIntoView({ behavior: 'smooth' })}
+                className="btn btn-primary btn-lg"
+                type="button"
+              >
+                Book Instantly ↓
+              </button>
             </div>
 
             <div className={styles.heroStatsGrid}>
@@ -347,55 +441,9 @@ export default function HomeClient({ fleet, reviews, settings, loading }: HomeCl
             <div className={styles.embla__container}>
               {loading ? (
                 <SkeletonSlide count={3} />
-              ) : fleet.map((v, i) => {
-                const details = getFleetDetails(v.category);
-                return (
-                  <div key={v.id} className={`${styles.embla__slide} ${styles.revealUp}`} style={{ transitionDelay: `${i * 0.1}s` }} role="group" aria-roledescription="slide" aria-label={`Vehicle ${i + 1} of ${fleet.length}`}>
-                    <div className={styles.fleetCardV2}>
-                      <div className={styles.fleetImgWrap}>
-                        <Image 
-                          src={v.image_url} 
-                          alt={v.name} 
-                          fill 
-                          style={{ objectFit: "contain", padding: "1.5rem" }} 
-                          sizes="(max-width: 768px) 100vw, 33vw" 
-                          className={styles.fleetImgFloat}
-                          priority={true}
-                          unoptimized={true}
-                        />
-                        <span className={`badge badge-navy ${styles.fleetTypeBadge}`}>{v.category} Class</span>
-                      </div>
-
-                      <div className={styles.fleetBodyV2}>
-                        <div className={styles.fleetHeaderV2}>
-                           <h3>{v.name}</h3>
-                           <span className={styles.acBadge}>AC</span>
-                        </div>
-                        
-                        <p className={styles.fleetIdealTrip}>{details.idealTrip}</p>
-
-                        <div className={styles.fleetSpecsV2}>
-                          <span><Users size={14} /> {v.seats} Passengers</span>
-                          <span><Luggage size={14} /> {v.bags} Bags Max</span>
-                        </div>
-
-                        <p className={styles.fleetComfortText}>{details.comfortLevel}</p>
-
-                        <div className={styles.fleetFooterV2}>
-                          <span className={styles.acDetailsText}>{details.ac}</span>
-                          <Link 
-                            href="#booking-widget" 
-                            className="btn btn-primary btn-sm"
-                            scroll={true}
-                          >
-                            Book Now
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-              );
-            })}
+              ) : fleet.map((v, i) => (
+                <FleetCard key={v.id} vehicle={v} index={i} />
+              ))}
             </div>
           </div>
 
@@ -419,7 +467,7 @@ export default function HomeClient({ fleet, reviews, settings, loading }: HomeCl
               </p>
               <p>
                 Unlike traditional aggregator platforms that use unpredictable pricing structures and unverified 
-                contractors, we believe in **quality control**. We select only the most experienced highway and 
+                contractors, we believe in <strong>quality control</strong>. We select only the most experienced highway and 
                 mountain drivers, guarantee fixed point-to-point fares, and verify that every vehicle is in 
                 showroom condition.
               </p>
@@ -498,40 +546,13 @@ export default function HomeClient({ fleet, reviews, settings, loading }: HomeCl
               <div className={styles.embla} ref={reviewsRef} role="region" aria-label="Customer reviews carousel" aria-roledescription="carousel">
                 <div className={styles.embla__container}>
                   {reviews.map((t, idx) => (
-                    <div key={t.id} className={`${styles.embla__slide} ${styles.revealUp}`} style={{ transitionDelay: `${idx * 0.1}s` }} role="group" aria-roledescription="slide" aria-label={`Review ${idx + 1} of ${reviews.length}`}>
-                      <div className={styles.testimonialCardV2} style={{ height: '100%' }}>
-                        <div className={styles.tCardHeader}>
-                          <div className={styles.tCardAvatarWrap}>
-                            <div className={styles.tCardInitialAvatar}>
-                              {t.author ? t.author[0].toUpperCase() : 'G'}
-                            </div>
-                            <span className={styles.tCardBadgeWrap}><Check size={10} style={{ color: 'white' }} /></span>
-                          </div>
-                          <div className={styles.tCardMetaInfo}>
-                            <h4>{t.author}</h4>
-                            <span className={styles.tCardRouteText}>{t.city || 'Verified Trip'} Route</span>
-                          </div>
-                        </div>
-
-                        <div className={styles.tCardStars}>
-                          {"★".repeat(t.rating)}
-                          <span className={styles.tCardRatingVal}>{t.rating}.0</span>
-                        </div>
-
-                        <p className={styles.tCardText}>&ldquo;{t.text}&rdquo;</p>
-                        
-                        <div className={styles.tCardFooter}>
-                          <span className={styles.tCardVerifiedBadge}>✓ Verified Customer Review</span>
-                          <span className={styles.tCardDate}>{t.created_at ? new Date(t.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short' }) : ''}</span>
-                        </div>
-                      </div>
-                    </div>
+                    <ReviewCard key={t.id} review={t} index={idx} />
                   ))}
                 </div>
               </div>
               
               <div className={styles.reviewsMore}>
-                <Link href="/contact" className="btn btn-outline">Read All Google Reviews <ArrowRight size={15} /></Link>
+                <Link href="#" className="btn btn-outline">Read All Google Reviews <ArrowRight size={15} /></Link>
               </div>
             </>
           )}
@@ -580,7 +601,7 @@ export default function HomeClient({ fleet, reviews, settings, loading }: HomeCl
               <h2>Experience the Premium Way to Travel</h2>
               <p>Book your outstation ride in under 30 seconds. No advance payments required.</p>
               <div className={styles.ctaActions}>
-                <Link href="/" className={`btn btn-primary btn-lg`} scroll={false}>Book Your Ride Now</Link>
+                <Link href="/#booking-widget" className={`btn btn-primary btn-lg`} scroll={true}>Book Your Ride Now</Link>
                 <a href={`tel:${BUSINESS_PHONE}`} className={`btn btn-outline-white btn-lg ${styles.ctaPhone}`}>
                   <Phone size={18} /> Call Helpline: +91 97804 26567
                 </a>

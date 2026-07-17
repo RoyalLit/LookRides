@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import RoutePage from '@/components/RoutePage';
 import { getRouteBySlug, getAllRouteSlugs } from '@/lib/routes-data';
 import { getPricingRouteByCities } from '@/lib/queries';
+import { SITE_URL } from '@/lib/config';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -33,7 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: route.metaDesc,
       images: ['/og-image.png'],
     },
-    alternates: { canonical: `https://lookrides.com/routes/${route.slug}` },
+    alternates: { canonical: `${SITE_URL}/routes/${route.slug}` },
   };
 }
 

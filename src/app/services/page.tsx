@@ -5,8 +5,9 @@ import { SITE_URL } from '@/lib/config';
 import styles from './services.module.css';
 
 export const metadata: Metadata = {
-  title: 'Taxi Services | Airport Transfers & Outstation Cabs in Chandigarh - LookRides',
+  title: 'Taxi Services | Airport Transfers & Outstation Cabs in Chandigarh',
   description: 'LookRides provides 24/7 cab services in Chandigarh — airport transfers to IXC & IGI Delhi, outstation trips to Manali, Shimla, Amritsar, Dehradun. Premium fleet, verified drivers, fixed pricing.',
+  alternates: { canonical: `${SITE_URL}/services` },
   keywords: [
     'airport taxi chandigarh', 'outstation cab chandigarh',
     'intercity taxi service', 'chandigarh airport transfer',
@@ -24,6 +25,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'LookRides | Cab Service Chandigarh',
     description: 'Premium airport & outstation taxi service in Chandigarh, Mohali, Zirakpur. Available 24/7.',
+    images: [SITE_URL + '/og-image.png'],
   },
 };
 
@@ -119,7 +121,7 @@ export default function ServicesPage() {
                     <li key={f}><CheckCircle size={16} className={styles.check} /> {f}</li>
                   ))}
                 </ul>
-                <Link href="/" className="btn btn-primary">Book This Service <ArrowRight size={16} /></Link>
+                <Link href="/#booking-widget" className="btn btn-primary">Book This Service <ArrowRight size={16} /></Link>
               </div>
             </div>
           ))}
@@ -131,7 +133,7 @@ export default function ServicesPage() {
           <div className={styles.ctaBox}>
             <h2>Ready to travel with us?</h2>
             <p>Book your premium ride today and experience the LookRides difference.</p>
-            <Link href="/" className="btn btn-primary">Book Now</Link>
+            <Link href="/#booking-widget" className="btn btn-primary">Book Now</Link>
           </div>
         </div>
       </section>

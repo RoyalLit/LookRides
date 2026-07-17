@@ -184,3 +184,77 @@
   font-weight: 700;
   color: #0B132B;
 }
+
+/* ══ Route Hero ════════════════════════════════════════════ */
+.routeHero {
+  background: linear-gradient(135deg, #0B132B 0%, #1a2744 100%);
+  padding: 4rem 0;
+  color: white;
+}
+.routeHero .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+.routeBreadcrumb { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: rgba(255,255,255,0.5); margin-bottom: 1.5rem; flex-wrap: wrap; }
+.routeBreadcrumb a { color: rgba(255,255,255,0.5); transition: color 200ms; }
+.routeBreadcrumb a:hover { color: #FCA311; }
+.routeHeroTitle { font-size: clamp(2rem, 5vw, 3.75rem); font-weight: 800; margin-bottom: 1rem; line-height: 1.1; color: #FFFFFF; }
+.routeHeroSubtitle { font-size: 1.15rem; color: rgba(255,255,255,0.85); max-width: 650px; margin-bottom: 2.5rem; line-height: 1.6; }
+.routeHeroStats { display: flex; gap: 3rem; flex-wrap: wrap; }
+.routeStat { display: flex; flex-direction: column; gap: 0.25rem; }
+.routeStatValue { font-size: 1.6rem; font-weight: 700; color: #FCA311; }
+.routeStatLabel { font-size: 0.8rem; opacity: 0.8; text-transform: uppercase; letter-spacing: 0.1em; }
+.routeHeroSummary { margin-top: 2.5rem; background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); max-width: 800px; }
+.routeHeroSummary p { color: rgba(255,255,255,0.9); line-height: 1.6; font-size: 0.95rem; }
+
+@media (max-width: 768px) {
+  .routeHero { padding: 3rem 0; }
+  .routeHeroStats { gap: 1.5rem; justify-content: space-between; }
+  .routeStatValue { font-size: 1.25rem; }
+}
+
+/* ══ Route Pricing ═════════════════════════════════════════ */
+.rpSection { padding: 4rem 0; background: #F8F9FA; }
+.rpInner { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+.rpInner h2 { font-size: 1.75rem; text-align: center; margin-bottom: 0.5rem; color: #0B132B; font-family: Outfit, sans-serif; }
+.rpSub { text-align: center; color: #64748B; margin-bottom: 3rem; }
+.rpGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; max-width: 700px; margin: 0 auto; }
+.rpCard { background: white; border: 1px solid #E2E8F0; border-radius: 1rem; padding: 2rem; text-align: center; position: relative; transition: all 0.3s; }
+.rpCard:hover { border-color: #FCA311; box-shadow: 0 8px 24px rgba(252,163,17,0.12); transform: translateY(-3px); }
+.rpPopular { border-color: #FCA311; box-shadow: 0 0 0 2px rgba(252,163,17,0.2); }
+.rpBadge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #FCA311; color: #0B132B; font-size: 0.75rem; font-weight: 700; padding: 0.25rem 1rem; border-radius: 20px; text-transform: uppercase; }
+.rpCard h3 { font-size: 1.5rem; margin-bottom: 0.25rem; color: #0B132B; font-family: Outfit, sans-serif; }
+.rpVehicle { color: #64748B; font-size: 0.9rem; margin-bottom: 1rem; }
+.rpCap { display: flex; align-items: center; justify-content: center; gap: 0.5rem; font-size: 0.9rem; color: #64748B; }
+.rpCap svg { color: #FCA311; }
+.rpPrice { font-size: 2.5rem; font-weight: 800; color: #0B132B; margin: 1rem 0 0.25rem; }
+.rpLabel { font-size: 0.85rem; color: #64748B; margin-bottom: 1.5rem; }
+.rpCard :global(.btn) { display: inline-flex; align-items: center; gap: 0.4rem; }
+
+/* ══ Route Features ════════════════════════════════════════ */
+.rfSection { padding: 4rem 0; background: white; }
+.rfInner { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+.rfInner h2 { font-size: 1.75rem; text-align: center; margin-bottom: 3rem; color: #0B132B; font-family: Outfit, sans-serif; }
+.rfGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
+.rfCard { padding: 2rem; border-radius: 1rem; text-align: center; border: 1px solid #E2E8F0; transition: all 0.3s; }
+.rfCard:hover { border-color: #FCA311; transform: translateY(-3px); box-shadow: 0 8px 24px rgba(252,163,17,0.1); }
+.rfCard svg { color: #FCA311; margin-bottom: 1rem; }
+.rfCard h3 { font-size: 1.1rem; margin-bottom: 0.5rem; color: #0B132B; font-family: Outfit, sans-serif; }
+.rfCard p { font-size: 0.9rem; color: #64748B; line-height: 1.5; }
+
+/* ══ Route Highlights ══════════════════════════════════════ */
+.rhSection { padding: 4rem 0; background: #F8F9FA; }
+.rhInner { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+.rhInner h2 { font-size: 1.5rem; text-align: center; margin-bottom: 2rem; color: #0B132B; font-family: Outfit, sans-serif; }
+.rhList { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; max-width: 800px; margin: 0 auto; list-style: none; }
+.rhList li { display: flex; align-items: center; gap: 0.75rem; padding: 1rem; background: white; border-radius: 0.625rem; border: 1px solid #E2E8F0; }
+.rhList svg { color: #FCA311; flex-shrink: 0; }
+
+/* ══ Route Overview ════════════════════════════════════════ */
+.roSection { padding: 4rem 0; background: white; }
+.roInner { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+.roInner h2 { font-size: 1.5rem; text-align: center; margin-bottom: 1rem; color: #0B132B; font-family: Outfit, sans-serif; }
+.roDesc { text-align: center; max-width: 700px; margin: 0 auto 2rem; color: #64748B; line-height: 1.6; }
+.roStops { display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap; padding: 2rem; background: #F8F9FA; border-radius: 1rem; border: 1px solid #E2E8F0; max-width: 900px; margin: 0 auto; }
+.roStops span { font-weight: 600; color: #0B132B; }
+.roStop { color: #64748B !important; font-weight: 400 !important; }
+.roStop::before { content: '→'; margin-right: 0.75rem; color: #FCA311; }
+.roStop:first-of-type::before { content: none; }
+.roFinal { color: #FCA311 !important; }

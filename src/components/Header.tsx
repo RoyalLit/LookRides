@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { Phone, Menu, X } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import Logo from './Logo';
 import { BUSINESS_PHONE, BUSINESS_PHONE_DISPLAY } from '@/lib/config';
 import styles from './Header.module.css';
@@ -27,6 +27,52 @@ const routeLinks = [
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [routesOpen, setRoutesOpen] = useState(false);
+  const hamburgerRef = useRef<HTMLButtonElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+
+  const closeMobileMenu = useCallback(() => setMobileOpen(false), []);
+
+  // Focus first link when mobile menu opens, return focus to hamburger when it closes
+  useEffect(() => {
+    if (mobileOpen) {
+      const firstLink = mobileMenuRef.current?.querySelector<HTMLElement>('a, button');
+      firstLink?.focus();
+    } else {
+      hamburgerRef.current?.focus();
+    }
+  }, [mobileOpen]);
+
+  // Focus trap for mobile menu
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const menuEl = mobileMenuRef.current;
+    if (!menuEl) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        closeMobileMenu();
+        return;
+      }
+      if (e.key !== 'Tab') return;
+
+      const focusable = menuEl.querySelectorAll<HTMLElement>('a[href], button, [tabindex]:not([tabindex="-1"])');
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [mobileOpen, closeMobileMenu]);
 
   return (
     <header className={styles.header}>
@@ -80,10 +126,11 @@ export default function Header() {
             <Phone size={15} />
             {BUSINESS_PHONE_DISPLAY}
           </a>
-          <Link href="/" className="btn btn-primary btn-sm" scroll={false}>Book Now</Link>
+          <Link href="/#booking-widget" className="btn btn-primary btn-sm" scroll={true}>Book Now</Link>
         </div>
 
         <button
+          ref={hamburgerRef}
           className={styles.hamburger}
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle menu"
@@ -94,7 +141,7 @@ export default function Header() {
       </div>
 
       {mobileOpen && (
-        <div className={styles.mobileMenu}>
+        <div ref={mobileMenuRef} className={styles.mobileMenu}>
           <nav className={styles.mobileNav} aria-label="Mobile navigation">
             {navLinks.map((l) => (
               <Link key={l.href} href={l.href} className={styles.mobileNavLink} onClick={() => setMobileOpen(false)}>
@@ -112,7 +159,7 @@ export default function Header() {
             <a href={`tel:${BUSINESS_PHONE}`} className={styles.mobilePhone}>
               <Phone size={15} /> {BUSINESS_PHONE_DISPLAY}
             </a>
-            <Link href="/" className="btn btn-primary" onClick={() => setMobileOpen(false)}>Book Now</Link>
+            <Link href="/#booking-widget" className="btn btn-primary" scroll={true} onClick={() => setMobileOpen(false)}>Book Now</Link>
           </div>
         </div>
       )}

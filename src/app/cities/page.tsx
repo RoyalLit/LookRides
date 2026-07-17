@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   description,
   keywords: ['Chandigarh taxi', 'Mohali cab', 'Zirakpur taxi service', 'Tricity taxi', 'LookRides service cities', 'taxi in Panchkula', 'cab in Derabassi'],
   openGraph: { title, description, images: '/og-image.png' },
-  twitter: { card: 'summary_large_image', title, description },
+  twitter: { card: 'summary_large_image', title, description, images: [SITE_URL + '/og-image.png'] },
   alternates: { canonical: SITE_URL + '/cities' },
 };
 

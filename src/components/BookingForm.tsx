@@ -197,27 +197,9 @@ function FormInner() {
     const el = e.target;
     let msg = '';
     
-    // Validate only if there's a value or on blur. We don't want to yell at empty fields while typing.
+    // Validate only if there's a value or on blur
     if (el.value || e.type === 'blur') {
-      if (el.name === 'date_display') {
-        if (el.value.length === 10) {
-          if (!/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/\d{4}$/.test(el.value)) {
-            msg = 'Invalid date (DD/MM/YYYY)';
-          } else {
-            const [d, m, y] = el.value.split('/');
-            const inputDate = new Date(Number(y), Number(m) - 1, Number(d));
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            if (inputDate < today) {
-              msg = 'Travel date cannot be in the past';
-            }
-          }
-        } else if (e.type === 'blur' && el.value.length > 0 && el.value.length < 10) {
-          msg = 'Incomplete date';
-        } else if (e.type === 'blur' && !el.value) {
-          msg = 'Travel date is required';
-        }
-      } else if (!el.validity.valid) {
+      if (!el.validity.valid) {
         if (el.validity.patternMismatch) {
           if (el.name === 'phone') msg = 'Mobile number must be exactly 10 digits';
         } else if (el.validity.valueMissing) {
@@ -245,20 +227,10 @@ function FormInner() {
 
     const fd = new FormData(e.currentTarget);
 
-    // Convert DD/MM/YYYY → ISO date for API
-    const rawDate = fd.get('date_display') as string;
-    let isoDate = '';
-    if (rawDate && /^\d{2}\/\d{2}\/\d{4}$/.test(rawDate)) {
-      const [d, m, y] = rawDate.split('/');
-      isoDate = `${y}-${m}-${d}`;
-    } else {
-      isoDate = rawDate || '';
-    }
-
     const payload = {
       pickup_location: fd.get('pickup_location'),
       drop_location:   fd.get('drop_location'),
-      date:            isoDate,
+      date:            fd.get('date') || '',
       time:            fd.get('time'),
       passenger_name:  fd.get('passenger_name'),
       phone:           fd.get('phone'),
@@ -348,33 +320,39 @@ function FormInner() {
           initialValue={initialDrop}
         />
 
-        {/* Date (DD/MM/YYYY) & Time row */}
+        {/* Date & Time row */}
         <div className={styles.fieldRow}>
           <div className={styles.field}>
-            <label htmlFor="date_display"><Calendar size={13} /> Travel Date</label>
+            <label htmlFor="travel_date"><Calendar size={13} /> Travel Date</label>
             <div className={styles.inputWrap}>
               <input
-                type="text"
-                id="date_display"
-                name="date_display"
-                placeholder="DD/MM/YYYY"
-                pattern="(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])/\d{4}"
-                inputMode="numeric"
-                maxLength={10}
+                type="date"
+                id="travel_date"
+                name="date"
                 required
-                className={fieldErrors.date_display ? styles.inputError : ''}
-                onBlur={validateInput}
+                className={fieldErrors.date ? styles.inputError : ''}
+                onBlur={(e) => {
+                  let msg = '';
+                  if (!e.target.value) {
+                    msg = 'Travel date is required';
+                  } else {
+                    const inputDate = new Date(e.target.value);
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    if (isNaN(inputDate.getTime()) || inputDate < today) {
+                      msg = 'Travel date cannot be in the past';
+                    }
+                  }
+                  setFieldErrors(prev => ({ ...prev, date: msg }));
+                }}
                 onChange={(e) => {
-                  // Auto-insert slashes: 01/05/2025
-                  let v = e.target.value.replace(/\D/g, '');
-                  if (v.length >= 3) v = v.slice(0, 2) + '/' + v.slice(2);
-                  if (v.length >= 6) v = v.slice(0, 5) + '/' + v.slice(5, 9);
-                  e.target.value = v;
-                  validateInput(e);
+                  if (fieldErrors.date) {
+                    setFieldErrors(prev => ({ ...prev, date: '' }));
+                  }
                 }}
               />
             </div>
-            {fieldErrors.date_display && <span className={styles.errorText}>{fieldErrors.date_display}</span>}
+            {fieldErrors.date && <span className={styles.errorText}>{fieldErrors.date}</span>}
           </div>
           <div className={styles.field}>
             <label htmlFor="time"><Clock size={13} /> Pickup Time</label>

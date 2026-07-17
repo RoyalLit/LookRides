@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { BUSINESS_PHONE, SITE_URL } from '@/lib/config';
 
-const title = 'Taxi in Chandigarh @ ₹499 | Premium Cab Service Chandigarh | LookRides';
+const title = 'Taxi in Chandigarh @ ₹499 | LookRides';
 const description = 'Book taxi in Chandigarh from ₹499. Premium cab service in Chandigarh for airport transfers, outstation trips to Delhi, Manali, Shimla. Fixed pricing, verified drivers, 24/7 availability.';
 
 export const metadata: Metadata = {
@@ -134,7 +134,7 @@ export default function ChandigarhPage() {
           <p>Our cab service covers all sectors and areas of Chandigarh including Sector 17, Sector 22, Sector 35, Sector 26 (IT Park), Sector 9 (Panjab University), Sector 12 (PGI Hospital), Sector 38 (Market), Manimajra, Industrial Area, and all residential sectors. We provide doorstep pickup from any location in Chandigarh for outstation trips and airport transfers.</p>
 
           <div style={{ marginTop: '2rem', textAlign: 'center' }}>
-            <Link href="/#booking-widget" className="btn btn-primary btn-lg" style={{ display: 'inline-flex', padding: '1rem 2rem', background: 'var(--accent-gold)', color: 'var(--primary-navy)', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold' }}>
+            <Link href="/?pickup=Chandigarh" className="btn btn-primary btn-lg" style={{ display: 'inline-flex', padding: '1rem 2rem', background: 'var(--accent-gold)', color: 'var(--primary-navy)', borderRadius: '8px', textDecoration: 'none', fontWeight: 'bold' }}>
               Book Your Chandigarh Cab Now
             </Link>
           </div>

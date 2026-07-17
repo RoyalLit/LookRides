@@ -1270,8 +1270,8 @@
 
 .stickyGallery {
   position: sticky;
-  top: 10vh; /* Pin near the top of the viewport */
-  height: 80vh; /* Leave some breathing room */
+  top: 15vh;
+  height: 70vh;
   display: flex;
   align-items: center;
   justify-content: center;

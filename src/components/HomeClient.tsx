@@ -31,6 +31,43 @@ import styles from "@/app/page.module.css";
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 
+// Static fallback fleet — displayed if Supabase returns no rows
+const FALLBACK_FLEET = [
+  {
+    id: 'sedan-fallback',
+    name: 'Swift Dzire / Etios',
+    category: 'Sedan',
+    seats: 4,
+    bags: 3,
+    price_desc: 'From ₹10/km',
+    image_url: '/etios.png',
+    is_active: true,
+    order_index: 1,
+  },
+  {
+    id: 'suv-fallback',
+    name: 'Toyota Innova',
+    category: 'SUV',
+    seats: 6,
+    bags: 5,
+    price_desc: 'From ₹14/km',
+    image_url: '/innova.png',
+    is_active: true,
+    order_index: 2,
+  },
+  {
+    id: 'luxury-fallback',
+    name: 'Toyota Hycross',
+    category: 'Luxury',
+    seats: 7,
+    bags: 6,
+    price_desc: 'From ₹18/km',
+    image_url: '/hycross.webp',
+    is_active: true,
+    order_index: 3,
+  },
+];
+
 const trustFeatures = [
   { Icon: BadgeCheck, title: "Verified Drivers", desc: "Every chauffeur undergoes biometric & criminal background checks." },
   { Icon: Shield, title: "Fixed All-Inclusive Fares", desc: "No toll surprises or night charges. You pay exactly what you see." },
@@ -434,7 +471,7 @@ export default function HomeClient({ fleet, reviews, settings, loading }: HomeCl
             <div className={styles.embla__container}>
               {loading ? (
                 <SkeletonSlide count={3} />
-              ) : fleet.map((v, i) => (
+              ) : (fleet.length > 0 ? fleet : FALLBACK_FLEET).map((v, i) => (
                 <FleetCard key={v.id} vehicle={v} index={i} />
               ))}
             </div>

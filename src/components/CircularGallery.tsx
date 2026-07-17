@@ -228,20 +228,22 @@ class Media {
         this.plane.program.uniforms.uViewportSizes.value = [this.viewport.width, this.viewport.height];
       }
     }
-    // Ensure robust sizing across devices
-    let cardWidthPx = 350; // Desktop default
-    if (this.screen.width < 768) {
-      cardWidthPx = this.screen.width * 0.75; // 75% of screen on mobile
+    // Card sizing: show ~3 cards at a time on desktop, 1.5 on mobile
+    let cardWidthPx: number;
+    if (this.screen.width < 480) {
+      cardWidthPx = this.screen.width * 0.65; // ~1.5 cards on mobile
+    } else if (this.screen.width < 768) {
+      cardWidthPx = this.screen.width * 0.55; // ~2 cards on tablet
     } else {
-      cardWidthPx = Math.min(450, this.screen.width * 0.35); // 35% of screen on desktop, max 450px
+      cardWidthPx = Math.min(300, this.screen.width * 0.22); // ~3-4 cards on desktop, max 300px
     }
-    const cardHeightPx = cardWidthPx * 1.4; // 1:1.4 aspect ratio
+    const cardHeightPx = cardWidthPx * 1.45; // portrait ratio
     
     this.plane.scale.x = (this.viewport.width * cardWidthPx) / this.screen.width;
     this.plane.scale.y = (this.viewport.height * cardHeightPx) / this.screen.height;
     
     this.plane.program.uniforms.uPlaneSizes.value = [this.plane.scale.x, this.plane.scale.y];
-    this.padding = 2;
+    this.padding = 0.8;
     this.width = this.plane.scale.x + this.padding;
     this.widthTotal = this.width * this.length;
     this.x = this.width * this.index;

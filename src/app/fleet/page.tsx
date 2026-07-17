@@ -1,32 +1,25 @@
-'use client';
-
-import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Users, Luggage, ArrowRight } from 'lucide-react';
-import type { FleetVehicle } from '@/lib/supabase';
 import { getActiveFleet } from '@/lib/queries';
-import { SkeletonCard } from '@/components/Skeleton';
 import styles from './fleet.module.css';
+import type { Metadata } from 'next';
 
-export default function FleetPage() {
-  const [fleet, setFleet] = useState<FleetVehicle[]>([]);
-  const [loading, setLoading] = useState(true);
+export const revalidate = 60;
 
-  useEffect(() => {
-    async function fetchFleet() {
-      const data = await getActiveFleet();
-      if (data) setFleet(data as FleetVehicle[]);
-      setLoading(false);
-    }
-    fetchFleet();
-  }, []);
+export const metadata: Metadata = {
+  title: 'Our Premium Fleet | LookRides Chandigarh',
+  description: 'Choose from our range of sanitized, GPS-tracked, fully air-conditioned cabs — Sedans, SUVs, and Luxury vehicles — driven by verified highway specialists.',
+};
+
+export default async function FleetPage() {
+  const fleet = await getActiveFleet() || [];
 
   return (
     <div className={styles.page}>
       <header className={styles.pageHeader}>
         <div className="container">
-          <p className={styles.headerLabel}>Well-Maintained & Sanitized</p>
+          <p className={styles.headerLabel}>Well-Maintained &amp; Sanitized</p>
           <h1 className={styles.pageTitle}>Our Premium Fleet</h1>
           <p className={styles.headerSubtitle}>
             Every vehicle is thoroughly maintained, GPS-equipped, and driven by a verified professional chauffeur.
@@ -36,9 +29,9 @@ export default function FleetPage() {
 
       <section className={styles.fleetSection}>
         <div className="container">
-          {loading ? (
-            <div className={styles.fleetGrid}>
-              <SkeletonCard count={3} />
+          {fleet.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '4rem 0', color: 'var(--text-muted)' }}>
+              <p>Fleet information loading — please check back shortly.</p>
             </div>
           ) : (
             <div className={styles.fleetGrid}>
@@ -53,6 +46,7 @@ export default function FleetPage() {
                       loading={index === 0 ? undefined : 'lazy'}
                       style={{ objectFit: 'contain', padding: '1.5rem' }}
                       sizes="(max-width: 768px) 100vw, 33vw"
+                      unoptimized
                     />
                     <span className={styles.cardBadge}>{v.category}</span>
                   </div>

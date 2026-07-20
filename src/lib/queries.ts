@@ -3,7 +3,7 @@ import { supabaseAdmin } from './supabase-admin';
 export async function getActiveFleet() {
   const { data, error } = await supabaseAdmin
     .from('fleet')
-    .select('id, name, seats, bags, image_url, category, is_active, description, price_per_km, price_desc, order_index')
+    .select('id, name, seats, bags, image_url, category, is_active, price_desc, order_index')
     .eq('is_active', true)
     .order('order_index');
 
@@ -17,7 +17,7 @@ export async function getActiveFleet() {
 export async function getFleet() {
   const { data, error } = await supabaseAdmin
     .from('fleet')
-    .select('id, name, seats, bags, image_url, category, is_active, description, price_per_km, luggage_capacity, ac, night_halt_charge, driver_allowance')
+    .select('id, name, seats, bags, image_url, category, is_active, price_desc, order_index')
     .order('order_index');
 
   if (error) {

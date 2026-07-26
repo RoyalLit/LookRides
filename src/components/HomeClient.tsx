@@ -9,6 +9,7 @@ import {
   Luggage, Shield, Clock, ShieldCheck,
   BadgeCheck, HeadphonesIcon, Car, Navigation, Check,
   Wifi, Coffee, Newspaper, Sparkles, Tv,
+  Briefcase, Globe, CreditCard, Building2, Plane,
 } from "lucide-react";
 import { FleetVehicle, GoogleReview } from "@/lib/supabase";
 import dynamic from "next/dynamic";
@@ -636,6 +637,128 @@ export default function HomeClient({ fleet, reviews, settings, loading }: HomeCl
                 <p>{desc}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 7.5 CORPORATE, INTERNATIONAL & GLOBAL PAYMENTS SECTION */}
+      <section className={`${styles.corporateSection} reveal-on-scroll`} ref={addToRefs} data-journey="corporate" data-journey-label="Corporate & International">
+        <div className={styles.blobGold} style={{ top: '10%', right: '-150px' }} />
+        <div className="container">
+          <div className={`${styles.sectionHead} ${styles.corporateHeader} ${styles.revealUp}`}>
+            <span className="section-label" style={{ background: 'rgba(252,163,17,0.15)', color: '#fca311' }}>Enterprise & Global Travel</span>
+            <h2>Corporate Mobility & International Booking Gateway</h2>
+            <p>Whether you need GST-compliant corporate travel management or seamless pre-booking from abroad, LookRides delivers reliable intercity transport with global payment convenience.</p>
+          </div>
+
+          <div className={styles.corporateGrid}>
+            {/* Card 1: Corporate Bookings */}
+            <div className={styles.corporateCard}>
+              <div className={styles.corporateCardHeader}>
+                <div className={styles.corporateIconBox}>
+                  <Briefcase size={24} />
+                </div>
+                <span className={styles.corporateBadge}>GST & B2B Solutions</span>
+              </div>
+              <h3>Executive Corporate Travel</h3>
+              <p>Customized mobility accounts for business enterprises, IT firms, and executive delegations traveling between Chandigarh, Mohali, Gurgaon, and Delhi NCR.</p>
+              <ul className={styles.corporateList}>
+                <li className={styles.corporateListItem}>
+                  <span className={styles.corporateListCheck}><Check size={12} /></span>
+                  <strong>GST Invoice Included</strong> — Full input tax credit (ITC) on all business travel rides.
+                </li>
+                <li className={styles.corporateListItem}>
+                  <span className={styles.corporateListCheck}><Check size={12} /></span>
+                  <strong>Monthly Account Billing</strong> — Consolidated billing statements for corporate accounts.
+                </li>
+                <li className={styles.corporateListItem}>
+                  <span className={styles.corporateListCheck}><Check size={12} /></span>
+                  <strong>Executive Fleet</strong> — Premium Innova Crysta, Hycross & Sedans driven by suit-and-tie chauffeurs.
+                </li>
+                <li className={styles.corporateListItem}>
+                  <span className={styles.corporateListCheck}><Check size={12} /></span>
+                  <strong>Priority 24/7 Helpline</strong> — Dedicated account manager for instant corporate dispatch.
+                </li>
+              </ul>
+              <div className={styles.paymentBadgeGrid}>
+                <span className={styles.paymentPill}><Building2 size={13} style={{ color: '#fca311' }} /> GST Compliant</span>
+                <span className={styles.paymentPill}><Briefcase size={13} style={{ color: '#fca311' }} /> Corporate Rates</span>
+                <span className={styles.paymentPill}><CheckCircle size={13} style={{ color: '#fca311' }} /> Priority Dispatch</span>
+              </div>
+            </div>
+
+            {/* Card 2: International & NRI Bookings */}
+            <div className={styles.corporateCard}>
+              <div className={styles.corporateCardHeader}>
+                <div className={styles.corporateIconBox}>
+                  <Globe size={24} />
+                </div>
+                <span className={styles.corporateBadge}>Overseas Pre-Booking</span>
+              </div>
+              <h3>International & NRI Travel</h3>
+              <p>Flying into India from USA, UK, Canada, UAE, Europe, or Australia? Reserve your airport pickup and intercity ride before you board your flight.</p>
+              <ul className={styles.corporateList}>
+                <li className={styles.corporateListItem}>
+                  <span className={styles.corporateListCheck}><Check size={12} /></span>
+                  <strong>Flight Delay Tracking</strong> — Driver monitors flight status live at IGI Delhi & Chandigarh airports with zero wait fees.
+                </li>
+                <li className={styles.corporateListItem}>
+                  <span className={styles.corporateListCheck}><Check size={12} /></span>
+                  <strong>No Indian SIM Required</strong> — Chauffeur details and live tracking link sent directly via WhatsApp or Email.
+                </li>
+                <li className={styles.corporateListItem}>
+                  <span className={styles.corporateListCheck}><Check size={12} /></span>
+                  <strong>English-Speaking Chauffeurs</strong> — Courteous, verified drivers trained in international passenger standards.
+                </li>
+                <li className={styles.corporateListItem}>
+                  <span className={styles.corporateListCheck}><Check size={12} /></span>
+                  <strong>Pre-Paid Lock Fares</strong> — Pay securely online in advance with no currency exchange stress on arrival.
+                </li>
+              </ul>
+              <div className={styles.paymentBadgeGrid}>
+                <span className={styles.paymentPill}><Plane size={13} style={{ color: '#fca311' }} /> Airport Pickup</span>
+                <span className={styles.paymentPill}><Globe size={13} style={{ color: '#fca311' }} /> Global Pre-Book</span>
+                <span className={styles.paymentPill}><ShieldCheck size={13} style={{ color: '#fca311' }} /> Flight Monitored</span>
+              </div>
+            </div>
+
+            {/* Card 3: Multi-Channel Payment Gateway */}
+            <div className={styles.corporateCard}>
+              <div className={styles.corporateCardHeader}>
+                <div className={styles.corporateIconBox}>
+                  <CreditCard size={24} />
+                </div>
+                <span className={styles.corporateBadge}>Encrypted PhonePe Gateway</span>
+              </div>
+              <h3>100% Secure Payment Options</h3>
+              <p>We accept all major Indian & International payment methods via encrypted PhonePe gateway payment links generated instantly for your ride.</p>
+              <ul className={styles.corporateList}>
+                <li className={styles.corporateListItem}>
+                  <span className={styles.corporateListCheck}><Check size={12} /></span>
+                  <strong>Instant Payment Links</strong> — Secure PhonePe payment URLs sent via WhatsApp or SMS.
+                </li>
+                <li className={styles.corporateListItem}>
+                  <span className={styles.corporateListCheck}><Check size={12} /></span>
+                  <strong>UPI Integration</strong> — Instant 1-tap payments via PhonePe, Google Pay, Paytm, BHIM & CRED.
+                </li>
+                <li className={styles.corporateListItem}>
+                  <span className={styles.corporateListCheck}><Check size={12} /></span>
+                  <strong>All Credit & Debit Cards</strong> — Visa, MasterCard, RuPay, American Express (Amex) & Diners Club.
+                </li>
+                <li className={styles.corporateListItem}>
+                  <span className={styles.corporateListCheck}><Check size={12} /></span>
+                  <strong>NetBanking & Wallets</strong> — Supported across 50+ Indian banks & international card networks.
+                </li>
+              </ul>
+              <div className={styles.paymentBadgeGrid}>
+                <span className={styles.paymentPill}>📱 PhonePe / GPay</span>
+                <span className={styles.paymentPill}>💳 Visa</span>
+                <span className={styles.paymentPill}>💳 MasterCard</span>
+                <span className={styles.paymentPill}>💳 RuPay</span>
+                <span className={styles.paymentPill}>💳 Amex</span>
+                <span className={styles.paymentPill}>💳 Diners Club</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>

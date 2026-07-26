@@ -33,47 +33,55 @@ import styles from "@/app/page.module.css";
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 
-// In-car complimentary amenities data
+// In-car complimentary amenities data (6 items for 3x2 symmetrical grid)
 const inCarAmenities = [
   {
     title: "High-Speed 5G Wi-Fi & Fast Chargers",
-    desc: "Stay connected throughout your intercity journey with complimentary Wi-Fi and multi-device fast USB mobile charging ports.",
+    desc: "Stay connected throughout your intercity journey with complimentary 5G Wi-Fi and multi-device fast USB charging ports.",
     image: "/amenities/Wifi.png",
     badge: "5G Hotspot",
     Icon: Wifi,
-    tags: ["Fast Wi-Fi", "Multi-USB Charging", "Zero Dropouts"],
+    tagLine: "Fast Wi-Fi • Multi-Device USB Chargers",
   },
   {
-    title: "Complimentary Snacks & Refreshments",
-    desc: "Branded snacks, crisp biscuits, cookies, chilled mineral water bottles, and cold drinks packed fresh for your travel comfort.",
+    title: "Complimentary Snacks & Beverages",
+    desc: "Chilled mineral water bottles, soft drinks, crisp biscuits, and packaged snacks provided fresh for your journey.",
     image: "/amenities/Snacks.png",
     badge: "Always Fresh",
     Icon: Coffee,
-    tags: ["Mineral Water", "Chilled Cold Drinks", "Snacks & Biscuits"],
+    tagLine: "Mineral Water • Cold Drinks • Snacks",
   },
   {
     title: "Daily Newspapers & Magazines",
-    desc: "Catch up on morning headlines and regional news with leading English daily newspapers like The Tribune and Times of India.",
+    desc: "Catch up on morning headlines with leading English and regional daily newspapers like The Tribune & Times of India.",
     image: "/amenities/Newspaper.png",
     badge: "Daily Tribune",
     Icon: Newspaper,
-    tags: ["The Tribune", "Times of India", "Travel Reading"],
+    tagLine: "The Tribune • Times of India • Magazines",
   },
   {
     title: "Clean Tissues & Sanitizing Wipes",
-    desc: "Every cab is equipped with leather tissue dispensers, hand sanitizers, and refreshing wet wipes for a hygienic ride.",
+    desc: "Every cab is equipped with leather tissue dispensers, hand sanitizers, and soft wet wipes for complete personal hygiene.",
     image: "/amenities/Tissues.png",
     badge: "Sanitized & Clean",
     Icon: Sparkles,
-    tags: ["Tissue Dispenser", "Wet Wipes", "Hand Sanitizer"],
+    tagLine: "Tissue Dispenser • Wet Wipes • Sanitizer",
   },
   {
     title: "In-Car Screen & Audio Entertainment",
-    desc: "Enjoy video entertainment on mounted headrest screens or pair via Bluetooth audio sync to stream your favorite music playlists.",
+    desc: "Enjoy video entertainment on mounted headrest screens or pair via Bluetooth audio sync to stream your favorite playlists.",
     image: "/amenities/Entertainment.png",
     badge: "HD Display",
     Icon: Tv,
-    tags: ["Headrest Screen", "Bluetooth Audio", "Quiet Cabin"],
+    tagLine: "Headrest Screen • Bluetooth Audio Sync",
+  },
+  {
+    title: "Sanitized & Climate-Controlled Cabin",
+    desc: "Every vehicle is deep cleaned and vacuumed before pickup, featuring powerful dual-zone AC for all-weather comfort.",
+    image: "/company-fleet.jpg",
+    badge: "Dual-Zone AC",
+    Icon: Car,
+    tagLine: "Sanitized Cabs • Dual-Zone AC Control",
   },
 ];
 const FALLBACK_FLEET = [
@@ -538,7 +546,7 @@ export default function HomeClient({ fleet, reviews, settings, loading }: HomeCl
           </div>
 
           <div className={styles.amenitiesGrid}>
-            {inCarAmenities.map(({ title, desc, image, badge, Icon, tags }) => (
+            {inCarAmenities.map(({ title, desc, image, badge, Icon, tagLine }) => (
               <div key={title} className={styles.amenityCard}>
                 <div className={styles.amenityImgWrap}>
                   <Image 
@@ -548,20 +556,13 @@ export default function HomeClient({ fleet, reviews, settings, loading }: HomeCl
                     className={styles.amenityImage}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
-                  <span className={styles.amenityBadge}>
-                    <Icon size={13} /> {badge}
-                  </span>
                 </div>
                 <div className={styles.amenityBody}>
                   <h3>{title}</h3>
                   <p>{desc}</p>
-                  <ul className={styles.amenityFeaturesList}>
-                    {tags.map((tag) => (
-                      <li key={tag} className={styles.amenityFeaturePill}>
-                        <Check size={12} style={{ color: '#fca311' }} /> {tag}
-                      </li>
-                    ))}
-                  </ul>
+                  <span className={styles.amenityTagLine}>
+                    <Icon size={13} /> {tagLine}
+                  </span>
                 </div>
               </div>
             ))}
@@ -641,123 +642,102 @@ export default function HomeClient({ fleet, reviews, settings, loading }: HomeCl
         </div>
       </section>
 
-      {/* 7.5 CORPORATE, INTERNATIONAL & GLOBAL PAYMENTS SECTION */}
+      {/* 7.5 CORPORATE, INTERNATIONAL & GLOBAL PAYMENTS SECTION (Clean 2-Column Split) */}
       <section className={`${styles.corporateSection} reveal-on-scroll`} ref={addToRefs} data-journey="corporate" data-journey-label="Corporate & International">
         <div className={styles.blobGold} style={{ top: '10%', right: '-150px' }} />
         <div className="container">
           <div className={`${styles.sectionHead} ${styles.corporateHeader} ${styles.revealUp}`}>
-            <span className="section-label" style={{ background: 'rgba(252,163,17,0.15)', color: '#fca311' }}>Enterprise & Global Travel</span>
-            <h2>Corporate Mobility & International Booking Gateway</h2>
-            <p>Whether you need GST-compliant corporate travel management or seamless pre-booking from abroad, LookRides delivers reliable intercity transport with global payment convenience.</p>
+            <span className="section-label" style={{ background: 'rgba(252,163,17,0.15)', color: '#fca311' }}>Corporate & Global Travel</span>
+            <h2>Corporate Mobility & Overseas Pre-Booking</h2>
+            <p>Tailored mobility accounts for business enterprises and seamless pre-flight bookings for international travelers landing in North India.</p>
           </div>
 
-          <div className={styles.corporateGrid}>
-            {/* Card 1: Corporate Bookings */}
-            <div className={styles.corporateCard}>
-              <div className={styles.corporateCardHeader}>
-                <div className={styles.corporateIconBox}>
-                  <Briefcase size={24} />
+          <div className={styles.corporateGrid2Col}>
+            {/* Card 1: Executive Corporate Travel */}
+            <div className={styles.corporateCardSpacious}>
+              <div className={styles.corporateTopRow}>
+                <div className={styles.corporateIconGlow}>
+                  <Briefcase size={22} />
                 </div>
-                <span className={styles.corporateBadge}>GST & B2B Solutions</span>
+                <div>
+                  <h3>Executive Corporate Travel</h3>
+                  <span style={{ fontSize: '0.8rem', color: '#fca311', fontWeight: 600 }}>GST Invoicing & Monthly B2B Accounts</span>
+                </div>
               </div>
-              <h3>Executive Corporate Travel</h3>
-              <p>Customized mobility accounts for business enterprises, IT firms, and executive delegations traveling between Chandigarh, Mohali, Gurgaon, and Delhi NCR.</p>
-              <ul className={styles.corporateList}>
-                <li className={styles.corporateListItem}>
-                  <span className={styles.corporateListCheck}><Check size={12} /></span>
-                  <strong>GST Invoice Included</strong> — Full input tax credit (ITC) on all business travel rides.
-                </li>
-                <li className={styles.corporateListItem}>
-                  <span className={styles.corporateListCheck}><Check size={12} /></span>
-                  <strong>Monthly Account Billing</strong> — Consolidated billing statements for corporate accounts.
-                </li>
-                <li className={styles.corporateListItem}>
-                  <span className={styles.corporateListCheck}><Check size={12} /></span>
-                  <strong>Executive Fleet</strong> — Premium Innova Crysta, Hycross & Sedans driven by suit-and-tie chauffeurs.
-                </li>
-                <li className={styles.corporateListItem}>
-                  <span className={styles.corporateListCheck}><Check size={12} /></span>
-                  <strong>Priority 24/7 Helpline</strong> — Dedicated account manager for instant corporate dispatch.
-                </li>
-              </ul>
-              <div className={styles.paymentBadgeGrid}>
-                <span className={styles.paymentPill}><Building2 size={13} style={{ color: '#fca311' }} /> GST Compliant</span>
-                <span className={styles.paymentPill}><Briefcase size={13} style={{ color: '#fca311' }} /> Corporate Rates</span>
-                <span className={styles.paymentPill}><CheckCircle size={13} style={{ color: '#fca311' }} /> Priority Dispatch</span>
+              <p>Streamlined outstation travel management for business enterprises, IT firms, and executive delegations across Chandigarh, Mohali, Gurgaon, and Delhi NCR.</p>
+              
+              <div className={styles.corporateCheckGrid}>
+                <div className={styles.corporateCheckPill}>
+                  <Check size={14} className={styles.checkIconGold} />
+                  <span>GST Input Tax Credit</span>
+                </div>
+                <div className={styles.corporateCheckPill}>
+                  <Check size={14} className={styles.checkIconGold} />
+                  <span>Monthly Billing Accounts</span>
+                </div>
+                <div className={styles.corporateCheckPill}>
+                  <Check size={14} className={styles.checkIconGold} />
+                  <span>Executive Fleet & Chauffeurs</span>
+                </div>
+                <div className={styles.corporateCheckPill}>
+                  <Check size={14} className={styles.checkIconGold} />
+                  <span>Priority 24/7 Helpline</span>
+                </div>
               </div>
             </div>
 
-            {/* Card 2: International & NRI Bookings */}
-            <div className={styles.corporateCard}>
-              <div className={styles.corporateCardHeader}>
-                <div className={styles.corporateIconBox}>
-                  <Globe size={24} />
+            {/* Card 2: International & NRI Travel */}
+            <div className={styles.corporateCardSpacious}>
+              <div className={styles.corporateTopRow}>
+                <div className={styles.corporateIconGlow}>
+                  <Globe size={22} />
                 </div>
-                <span className={styles.corporateBadge}>Overseas Pre-Booking</span>
+                <div>
+                  <h3>International & NRI Pre-Booking</h3>
+                  <span style={{ fontSize: '0.8rem', color: '#fca311', fontWeight: 600 }}>Pre-Flight Airport Pickups</span>
+                </div>
               </div>
-              <h3>International & NRI Travel</h3>
-              <p>Flying into India from USA, UK, Canada, UAE, Europe, or Australia? Reserve your airport pickup and intercity ride before you board your flight.</p>
-              <ul className={styles.corporateList}>
-                <li className={styles.corporateListItem}>
-                  <span className={styles.corporateListCheck}><Check size={12} /></span>
-                  <strong>Flight Delay Tracking</strong> — Driver monitors flight status live at IGI Delhi & Chandigarh airports with zero wait fees.
-                </li>
-                <li className={styles.corporateListItem}>
-                  <span className={styles.corporateListCheck}><Check size={12} /></span>
-                  <strong>No Indian SIM Required</strong> — Chauffeur details and live tracking link sent directly via WhatsApp or Email.
-                </li>
-                <li className={styles.corporateListItem}>
-                  <span className={styles.corporateListCheck}><Check size={12} /></span>
-                  <strong>English-Speaking Chauffeurs</strong> — Courteous, verified drivers trained in international passenger standards.
-                </li>
-                <li className={styles.corporateListItem}>
-                  <span className={styles.corporateListCheck}><Check size={12} /></span>
-                  <strong>Pre-Paid Lock Fares</strong> — Pay securely online in advance with no currency exchange stress on arrival.
-                </li>
-              </ul>
-              <div className={styles.paymentBadgeGrid}>
-                <span className={styles.paymentPill}><Plane size={13} style={{ color: '#fca311' }} /> Airport Pickup</span>
-                <span className={styles.paymentPill}><Globe size={13} style={{ color: '#fca311' }} /> Global Pre-Book</span>
-                <span className={styles.paymentPill}><ShieldCheck size={13} style={{ color: '#fca311' }} /> Flight Monitored</span>
+              <p>Flying into India from USA, UK, Canada, UAE, Europe, or Australia? Reserve your intercity cab before boarding with live flight delay tracking.</p>
+              
+              <div className={styles.corporateCheckGrid}>
+                <div className={styles.corporateCheckPill}>
+                  <Check size={14} className={styles.checkIconGold} />
+                  <span>Live Flight Delay Tracking</span>
+                </div>
+                <div className={styles.corporateCheckPill}>
+                  <Check size={14} className={styles.checkIconGold} />
+                  <span>No Indian SIM Needed</span>
+                </div>
+                <div className={styles.corporateCheckPill}>
+                  <Check size={14} className={styles.checkIconGold} />
+                  <span>English-Speaking Drivers</span>
+                </div>
+                <div className={styles.corporateCheckPill}>
+                  <Check size={14} className={styles.checkIconGold} />
+                  <span>Pre-Paid Fixed Fares</span>
+                </div>
               </div>
             </div>
+          </div>
 
-            {/* Card 3: Multi-Channel Payment Gateway */}
-            <div className={styles.corporateCard}>
-              <div className={styles.corporateCardHeader}>
-                <div className={styles.corporateIconBox}>
-                  <CreditCard size={24} />
-                </div>
-                <span className={styles.corporateBadge}>Encrypted PhonePe Gateway</span>
+          {/* Full-Width Payment Trust Banner */}
+          <div className={styles.paymentTrustBanner}>
+            <div className={styles.paymentBannerLeft}>
+              <div className={styles.corporateIconGlow} style={{ width: '40px', height: '40px' }}>
+                <CreditCard size={20} />
               </div>
-              <h3>100% Secure Payment Options</h3>
-              <p>We accept all major Indian & International payment methods via encrypted PhonePe gateway payment links generated instantly for your ride.</p>
-              <ul className={styles.corporateList}>
-                <li className={styles.corporateListItem}>
-                  <span className={styles.corporateListCheck}><Check size={12} /></span>
-                  <strong>Instant Payment Links</strong> — Secure PhonePe payment URLs sent via WhatsApp or SMS.
-                </li>
-                <li className={styles.corporateListItem}>
-                  <span className={styles.corporateListCheck}><Check size={12} /></span>
-                  <strong>UPI Integration</strong> — Instant 1-tap payments via PhonePe, Google Pay, Paytm, BHIM & CRED.
-                </li>
-                <li className={styles.corporateListItem}>
-                  <span className={styles.corporateListCheck}><Check size={12} /></span>
-                  <strong>All Credit & Debit Cards</strong> — Visa, MasterCard, RuPay, American Express (Amex) & Diners Club.
-                </li>
-                <li className={styles.corporateListItem}>
-                  <span className={styles.corporateListCheck}><Check size={12} /></span>
-                  <strong>NetBanking & Wallets</strong> — Supported across 50+ Indian banks & international card networks.
-                </li>
-              </ul>
-              <div className={styles.paymentBadgeGrid}>
-                <span className={styles.paymentPill}>📱 PhonePe / GPay</span>
-                <span className={styles.paymentPill}>💳 Visa</span>
-                <span className={styles.paymentPill}>💳 MasterCard</span>
-                <span className={styles.paymentPill}>💳 RuPay</span>
-                <span className={styles.paymentPill}>💳 Amex</span>
-                <span className={styles.paymentPill}>💳 Diners Club</span>
+              <div className={styles.paymentBannerTitle}>
+                <h4>100% Encrypted Payment Gateway</h4>
+                <p>Instant PhonePe payment links sent via WhatsApp or Email. All major payment methods accepted.</p>
               </div>
+            </div>
+            <div className={styles.paymentLogosRow}>
+              <span className={styles.paymentMethodTag}>📱 PhonePe / GPay / Paytm</span>
+              <span className={styles.paymentMethodTag}>💳 Visa</span>
+              <span className={styles.paymentMethodTag}>💳 MasterCard</span>
+              <span className={styles.paymentMethodTag}>💳 RuPay</span>
+              <span className={styles.paymentMethodTag}>💳 Amex</span>
+              <span className={styles.paymentMethodTag}>💳 Diners Club</span>
             </div>
           </div>
         </div>

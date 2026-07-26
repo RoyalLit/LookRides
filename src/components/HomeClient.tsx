@@ -8,6 +8,7 @@ import {
   Users, Star, ArrowRight, CheckCircle, Phone,
   Luggage, Shield, Clock, ShieldCheck,
   BadgeCheck, HeadphonesIcon, Car, Navigation, Check,
+  Wifi, Coffee, Newspaper, Sparkles, Tv,
 } from "lucide-react";
 import { FleetVehicle, GoogleReview } from "@/lib/supabase";
 import dynamic from "next/dynamic";
@@ -31,7 +32,49 @@ import styles from "@/app/page.module.css";
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 
-// Static fallback fleet — displayed if Supabase returns no rows
+// In-car complimentary amenities data
+const inCarAmenities = [
+  {
+    title: "High-Speed 5G Wi-Fi & Fast Chargers",
+    desc: "Stay connected throughout your intercity journey with complimentary Wi-Fi and multi-device fast USB mobile charging ports.",
+    image: "/amenities/Wifi.png",
+    badge: "5G Hotspot",
+    Icon: Wifi,
+    tags: ["Fast Wi-Fi", "Multi-USB Charging", "Zero Dropouts"],
+  },
+  {
+    title: "Complimentary Snacks & Refreshments",
+    desc: "Branded snacks, crisp biscuits, cookies, chilled mineral water bottles, and cold drinks packed fresh for your travel comfort.",
+    image: "/amenities/Snacks.png",
+    badge: "Always Fresh",
+    Icon: Coffee,
+    tags: ["Mineral Water", "Chilled Cold Drinks", "Snacks & Biscuits"],
+  },
+  {
+    title: "Daily Newspapers & Magazines",
+    desc: "Catch up on morning headlines and regional news with leading English daily newspapers like The Tribune and Times of India.",
+    image: "/amenities/Newspaper.png",
+    badge: "Daily Tribune",
+    Icon: Newspaper,
+    tags: ["The Tribune", "Times of India", "Travel Reading"],
+  },
+  {
+    title: "Clean Tissues & Sanitizing Wipes",
+    desc: "Every cab is equipped with leather tissue dispensers, hand sanitizers, and refreshing wet wipes for a hygienic ride.",
+    image: "/amenities/Tissues.png",
+    badge: "Sanitized & Clean",
+    Icon: Sparkles,
+    tags: ["Tissue Dispenser", "Wet Wipes", "Hand Sanitizer"],
+  },
+  {
+    title: "In-Car Screen & Audio Entertainment",
+    desc: "Enjoy video entertainment on mounted headrest screens or pair via Bluetooth audio sync to stream your favorite music playlists.",
+    image: "/amenities/Entertainment.png",
+    badge: "HD Display",
+    Icon: Tv,
+    tags: ["Headrest Screen", "Bluetooth Audio", "Quiet Cabin"],
+  },
+];
 const FALLBACK_FLEET = [
   {
     id: 'sedan-fallback',
@@ -479,6 +522,48 @@ export default function HomeClient({ fleet, reviews, settings, loading }: HomeCl
 
           <div className={styles.fleetMore}>
             <Link href="/fleet" className="btn btn-outline">Compare Full Fleet Specifications <ArrowRight size={15} /></Link>
+          </div>
+        </div>
+      </section>
+
+      {/* 4.5 IN-CAR AMENITIES & FACILITIES SECTION */}
+      <section className={`${styles.amenitiesSection} reveal-on-scroll`} ref={addToRefs} data-journey="amenities" data-journey-label="In-Car Facilities">
+        <div className={styles.blobGold} style={{ top: '5%', right: '-150px' }} />
+        <div className="container">
+          <div className={`${styles.sectionHead} ${styles.revealUp}`}>
+            <span className="section-label">Luxury Touches</span>
+            <h2>Complimentary In-Car Facilities</h2>
+            <p>Every outstation ride with LookRides comes fully equipped with premium amenities for your ultimate travel comfort.</p>
+          </div>
+
+          <div className={styles.amenitiesGrid}>
+            {inCarAmenities.map(({ title, desc, image, badge, Icon, tags }) => (
+              <div key={title} className={styles.amenityCard}>
+                <div className={styles.amenityImgWrap}>
+                  <Image 
+                    src={image} 
+                    alt={title} 
+                    fill 
+                    className={styles.amenityImage}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                  <span className={styles.amenityBadge}>
+                    <Icon size={13} /> {badge}
+                  </span>
+                </div>
+                <div className={styles.amenityBody}>
+                  <h3>{title}</h3>
+                  <p>{desc}</p>
+                  <ul className={styles.amenityFeaturesList}>
+                    {tags.map((tag) => (
+                      <li key={tag} className={styles.amenityFeaturePill}>
+                        <Check size={12} style={{ color: '#fca311' }} /> {tag}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>

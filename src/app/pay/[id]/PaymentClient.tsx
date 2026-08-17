@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { CreditCard, CheckCircle, XCircle, Loader2, ArrowRight } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
@@ -9,8 +9,7 @@ import Logo from '@/components/Logo';
 export default function PaymentClient({ link }: { link: any }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [payuData, setPayuData] = useState<{ payuUrl: string; params: Record<string, string> } | null>(null);
-  const formRef = useRef<HTMLFormElement>(null);
+  const [payuParams, setPayuParams] = useState<{ payuUrl: string; params: Record<string, string> } | null>(null);
   const searchParams = useSearchParams();
   const [currentStatus, setCurrentStatus] = useState(link.status);
 
@@ -23,12 +22,29 @@ export default function PaymentClient({ link }: { link: any }) {
     }
   }, [searchParams]);
 
-  useEffect(() => {
-    if (payuData && formRef.current) {
-      console.log('Submitting PayU form to:', payuData.payuUrl);
-      formRef.current.submit();
+  const submitToPayU = (url: string, params: Record<string, string>) => {
+    const existing = document.getElementById('payu-submit-form');
+    if (existing) {
+      existing.remove();
     }
-  }, [payuData]);
+
+    const form = document.createElement('form');
+    form.id = 'payu-submit-form';
+    form.setAttribute('method', 'POST');
+    form.setAttribute('action', url);
+    form.setAttribute('target', '_top');
+
+    Object.entries(params).forEach(([k, v]) => {
+      const input = document.createElement('input');
+      input.setAttribute('type', 'hidden');
+      input.setAttribute('name', k);
+      input.setAttribute('value', String(v ?? ''));
+      form.appendChild(input);
+    });
+
+    document.body.appendChild(form);
+    HTMLFormElement.prototype.submit.call(form);
+  };
 
   const handlePay = async () => {
     setLoading(true);
@@ -40,15 +56,16 @@ export default function PaymentClient({ link }: { link: any }) {
         body: JSON.stringify({ paymentLinkId: link.id })
       });
       const data = await res.json();
-      
+
       if (res.ok && data.payuUrl && data.params) {
-        setPayuData({ payuUrl: data.payuUrl, params: data.params });
+        setPayuParams({ payuUrl: data.payuUrl, params: data.params });
+        submitToPayU(data.payuUrl, data.params);
       } else {
         setError(data.error || 'Failed to initiate PayU payment.');
         setLoading(false);
       }
     } catch (err) {
-      console.error(err);
+      console.error('Payment initiation error:', err);
       setError('An error occurred while connecting to the payment gateway.');
       setLoading(false);
     }
@@ -72,7 +89,7 @@ export default function PaymentClient({ link }: { link: any }) {
         <XCircle size={64} color="#ef4444" style={{ margin: '0 auto 20px' }} />
         <h1 style={{ marginBottom: '10px' }}>Payment Failed</h1>
         <p style={{ color: '#666', marginBottom: '20px' }}>Unfortunately, your payment could not be processed.</p>
-        <button onClick={() => { setCurrentStatus('pending'); setPayuData(null); setLoading(false); }} className="btn btn-primary" style={{ marginTop: '20px' }}>Try Again</button>
+        <button onClick={() => { setCurrentStatus('pending'); setPayuParams(null); setLoading(false); }} className="btn btn-primary" style={{ marginTop: '20px' }}>Try Again</button>
       </div>
     );
   }
@@ -105,26 +122,18 @@ export default function PaymentClient({ link }: { link: any }) {
         </div>
       )}
 
-      {payuData && (
-        <form ref={formRef} action={payuData.payuUrl} method="POST" style={{ display: 'none' }}>
-          {Object.entries(payuData.params).map(([k, v]) => (
-            <input key={k} type="hidden" name={k} value={String(v)} />
-          ))}
-        </form>
-      )}
-
-      {payuData ? (
+      {payuParams ? (
         <div style={{ marginTop: '20px' }}>
           <p style={{ color: '#0284c7', marginBottom: '15px', fontWeight: 600, fontSize: '0.95rem' }}>
             Redirecting to PayU Secure Gateway...
           </p>
           <button 
             type="button"
-            onClick={() => formRef.current?.submit()}
+            onClick={() => submitToPayU(payuParams.payuUrl, payuParams.params)}
             className="btn btn-primary" 
             style={{ width: '100%', padding: '14px', fontSize: '1.05rem', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px' }}
           >
-            Proceed to PayU Gateway <ArrowRight size={18} />
+            Click to Proceed to PayU Checkout <ArrowRight size={18} />
           </button>
         </div>
       ) : (

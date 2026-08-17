@@ -12,12 +12,12 @@ export default function PaymentClient({ link }: { link: any }) {
   const searchParams = useSearchParams();
   const [currentStatus, setCurrentStatus] = useState(link.status);
 
-  // If redirected back from PhonePe, we might want to check status again 
-  // (PhonePe relies on S2S webhook, but we can poll or just show status based on query params initially)
   useEffect(() => {
-    if (searchParams.get('status') === 'redirect') {
-      // In a real app, you might poll the server here to wait for S2S webhook to complete.
-      // For now, we'll just show a message.
+    const statusParam = searchParams.get('status');
+    if (statusParam === 'success') {
+      setCurrentStatus('success');
+    } else if (statusParam === 'failed') {
+      setCurrentStatus('failed');
     }
   }, [searchParams]);
 
@@ -32,16 +32,25 @@ export default function PaymentClient({ link }: { link: any }) {
       });
       const data = await res.json();
       
-      if (res.ok && data.redirectUrl) {
-        window.location.href = data.redirectUrl;
+      if (res.ok && data.payuUrl && data.params) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = data.payuUrl;
+
+        Object.entries(data.params).forEach(([key, val]) => {
+          if (val !== undefined && val !== null) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = String(val);
+            form.appendChild(input);
+          }
+        });
+
+        document.body.appendChild(form);
+        form.submit();
       } else {
-        let errorMsg = data.error || 'Failed to initiate payment.';
-        if (data.details && data.details.message) {
-          errorMsg = `PhonePe Error: ${data.details.message}`;
-        } else if (data.details && data.details.code) {
-          errorMsg = `PhonePe Error: ${data.details.code}`;
-        }
-        setError(errorMsg);
+        setError(data.error || 'Failed to initiate PayU payment.');
         setLoading(false);
       }
     } catch (err) {
@@ -81,7 +90,7 @@ export default function PaymentClient({ link }: { link: any }) {
       </div>
       
       <h1 style={{ fontSize: '1.5rem', marginBottom: '10px' }}>Payment Checkout</h1>
-      <p style={{ color: '#666', marginBottom: '30px' }}>Securely complete your LookRides booking.</p>
+      <p style={{ color: '#666', marginBottom: '30px' }}>Securely complete your LookRides booking via PayU.</p>
 
       <div style={{ background: '#f8f9fa', padding: '20px', borderRadius: '8px', marginBottom: '30px', textAlign: 'left' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
@@ -102,12 +111,6 @@ export default function PaymentClient({ link }: { link: any }) {
         </div>
       )}
 
-      {searchParams.get('status') === 'redirect' && !error && (
-        <div style={{ background: '#e0f2fe', color: '#0369a1', padding: '12px', borderRadius: '6px', marginBottom: '20px', fontSize: '0.9rem' }}>
-          Verifying payment status... if you just paid, please wait a moment.
-        </div>
-      )}
-
       <button 
         onClick={handlePay} 
         disabled={loading}
@@ -115,12 +118,12 @@ export default function PaymentClient({ link }: { link: any }) {
         style={{ width: '100%', padding: '14px', fontSize: '1.1rem', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px' }}
       >
         {loading ? <Loader2 className="spin" size={20} /> : <CreditCard size={20} />}
-        {loading ? 'Processing...' : `Pay ₹${link.amount} Securely`}
+        {loading ? 'Redirecting to PayU...' : `Pay ₹${link.amount} Securely`}
       </button>
 
       <p style={{ fontSize: '0.8rem', color: '#999', marginTop: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px' }}>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-        Secured by PhonePe
+        Secured by PayU
       </p>
     </div>
   );

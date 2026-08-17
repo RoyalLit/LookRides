@@ -123,7 +123,7 @@ export default function Footer() {
         </div>
         <div className={`container ${styles.securePayment}`}>
           <Shield size={14} className={styles.secureIcon} /> 
-          <span>100% Secure Payments processed by <strong>PhonePe</strong></span>
+          <span>100% Secure Payments processed by <strong>PayU</strong></span>
           <span className={styles.paymentMethods}>· UPI · Credit/Debit Cards · Netbanking</span>
         </div>
       </div>

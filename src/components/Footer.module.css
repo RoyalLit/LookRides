@@ -166,12 +166,12 @@ a.contactItem:hover {
 }
 
 .securePayment strong {
-  color: #a677e5; /* PhonePe lightened purple for dark mode visibility */
+  color: #22c55e; /* PayU green for dark mode visibility */
   font-weight: 600;
 }
 
 .secureIcon {
-  color: #a677e5;
+  color: #22c55e;
 }
 
 .paymentMethods {

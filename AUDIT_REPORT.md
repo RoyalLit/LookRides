@@ -2,7 +2,7 @@
 
 **Date:** 2026-07-17
 **Scope:** Full codebase — 20+ pages, 18 API routes, 30+ components, 11 lib modules, config, migrations
-**Stack:** Next.js 16, Supabase (SSR + service role), PhonePe payments, Zod, Resend email
+**Stack:** Next.js 16, Supabase (SSR + service role), PayU Payment Gateway, Zod, Resend email
 **Reviewers:** 7 subagents — SEO, Security, UI/Visual, UX, Performance, Code Quality, Accessibility
 
 ---

@@ -123,7 +123,7 @@ const FALLBACK_FLEET = [
 const trustFeatures = [
   { Icon: BadgeCheck, title: "Verified Drivers", desc: "Every chauffeur undergoes biometric & criminal background checks." },
   { Icon: Shield, title: "Fixed All-Inclusive Fares", desc: "No toll surprises or night charges. You pay exactly what you see." },
-  { Icon: ShieldCheck, title: "100% Secure Payments", desc: "Pay securely via PhonePe. All major UPI apps, cards & netbanking accepted." },
+  { Icon: ShieldCheck, title: "100% Secure Payments", desc: "Pay securely via PayU. All major UPI apps, cards & netbanking accepted." },
   { Icon: HeadphonesIcon, title: "24/7 Dedicated Helpline", desc: "Round-the-clock support dispatch for complete peace of mind." },
 ];
 
@@ -728,11 +728,11 @@ export default function HomeClient({ fleet, reviews, settings, loading }: HomeCl
               </div>
               <div className={styles.paymentBannerTitle}>
                 <h4>100% Encrypted Payment Gateway</h4>
-                <p>Instant PhonePe payment links sent via WhatsApp or Email. All major payment methods accepted.</p>
+                <p>Instant PayU payment links sent via WhatsApp or Email. All major payment methods accepted.</p>
               </div>
             </div>
             <div className={styles.paymentLogosRow}>
-              <span className={styles.paymentMethodTag}>📱 PhonePe / GPay / Paytm</span>
+              <span className={styles.paymentMethodTag}>📱 UPI / PhonePe / GPay / Paytm</span>
               <span className={styles.paymentMethodTag}>💳 Visa</span>
               <span className={styles.paymentMethodTag}>💳 MasterCard</span>
               <span className={styles.paymentMethodTag}>💳 RuPay</span>

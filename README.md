@@ -19,7 +19,7 @@
 - Multi-step widget with route, date, vehicle, and passenger selection
 - Zero-upfront payment model — confirm booking, pay later
 - Real-time Telegram, Email, and WhatsApp notifications to dispatch team
-- PhonePe V2 Checkout API integration with OAuth & secure S2S webhook verification
+- PayU Hosted Payment Gateway integration with SHA-512 security hash & reverse hash verification
 
 ### Programmatic SEO
 - 19 dynamic route pages (`/routes/[slug]`) with unique JSON-LD structured data
@@ -30,7 +30,7 @@
 
 ### Admin Operations Portal (`/admin`)
 - Secure JWT-authenticated dashboard with dynamic real-time metrics
-- Centralized Payment Operations: Generate, share, and track secure PhonePe payment links (via WhatsApp/Email directly from the dashboard)
+- Centralized Payment Operations: Generate, share, and track secure PayU payment links (via WhatsApp/Email directly from the dashboard)
 - Full CRUD architecture for: bookings, fleet, pricing, reviews, blog posts, messages, users, and global settings
 - Google Reviews Sync via SerpAPI integration
 - CSV export module for offline booking and financial analysis
@@ -144,7 +144,7 @@ src/
 | **Styling** | CSS Modules, Custom Design Tokens (navy `#0B132B` / gold `#FCA311`) |
 | **Database** | Supabase PostgreSQL + Row Level Security |
 | **Auth** | Supabase Auth with cookie-based `is_admin` verification |
-| **Payments** | PhonePe V2 API (OAuth checkout + secure webhook validation) |
+| **Payments** | PayU Payment Gateway (SHA-512 Checkout + secure reverse hash verification) |
 | **Email** | Resend API |
 | **Testing** | Vitest 4 (unit), Playwright (E2E) |
 | **Linting** | ESLint 9 flat config |

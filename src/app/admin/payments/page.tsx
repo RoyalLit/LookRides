@@ -123,7 +123,7 @@ export default function PaymentsManagement() {
     <div className={styles.dashboardContainer}>
       <header className={styles.pageHeader}>
         <h1>Payment Links</h1>
-        <p>Generate and manage PhonePe payment links for customers</p>
+        <p>Generate and manage PayU payment links for customers</p>
       </header>
 
       <div className={styles.formGrid}>

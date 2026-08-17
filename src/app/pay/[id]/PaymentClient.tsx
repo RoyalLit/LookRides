@@ -64,7 +64,14 @@ export default function PaymentClient({ link, payuFields }: { link: any; payuFie
         )}
       </div>
 
-      <form action={payuFields.payuUrl} method="POST">
+      <form 
+        action={payuFields.payuUrl} 
+        method="POST"
+        target="_top"
+        onSubmit={(e) => {
+          e.stopPropagation();
+        }}
+      >
         <input type="hidden" name="key" value={payuFields.key} />
         <input type="hidden" name="txnid" value={payuFields.txnid} />
         <input type="hidden" name="amount" value={payuFields.amount} />

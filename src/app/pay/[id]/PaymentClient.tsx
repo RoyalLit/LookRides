@@ -19,6 +19,45 @@ export default function PaymentClient({ link, payuFields }: { link: any; payuFie
     }
   }, [searchParams]);
 
+  const handlePayClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+
+    const oldForm = document.getElementById('native-payu-form');
+    if (oldForm) {
+      oldForm.remove();
+    }
+
+    const form = document.createElement('form');
+    form.id = 'native-payu-form';
+    form.method = 'POST';
+    form.action = payuFields.payuUrl;
+
+    const params: Record<string, string> = {
+      key: payuFields.key,
+      txnid: payuFields.txnid,
+      amount: payuFields.amount,
+      productinfo: payuFields.productinfo,
+      firstname: payuFields.firstname,
+      email: payuFields.email,
+      phone: payuFields.phone,
+      surl: payuFields.surl,
+      furl: payuFields.furl,
+      hash: payuFields.hash,
+      udf1: payuFields.udf1,
+    };
+
+    Object.entries(params).forEach(([key, val]) => {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = key;
+      input.value = String(val ?? '');
+      form.appendChild(input);
+    });
+
+    document.body.appendChild(form);
+    form.submit();
+  };
+
   if (currentStatus === 'success') {
     return (
       <div className="glass-panel" style={{ textAlign: 'center', padding: '40px 20px' }}>
@@ -64,35 +103,15 @@ export default function PaymentClient({ link, payuFields }: { link: any; payuFie
         )}
       </div>
 
-      <form 
-        action={payuFields.payuUrl} 
-        method="POST"
-        target="_top"
-        onSubmit={(e) => {
-          e.stopPropagation();
-        }}
+      <button 
+        type="button" 
+        onClick={handlePayClick}
+        className="btn btn-primary" 
+        style={{ width: '100%', padding: '14px', fontSize: '1.1rem', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px' }}
       >
-        <input type="hidden" name="key" value={payuFields.key} />
-        <input type="hidden" name="txnid" value={payuFields.txnid} />
-        <input type="hidden" name="amount" value={payuFields.amount} />
-        <input type="hidden" name="productinfo" value={payuFields.productinfo} />
-        <input type="hidden" name="firstname" value={payuFields.firstname} />
-        <input type="hidden" name="email" value={payuFields.email} />
-        <input type="hidden" name="phone" value={payuFields.phone} />
-        <input type="hidden" name="surl" value={payuFields.surl} />
-        <input type="hidden" name="furl" value={payuFields.furl} />
-        <input type="hidden" name="hash" value={payuFields.hash} />
-        <input type="hidden" name="udf1" value={payuFields.udf1} />
-
-        <button 
-          type="submit" 
-          className="btn btn-primary" 
-          style={{ width: '100%', padding: '14px', fontSize: '1.1rem', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px' }}
-        >
-          <CreditCard size={20} />
-          Pay ₹{link.amount} Securely
-        </button>
-      </form>
+        <CreditCard size={20} />
+        Pay ₹{link.amount} Securely
+      </button>
 
       <p style={{ fontSize: '0.8rem', color: '#999', marginTop: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px' }}>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>

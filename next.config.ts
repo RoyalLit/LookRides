@@ -104,6 +104,6 @@ const nextConfig: NextConfig = {
 
 const cspValue = process.env.NODE_ENV === 'development'
   ? "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://*.supabase.co https://images.unsplash.com https://www.google-analytics.com https://*.cartocdn.com; connect-src 'self' https://*.supabase.co https://www.google-analytics.com; font-src 'self'; frame-src 'self';"
-  : "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://*.supabase.co https://images.unsplash.com https://www.google-analytics.com https://*.cartocdn.com; connect-src 'self' https://*.supabase.co https://www.google-analytics.com https://photon.komoot.io https://api.razorpay.com; font-src 'self'; frame-src 'self' https://api.razorpay.com; base-uri 'self'; form-action 'self';";
+  : "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://*.supabase.co https://images.unsplash.com https://www.google-analytics.com https://*.cartocdn.com; connect-src 'self' https://*.supabase.co https://www.google-analytics.com https://photon.komoot.io https://secure.payu.in https://info.payu.in; font-src 'self'; frame-src 'self' https://secure.payu.in; base-uri 'self'; form-action 'self' https://secure.payu.in https://test.payu.in;";
 
 export default nextConfig;

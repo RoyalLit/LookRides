@@ -49,16 +49,25 @@ export async function GET(request: Request) {
   const udf1 = link.id;
 
   // PayU Input Hash Sequence: EXACT 17 fields joined by 16 '|' characters
+  // key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|udf6|udf7|udf8|udf9|udf10|SALT
   const hashFields = [
-    merchantKey,
-    transactionId,
-    amountStr,
-    productInfo,
-    firstName,
-    email,
-    udf1,
-    '', '', '', '', '', '', '', '', '',
-    merchantSalt
+    merchantKey,     // 1: key
+    transactionId,   // 2: txnid
+    amountStr,       // 3: amount
+    productInfo,     // 4: productinfo
+    firstName,       // 5: firstname
+    email,           // 6: email
+    udf1,            // 7: udf1
+    '',              // 8: udf2
+    '',              // 9: udf3
+    '',              // 10: udf4
+    '',              // 11: udf5
+    '',              // 12: udf6
+    '',              // 13: udf7
+    '',              // 14: udf8
+    '',              // 15: udf9
+    '',              // 16: udf10
+    merchantSalt     // 17: SALT
   ];
 
   const hashSequence = hashFields.join('|');
@@ -148,14 +157,24 @@ export async function GET(request: Request) {
       <input type="hidden" name="furl" value="${furl}" />
       <input type="hidden" name="hash" value="${hash}" />
       <input type="hidden" name="udf1" value="${udf1}" />
-      <input type="submit" class="btn" value="Click here if not redirected automatically" />
+      <button type="submit" class="btn">Click here if not redirected automatically</button>
     </form>
   </div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      document.getElementById("payuForm").submit();
-    });
+    (function() {
+      function submitForm() {
+        var form = document.getElementById("payuForm");
+        if (form) {
+          form.submit();
+        }
+      }
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", submitForm);
+      } else {
+        submitForm();
+      }
+    })();
   </script>
 </body>
 </html>`;

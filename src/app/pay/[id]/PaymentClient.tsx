@@ -32,8 +32,22 @@ export default function PaymentClient({ link }: { link: any }) {
       });
       const data = await res.json();
 
-      if (res.ok && data.redirectUrl) {
-        window.location.href = data.redirectUrl;
+      if (res.ok && data.success && data.payuUrl && data.fields) {
+        // Build a hidden form and submit directly to PayU — no intermediate page
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = data.payuUrl;
+
+        Object.entries(data.fields as Record<string, string>).forEach(([name, value]) => {
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = name;
+          input.value = value;
+          form.appendChild(input);
+        });
+
+        document.body.appendChild(form);
+        form.submit();
       } else {
         setError(data.error || 'Failed to initiate payment.');
         setLoading(false);
@@ -44,6 +58,7 @@ export default function PaymentClient({ link }: { link: any }) {
       setLoading(false);
     }
   };
+
 
   if (currentStatus === 'success') {
     return (

@@ -36,7 +36,7 @@ export async function GET(request: Request) {
       .eq('id', link.id);
   }
 
-  const amountStr = Number(link.amount).toFixed(2);
+  const amountStr = Number(link.amount).toString();
   const productInfo = (link.purpose || 'LookRides Outstation Taxi').replace(/[^a-zA-Z0-9\s]/g, '').substring(0, 80) || 'LookRides Taxi';
   const firstName = (link.customer_name || 'Customer').replace(/[^a-zA-Z0-9\s]/g, '').substring(0, 40) || 'Customer';
   const email = link.customer_email || 'info@lookrides.com';
@@ -152,6 +152,7 @@ export async function GET(request: Request) {
       <input type="hidden" name="furl" value="${furl}" />
       <input type="hidden" name="hash" value="${hash}" />
       <input type="hidden" name="udf1" value="${udf1}" />
+      <input type="hidden" name="service_provider" value="payu_paisa" />
       <button type="submit" class="btn">Click here if not redirected automatically</button>
     </form>
   </div>

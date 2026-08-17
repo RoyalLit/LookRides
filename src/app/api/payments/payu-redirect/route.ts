@@ -1,4 +1,3 @@
-import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase-admin';
 import crypto from 'crypto';
 
@@ -18,10 +17,6 @@ export async function GET(request: Request) {
 
   if (error || !link) {
     return new Response('Payment link not found', { status: 404 });
-  }
-
-  if (link.status !== 'pending') {
-    return new Response('Payment link is no longer pending', { status: 400 });
   }
 
   const merchantKey = process.env.PAYU_MERCHANT_KEY || 'r6UbC2';
@@ -162,19 +157,12 @@ export async function GET(request: Request) {
   </div>
 
   <script>
-    (function() {
-      function submitForm() {
-        var form = document.getElementById("payuForm");
-        if (form) {
-          form.submit();
-        }
-      }
-      if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", submitForm);
-      } else {
-        submitForm();
-      }
-    })();
+    function submitPayU() {
+      var f = document.getElementById("payuForm");
+      if (f) { f.submit(); }
+    }
+    window.onload = submitPayU;
+    setTimeout(submitPayU, 50);
   </script>
 </body>
 </html>`;

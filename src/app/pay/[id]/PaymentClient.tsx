@@ -2,11 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { CreditCard, CheckCircle, XCircle } from 'lucide-react';
+import { CreditCard, CheckCircle, XCircle, Loader2 } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import Logo from '@/components/Logo';
 
-export default function PaymentClient({ link, payuFields }: { link: any; payuFields: any }) {
+export default function PaymentClient({ link }: { link: any }) {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const searchParams = useSearchParams();
   const [currentStatus, setCurrentStatus] = useState(link.status);
 
@@ -19,43 +21,28 @@ export default function PaymentClient({ link, payuFields }: { link: any; payuFie
     }
   }, [searchParams]);
 
-  const handlePayClick = (e: React.MouseEvent) => {
-    e.preventDefault();
+  const handlePay = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch('/api/payments/initiate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ paymentLinkId: link.id })
+      });
+      const data = await res.json();
 
-    const oldForm = document.getElementById('native-payu-form');
-    if (oldForm) {
-      oldForm.remove();
+      if (res.ok && data.redirectUrl) {
+        window.location.href = data.redirectUrl;
+      } else {
+        setError(data.error || 'Failed to initiate payment.');
+        setLoading(false);
+      }
+    } catch (err) {
+      console.error(err);
+      setError('An error occurred while connecting to the payment gateway.');
+      setLoading(false);
     }
-
-    const form = document.createElement('form');
-    form.id = 'native-payu-form';
-    form.method = 'POST';
-    form.action = payuFields.payuUrl;
-
-    const params: Record<string, string> = {
-      key: payuFields.key,
-      txnid: payuFields.txnid,
-      amount: payuFields.amount,
-      productinfo: payuFields.productinfo,
-      firstname: payuFields.firstname,
-      email: payuFields.email,
-      phone: payuFields.phone,
-      surl: payuFields.surl,
-      furl: payuFields.furl,
-      hash: payuFields.hash,
-      udf1: payuFields.udf1,
-    };
-
-    Object.entries(params).forEach(([key, val]) => {
-      const input = document.createElement('input');
-      input.type = 'hidden';
-      input.name = key;
-      input.value = String(val ?? '');
-      form.appendChild(input);
-    });
-
-    document.body.appendChild(form);
-    form.submit();
   };
 
   if (currentStatus === 'success') {
@@ -76,7 +63,7 @@ export default function PaymentClient({ link, payuFields }: { link: any; payuFie
         <XCircle size={64} color="#ef4444" style={{ margin: '0 auto 20px' }} />
         <h1 style={{ marginBottom: '10px' }}>Payment Failed</h1>
         <p style={{ color: '#666', marginBottom: '20px' }}>Unfortunately, your payment could not be processed.</p>
-        <button onClick={() => setCurrentStatus('pending')} className="btn btn-primary" style={{ marginTop: '20px' }}>Try Again</button>
+        <button onClick={() => { setCurrentStatus('pending'); setLoading(false); }} className="btn btn-primary" style={{ marginTop: '20px' }}>Try Again</button>
       </div>
     );
   }
@@ -103,14 +90,20 @@ export default function PaymentClient({ link, payuFields }: { link: any; payuFie
         )}
       </div>
 
+      {error && (
+        <div style={{ background: '#fee2e2', color: '#dc2626', padding: '12px', borderRadius: '6px', marginBottom: '20px', fontSize: '0.9rem' }}>
+          {error}
+        </div>
+      )}
+
       <button 
-        type="button" 
-        onClick={handlePayClick}
+        onClick={handlePay} 
+        disabled={loading}
         className="btn btn-primary" 
         style={{ width: '100%', padding: '14px', fontSize: '1.1rem', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px' }}
       >
-        <CreditCard size={20} />
-        Pay ₹{link.amount} Securely
+        {loading ? <Loader2 className="spin" size={20} /> : <CreditCard size={20} />}
+        {loading ? 'Connecting to PayU...' : `Pay ₹${link.amount} Securely`}
       </button>
 
       <p style={{ fontSize: '0.8rem', color: '#999', marginTop: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px' }}>

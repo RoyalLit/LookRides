@@ -26,7 +26,7 @@ export async function POST(request: Request) {
     const key = payload.key || '';
     const additionalCharges = payload.additionalCharges || '';
 
-    const merchantSalt = process.env.PAYU_MERCHANT_SALT || 'eCwTWeBq';
+    const merchantSalt = process.env.PAYU_MERCHANT_SALT || 'MGWotrXq9kr8CGoBBOpSl3uP0OlUYGi1';
 
     if (!txnid || !linkId || !receivedHash) {
       console.error('PayU Verification error: Missing fields in payload', payload);

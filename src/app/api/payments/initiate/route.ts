@@ -32,9 +32,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Payment link is no longer pending' }, { status: 400 });
     }
 
-    const merchantKey = process.env.PAYU_MERCHANT_KEY || 'gtK2Yx';
-    const merchantSalt = process.env.PAYU_MERCHANT_SALT || 'eCwTWeBq';
-    const payuEnv = process.env.PAYU_ENV || 'TEST';
+    const merchantKey = process.env.PAYU_MERCHANT_KEY || 'r6UbC2';
+    const merchantSalt = process.env.PAYU_MERCHANT_SALT || 'MGWotrXq9kr8CGoBBOpSl3uP0OlUYGi1';
+    const payuEnv = process.env.PAYU_ENV || 'PROD';
 
     if (!merchantKey || !merchantSalt) {
       return NextResponse.json({ error: 'PayU payment gateway not configured' }, { status: 500 });

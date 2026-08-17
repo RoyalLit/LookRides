@@ -28,7 +28,7 @@ export async function POST(request: Request) {
     const key = payload.key || '';
     const additionalCharges = payload.additionalCharges || '';
 
-    const merchantSalt = process.env.PAYU_MERCHANT_SALT || 'eCwTWeBq';
+    const merchantSalt = process.env.PAYU_MERCHANT_SALT || 'MGWotrXq9kr8CGoBBOpSl3uP0OlUYGi1';
 
     if (!txnid || !receivedHash) {
       return NextResponse.json({ error: 'Missing required webhook payload fields' }, { status: 400 });

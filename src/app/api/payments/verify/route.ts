@@ -37,21 +37,29 @@ export async function POST(request: Request) {
     // sha512(SALT|status|udf10|udf9|udf8|udf7|udf6|udf5|udf4|udf3|udf2|udf1|email|firstname|productinfo|amount|txnid|key)
     // If additionalCharges is present:
     // sha512(additionalCharges|SALT|status|udf10|udf9|udf8|udf7|udf6|udf5|udf4|udf3|udf2|udf1|email|firstname|productinfo|amount|txnid|key)
-    const udf2 = payload.udf2 || '';
-    const udf3 = payload.udf3 || '';
-    const udf4 = payload.udf4 || '';
-    const udf5 = payload.udf5 || '';
-    const udf6 = payload.udf6 || '';
-    const udf7 = payload.udf7 || '';
-    const udf8 = payload.udf8 || '';
-    const udf9 = payload.udf9 || '';
-    const udf10 = payload.udf10 || '';
+    const reverseFields = [
+      additionalCharges || null,
+      merchantSalt,
+      status,
+      payload.udf10 || '',
+      payload.udf9 || '',
+      payload.udf8 || '',
+      payload.udf7 || '',
+      payload.udf6 || '',
+      payload.udf5 || '',
+      payload.udf4 || '',
+      payload.udf3 || '',
+      payload.udf2 || '',
+      linkId, // udf1
+      email,
+      firstname,
+      productinfo,
+      amount,
+      txnid,
+      key
+    ].filter((item) => item !== null);
 
-    let hashSequence = `${merchantSalt}|${status}|${udf10}|${udf9}|${udf8}|${udf7}|${udf6}|${udf5}|${udf4}|${udf3}|${udf2}|${linkId}|${email}|${firstname}|${productinfo}|${amount}|${txnid}|${key}`;
-
-    if (additionalCharges) {
-      hashSequence = `${additionalCharges}|${hashSequence}`;
-    }
+    const hashSequence = reverseFields.join('|');
 
     const calculatedHash = crypto
       .createHash('sha512')
@@ -67,7 +75,7 @@ export async function POST(request: Request) {
     const isSuccess = status.toLowerCase() === 'success';
     const newStatus = isSuccess ? 'success' : 'failed';
 
-    // Update database record
+    // Update Database
     await supabaseAdmin
       .from('payment_links')
       .update({

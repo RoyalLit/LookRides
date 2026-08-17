@@ -55,16 +55,36 @@ export async function POST(request: Request) {
     }
 
     const amountStr = Number(link.amount).toFixed(2);
-    // Sanitize strings (remove special characters that could break form POST)
+    // Clean strings (remove non-alphanumeric except spaces)
     const productInfo = (link.purpose || 'LookRides Outstation Taxi').replace(/[^a-zA-Z0-9\s]/g, '').substring(0, 80) || 'LookRides Taxi';
     const firstName = (link.customer_name || 'Customer').replace(/[^a-zA-Z0-9\s]/g, '').substring(0, 40) || 'Customer';
     const email = link.customer_email || 'info@lookrides.com';
     const phone = (link.customer_phone || '9780426567').replace(/[^0-9]/g, '').slice(-10) || '9780426567';
     const udf1 = link.id;
 
-    // PayU Input Hash Sequence:
-    // sha512(key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|udf6|udf7|udf8|udf9|udf10|SALT)
-    const hashSequence = `${merchantKey}|${transactionId}|${amountStr}|${productInfo}|${firstName}|${email}|${udf1}||||||||||${merchantSalt}`;
+    // PayU Input Hash Sequence: EXACT 17 fields joined by 16 '|' characters
+    // key|txnid|amount|productinfo|firstname|email|udf1|udf2|udf3|udf4|udf5|udf6|udf7|udf8|udf9|udf10|SALT
+    const hashFields = [
+      merchantKey,
+      transactionId,
+      amountStr,
+      productInfo,
+      firstName,
+      email,
+      udf1,
+      '', // udf2
+      '', // udf3
+      '', // udf4
+      '', // udf5
+      '', // udf6
+      '', // udf7
+      '', // udf8
+      '', // udf9
+      '', // udf10
+      merchantSalt
+    ];
+
+    const hashSequence = hashFields.join('|');
 
     const hash = crypto
       .createHash('sha512')
@@ -94,7 +114,6 @@ export async function POST(request: Request) {
         furl,
         hash,
         udf1,
-        service_provider: 'payu_paisa',
       },
     });
 

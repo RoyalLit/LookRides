@@ -46,7 +46,7 @@ export async function POST(request: Request) {
 
     const transactionId = link.transaction_id || `TXN_${Date.now()}_${link.id.substring(0, 8)}`;
 
-    // Update database record with transaction_id
+    // Update database record with transaction_id if not present
     if (!link.transaction_id) {
       await supabaseAdmin
         .from('payment_links')
@@ -55,10 +55,11 @@ export async function POST(request: Request) {
     }
 
     const amountStr = Number(link.amount).toFixed(2);
-    const productInfo = link.purpose ? link.purpose.substring(0, 100) : 'LookRides Outstation Taxi';
-    const firstName = link.customer_name ? link.customer_name.substring(0, 50) : 'Customer';
+    // Sanitize strings (remove special characters that could break form POST)
+    const productInfo = (link.purpose || 'LookRides Outstation Taxi').replace(/[^a-zA-Z0-9\s]/g, '').substring(0, 80) || 'LookRides Taxi';
+    const firstName = (link.customer_name || 'Customer').replace(/[^a-zA-Z0-9\s]/g, '').substring(0, 40) || 'Customer';
     const email = link.customer_email || 'info@lookrides.com';
-    const phone = link.customer_phone || '9780426567';
+    const phone = (link.customer_phone || '9780426567').replace(/[^0-9]/g, '').slice(-10) || '9780426567';
     const udf1 = link.id;
 
     // PayU Input Hash Sequence:
@@ -93,6 +94,7 @@ export async function POST(request: Request) {
         furl,
         hash,
         udf1,
+        service_provider: 'payu_paisa',
       },
     });
 

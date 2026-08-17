@@ -1,14 +1,16 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { CreditCard, CheckCircle, XCircle, Loader2 } from 'lucide-react';
+import { CreditCard, CheckCircle, XCircle, Loader2, ArrowRight } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import Logo from '@/components/Logo';
 
 export default function PaymentClient({ link }: { link: any }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [payuData, setPayuData] = useState<{ payuUrl: string; params: Record<string, string> } | null>(null);
+  const formRef = useRef<HTMLFormElement>(null);
   const searchParams = useSearchParams();
   const [currentStatus, setCurrentStatus] = useState(link.status);
 
@@ -20,6 +22,13 @@ export default function PaymentClient({ link }: { link: any }) {
       setCurrentStatus('failed');
     }
   }, [searchParams]);
+
+  useEffect(() => {
+    if (payuData && formRef.current) {
+      console.log('Submitting PayU form to:', payuData.payuUrl);
+      formRef.current.submit();
+    }
+  }, [payuData]);
 
   const handlePay = async () => {
     setLoading(true);
@@ -33,22 +42,7 @@ export default function PaymentClient({ link }: { link: any }) {
       const data = await res.json();
       
       if (res.ok && data.payuUrl && data.params) {
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = data.payuUrl;
-
-        Object.entries(data.params).forEach(([key, val]) => {
-          if (val !== undefined && val !== null) {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = key;
-            input.value = String(val);
-            form.appendChild(input);
-          }
-        });
-
-        document.body.appendChild(form);
-        form.submit();
+        setPayuData({ payuUrl: data.payuUrl, params: data.params });
       } else {
         setError(data.error || 'Failed to initiate PayU payment.');
         setLoading(false);
@@ -78,7 +72,7 @@ export default function PaymentClient({ link }: { link: any }) {
         <XCircle size={64} color="#ef4444" style={{ margin: '0 auto 20px' }} />
         <h1 style={{ marginBottom: '10px' }}>Payment Failed</h1>
         <p style={{ color: '#666', marginBottom: '20px' }}>Unfortunately, your payment could not be processed.</p>
-        <button onClick={() => setCurrentStatus('pending')} className="btn btn-primary" style={{ marginTop: '20px' }}>Try Again</button>
+        <button onClick={() => { setCurrentStatus('pending'); setPayuData(null); setLoading(false); }} className="btn btn-primary" style={{ marginTop: '20px' }}>Try Again</button>
       </div>
     );
   }
@@ -111,15 +105,39 @@ export default function PaymentClient({ link }: { link: any }) {
         </div>
       )}
 
-      <button 
-        onClick={handlePay} 
-        disabled={loading}
-        className="btn btn-primary" 
-        style={{ width: '100%', padding: '14px', fontSize: '1.1rem', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px' }}
-      >
-        {loading ? <Loader2 className="spin" size={20} /> : <CreditCard size={20} />}
-        {loading ? 'Redirecting to PayU...' : `Pay ₹${link.amount} Securely`}
-      </button>
+      {payuData && (
+        <form ref={formRef} action={payuData.payuUrl} method="POST" style={{ display: 'none' }}>
+          {Object.entries(payuData.params).map(([k, v]) => (
+            <input key={k} type="hidden" name={k} value={String(v)} />
+          ))}
+        </form>
+      )}
+
+      {payuData ? (
+        <div style={{ marginTop: '20px' }}>
+          <p style={{ color: '#0284c7', marginBottom: '15px', fontWeight: 600, fontSize: '0.95rem' }}>
+            Redirecting to PayU Secure Gateway...
+          </p>
+          <button 
+            type="button"
+            onClick={() => formRef.current?.submit()}
+            className="btn btn-primary" 
+            style={{ width: '100%', padding: '14px', fontSize: '1.05rem', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px' }}
+          >
+            Proceed to PayU Gateway <ArrowRight size={18} />
+          </button>
+        </div>
+      ) : (
+        <button 
+          onClick={handlePay} 
+          disabled={loading}
+          className="btn btn-primary" 
+          style={{ width: '100%', padding: '14px', fontSize: '1.1rem', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px' }}
+        >
+          {loading ? <Loader2 className="spin" size={20} /> : <CreditCard size={20} />}
+          {loading ? 'Connecting to PayU...' : `Pay ₹${link.amount} Securely`}
+        </button>
+      )}
 
       <p style={{ fontSize: '0.8rem', color: '#999', marginTop: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px' }}>
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>

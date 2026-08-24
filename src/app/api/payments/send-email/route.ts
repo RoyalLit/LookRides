@@ -20,6 +20,8 @@ const sendEmailSchema = z.object({
   paymentLinkId: z.string().uuid()
 });
 
+const fromEmail = process.env.RESEND_FROM_EMAIL || `${SITE_NAME} <onboarding@resend.dev>`;
+
 export async function POST(request: Request) {
   try {
     const user = await getAdminUser();
@@ -69,7 +71,7 @@ export async function POST(request: Request) {
     const safePurpose = htmlEscape(link.purpose || '');
 
     const { data: emailData, error: emailError } = await resend.emails.send({
-      from: `Billing @ ${SITE_NAME} <info@lookride.in>`,
+      from: fromEmail,
       to: [link.customer_email],
       subject: `Payment Request from ${SITE_NAME} - ₹${safeAmount}`,
       html: `

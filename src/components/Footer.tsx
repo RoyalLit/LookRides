@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Phone, Mail, MapPin, Star, Shield } from 'lucide-react';
 import Logo from './Logo';
-import { BUSINESS_PHONE, BUSINESS_PHONE_DISPLAY } from '@/lib/config';
+import { BUSINESS_PHONE, BUSINESS_PHONE_DISPLAY, SITE_EMAIL } from '@/lib/config';
 import styles from './Footer.module.css';
 
 const routeLinks = [
@@ -52,8 +52,8 @@ export default function Footer() {
             <a href={`tel:${BUSINESS_PHONE}`} className={styles.contactItem}>
               <Phone size={14} /> {BUSINESS_PHONE_DISPLAY}
             </a>
-            <a href="mailto:info@lookride.in" className={styles.contactItem}>
-              <Mail size={14} /> info@lookride.in
+            <a href={`mailto:${SITE_EMAIL}`} className={styles.contactItem}>
+              <Mail size={14} /> {SITE_EMAIL}
             </a>
             <span className={styles.contactItem}>
               <MapPin size={14} /> Tricity Dispatch — Serving North India

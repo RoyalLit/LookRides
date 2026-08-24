@@ -1,5 +1,6 @@
 import { Resend } from 'resend';
 import { supabaseAdmin } from './supabase-admin';
+import { SITE_NAME, SITE_URL, SITE_EMAIL } from './config';
 
 const resendApiKey = process.env.RESEND_API_KEY || '';
 export const resend = new Resend(resendApiKey);
@@ -16,8 +17,6 @@ function htmlEscape(str: string | null | undefined): string {
     .replace(/'/g, '&#x27;');
 }
 
-import { SITE_NAME } from './config';
-
 const fromEmail = process.env.RESEND_FROM_EMAIL || `${SITE_NAME} <onboarding@resend.dev>`;
 
 export const sendBookingNotification = async (bookingDetails: {
@@ -32,7 +31,7 @@ export const sendBookingNotification = async (bookingDetails: {
   try {
     const { data: settings } = await supabaseAdmin.from('site_settings').select('*');
 
-    const targetEmail = settings?.find(s => s.key === 'notification_email')?.value || 'info@lookride.in';
+    const targetEmail = settings?.find(s => s.key === 'notification_email')?.value || SITE_EMAIL;
     const tgChatId = settings?.find(s => s.key === 'telegram_chat_id')?.value;
 
     const emailSubject = `New Booking: ${bookingDetails.pickup_location} to ${bookingDetails.drop_location}`;
@@ -60,7 +59,7 @@ export const sendBookingNotification = async (bookingDetails: {
           <p><strong>Time:</strong> ${ti}</p>
           ${nt ? `<p><strong>Notes:</strong> ${nt}</p>` : ''}
           <hr/>
-          <p><a href="https://lookrides.in/admin/bookings" style="background: #FCA311; color: #0B132B; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">Manage in Dashboard</a></p>
+          <p><a href="${SITE_URL}/admin/bookings" style="background: #FCA311; color: #0B132B; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">Manage in Dashboard</a></p>
         </div>
       `,
     });
@@ -73,7 +72,7 @@ export const sendBookingNotification = async (bookingDetails: {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           chat_id: tgChatId,
-          text: `New Booking Request\n\nName: ${bookingDetails.passenger_name || 'N/A'}\nPhone: ${bookingDetails.phone || 'N/A'}\nFrom: ${bookingDetails.pickup_location}\nTo: ${bookingDetails.drop_location}\nDate: ${bookingDetails.date} at ${bookingDetails.time}`,
+          text: `New Booking Request\n\nName: ${bookingDetails.passenger_name || 'N/A'}\nPhone: ${bookingDetails.phone || 'N/A'}\nFrom: ${bookingDetails.pickup_location}\nTo: ${bookingDetails.drop_location}\nDate: ${bookingDetails.date} at ${bookingDetails.time}\n\nDashboard: ${SITE_URL}/admin/bookings`,
         }),
       });
     }
@@ -95,7 +94,7 @@ export const sendContactNotification = async (contactDetails: {
   try {
     const { data: settings } = await supabaseAdmin.from('site_settings').select('*');
 
-    const targetEmail = settings?.find(s => s.key === 'notification_email')?.value || 'info@lookride.in';
+    const targetEmail = settings?.find(s => s.key === 'notification_email')?.value || SITE_EMAIL;
     const tgChatId = settings?.find(s => s.key === 'telegram_chat_id')?.value;
 
     const n = htmlEscape(contactDetails.name);

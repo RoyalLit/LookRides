@@ -4,7 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ClientShell from "@/components/ClientShell";
-import { BUSINESS_PHONE, SITE_URL } from "@/lib/config";
+import { BUSINESS_PHONE, SITE_URL, SITE_EMAIL } from "@/lib/config";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"], display: "swap" });
@@ -120,7 +120,7 @@ const structuredData = {
       description: "Premium intercity cab service, outstation taxi, and airport transfer service in Chandigarh, Derabassi, Zirakpur, and across North India.",
       url: siteUrl,
       telephone: BUSINESS_PHONE,
-      email: "info@lookride.in",
+      email: SITE_EMAIL,
       priceRange: "₹₹",
       currenciesAccepted: "INR",
       paymentAccepted: "Cash, UPI, Bank Transfer",

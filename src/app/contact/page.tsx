@@ -1,19 +1,19 @@
 import type { Metadata } from 'next';
 import { Phone, Mail, MapPin, MessageSquare, User } from 'lucide-react';
 import ContactForm from './ContactForm';
-import { BUSINESS_PHONE, BUSINESS_PHONE_DISPLAY, SITE_URL } from '@/lib/config';
+import { BUSINESS_PHONE, BUSINESS_PHONE_DISPLAY, SITE_URL, SITE_EMAIL } from '@/lib/config';
 import OfficeLocationMap from '@/components/home/OfficeLocationMap';
 import styles from './contact.module.css';
 
 export const metadata: Metadata = {
   title: 'Contact LookRides | Taxi Booking in Derabassi & Chandigarh',
-  description: `Contact LookRides for taxi bookings, corporate travel, and support. Call ${BUSINESS_PHONE_DISPLAY} or email info@lookride.in. Based in Derabassi, near Chandigarh.`,
+  description: `Contact LookRides for taxi bookings, corporate travel, and support. Call ${BUSINESS_PHONE_DISPLAY} or email ${SITE_EMAIL}. Based in Derabassi, near Chandigarh.`,
   alternates: {
     canonical: SITE_URL + '/contact',
   },
   openGraph: {
     title: 'Contact LookRides | 24/7 Taxi Booking Support',
-    description: `Call ${BUSINESS_PHONE_DISPLAY} or email info@lookride.in. Available 24/7 for airport transfers, outstation trips & corporate travel across North India.`,
+    description: `Call ${BUSINESS_PHONE_DISPLAY} or email ${SITE_EMAIL}. Available 24/7 for airport transfers, outstation trips & corporate travel across North India.`,
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Contact LookRides — 24/7 Cab Booking' }],
   },
   twitter: {
@@ -88,7 +88,7 @@ export default function ContactPage() {
                   <div className={styles.infoIcon}><Mail size={20} strokeWidth={1.5} /></div>
                   <div>
                     <h3>Email</h3>
-                    <a href="mailto:info@lookride.in">info@lookride.in</a>
+                    <a href={`mailto:${SITE_EMAIL}`}>{SITE_EMAIL}</a>
                   </div>
                 </div>
                 <div className={styles.infoItem}>

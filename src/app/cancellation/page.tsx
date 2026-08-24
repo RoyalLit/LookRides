@@ -79,7 +79,7 @@ export default function CancellationPage() {
             <ul>
               <li>Reply to your WhatsApp booking confirmation message.</li>
               <li>Call or WhatsApp us at <strong>{BUSINESS_PHONE_DISPLAY}</strong> — our team is available 24/7.</li>
-              <li>Email us at info@lookride.in with your booking details.</li>
+              <li>Email us at info@lookrides.com with your booking details.</li>
             </ul>
           </div>
 
@@ -111,7 +111,7 @@ export default function CancellationPage() {
             <ul>
               <li><strong>Owner:</strong> Tarun Kumar</li>
               <li>Phone / WhatsApp: {BUSINESS_PHONE_DISPLAY}</li>
-              <li>Email: info@lookride.in</li>
+              <li>Email: info@lookrides.com</li>
             </ul>
           </div>
         </div>

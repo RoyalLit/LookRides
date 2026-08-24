@@ -140,7 +140,7 @@ export default function PrivacyPage() {
             <ul>
               <li><strong>Owner:</strong> Tarun Kumar</li>
               <li>Phone / WhatsApp: {BUSINESS_PHONE_DISPLAY}</li>
-              <li>Email: info@lookride.in</li>
+              <li>Email: info@lookrides.com</li>
             </ul>
           </div>
         </div>
